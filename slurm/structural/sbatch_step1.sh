@@ -28,8 +28,9 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 START_DIR=${pwd} 											# in case you want an easy reference to return to the directory you started in.
 STUDY=~/compute/NihReadingStudy					    	# location of study directory
 TEMPLATE_DIR=${STUDY}/template 								# destination for template output
-DICOM_DIR=${STUDY}/dicomdir/${1}/t1_*						# location of raw dicoms for participant
-SCRIPT_DIR=~/analyses/structuralSkilledReading				# location of scripts that might be referenced; assumed to be separate from the data directory.
+DICOM_DIR=${STUDY}/dicomdir/${1}						# new location of raw dicoms for participant
+DICOM_DIR_orig=${DICOM_DIR}/Research_Luke*  # original structure of dicoms
+SCRIPT_DIR=~/analyses/dissertation/structural				# location of scripts that might be referenced; assumed to be separate from the data directory.
 PARTICIPANT_STRUCT=${STUDY}/structural/${1}					# location of derived participant structural data
 D2N=~/apps/dcm2niix/bin/dcm2niix							# path to dcm2niix
 ACPC=~/apps/art/acpcdetect									# path to acpcdetect
@@ -46,8 +47,15 @@ N4BC=~/apps/ants/bin/N4BiasFieldCorrection					# path to N4BiasFieldCorrection
 # ------------------
 
 # 1. Create NIFTI files from the DICOMs
-# check for the dicoms
-if [ ! -d ${DICOM_DIR} ] && [ ! -f ${DICOM_DIR}/*.dcm ]; then
+# check for BIDS structure in dicoms
+if [ ! -d ${DICOM_DIR}/t1_* ];
+then
+	# try to rearrange dicom folder structure into BIDS compliance
+	if [ -d ${DICOM_DIR_orig} ]; then
+		echo "had to rearrange the dicom directory structure"
+		mv ${DICOM_DIR_orig}/* ${DICOM_DIR}/
+	fi
+else
 	echo "I did not find anything to process."
 	exit 1
 fi
