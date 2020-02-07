@@ -34,7 +34,7 @@ The following steps were performed to construct a structural template drawn from
 
 1. DICOMs were converted to NIFTI format.
 2. NIFTIs were then AC-PC aligned.
-3. AC-PC aligned out was then subjected to N4-Bias correction.
+3. AC-PC aligned output was then subjected to N4-Bias correction.
 
 ## Data
 
