@@ -54,6 +54,7 @@ then
 	if [ -d ${DICOM_DIR_orig} ]; then
 		echo "had to rearrange the dicom directory structure"
 		mv ${DICOM_DIR_orig}/* ${DICOM_DIR}/
+		rm ${DICOM_DIR_orig}
 	fi
 else
 	echo "I did not find anything to process."

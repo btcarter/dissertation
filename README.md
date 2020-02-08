@@ -4,7 +4,7 @@ This repository contains all the analysis scripts used for my dissertation, part
 
 ## Project status
 
-incrementally testing structural scripts to map I/O on step1
+incrementally testing structural scripts to map I/O on step1 got hung up on some missing packages. Am reinstalling cmake and ANTs to attempt a fix.
 
 
 
