@@ -34,7 +34,7 @@ SCRIPT_DIR=~/analyses/dissertation/structural				# location of scripts that migh
 PARTICIPANT_STRUCT=${STUDY}/structural/${1}					# location of derived participant structural data
 D2N=~/apps/dcm2niix/bin/dcm2niix							# path to dcm2niix
 ACPC=~/apps/art/acpcdetect									# path to acpcdetect
-N4BC=~/apps/ants/bin/N4BiasFieldCorrection					# path to N4BiasFieldCorrection
+N4BC=~/apps/ants/install/bin/N4BiasFieldCorrection					# path to N4BiasFieldCorrection
 
 ####################
 # --- COMMANDS --- #
@@ -48,26 +48,30 @@ N4BC=~/apps/ants/bin/N4BiasFieldCorrection					# path to N4BiasFieldCorrection
 
 # 1. Create NIFTI files from the DICOMs
 # check for BIDS structure in dicoms
-if [ ! -d ${DICOM_DIR}/t1_* ];
+if [ -d ${DICOM_DIR}/t1_* ];
 then
-	# try to rearrange dicom folder structure into BIDS compliance
-	if [ -d ${DICOM_DIR_orig} ]; then
+	echo "found the scans I was looking for"
+# try to rearrange dicom folder structure into BIDS compliance
+elif [ -d ${DICOM_DIR_orig} ]; then
 		echo "had to rearrange the dicom directory structure"
 		mv ${DICOM_DIR_orig}/* ${DICOM_DIR}/
 		rm ${DICOM_DIR_orig}
-	fi
 else
 	echo "I did not find anything to process."
 	exit 1
 fi
 
 # make a place to put the NIFTI files
-if [ ! -d ${PARTICIPANT_STRUCT} ]; then
+if [ ! -d ${PARTICIPANT_STRUCT} ];
+then
 	mkdir -p ${PARTICIPANT_STRUCT}
+else
+	echo ${PARTICIPANT_STRUCT} already exists
 fi
 
 # make NIFTI files
-if [ ! -f ${PARTICIPANT_STRUCT}/${1}_T1w.nii ]; then
+if [ ! -f ${PARTICIPANT_STRUCT}/${1}_T1w.nii ];
+then
 	${D2N} \
 	-z n \
 	-x y \
@@ -75,16 +79,21 @@ if [ ! -f ${PARTICIPANT_STRUCT}/${1}_T1w.nii ]; then
 	-i ${DICOM_DIR}
 	mv ${PARTICIPANT_STRUCT}/*Crop*.nii ${PARTICIPANT_STRUCT}/${1}_T1w.nii
 	rm core*
+else
+	echo ${PARTICIPANT_STRUCT}/${1}_T1w.nii already exists
 fi
 
 sleep 1
 
 # 2. Perform ACPC alignment
-if [ ! -f ${PARTICIPANT_STRUCT}/${1}_T1w_acpc.nii ]; then
+if [ ! -f ${PARTICIPANT_STRUCT}/${1}_T1w_acpc.nii ];
+then
 	${ACPC} \
 	-M \
 	-o ${PARTICIPANT_STRUCT}/${1}_T1w_acpc.nii \
 	-i ${PARTICIPANT_STRUCT}/${1}_T1w.nii
+else
+	echo ${PARTICIPANT_STRUCT}/${1}_T1w_acpc.nii already exists
 fi
 
 sleep 1
@@ -98,8 +107,8 @@ CON=[50x50x50x50,0.0000001]
 SHRINK=4
 BSPLINE=[200]
 
-if [ ! -f $N4 ]; then
-
+if [ ! -f $N4 ];
+then
 	${N4BC} \
 	-d $DIM \
 	-i $ACPC \
@@ -107,5 +116,12 @@ if [ ! -f $N4 ]; then
 	-c $CON \
 	-b $BSPLINE \
 	-o $N4
+else
+	echo $N4 already exists
+fi
 
+if [ ! -f $N4 ];
+then
+	echo "something died, please do a postmortem"
+	exit 1
 fi
