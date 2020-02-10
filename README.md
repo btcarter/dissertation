@@ -1,10 +1,13 @@
 # dissertation
 
-This repository contains all the analysis scripts used for my dissertation, part of the NIH Dyslexia Study at BYU in Steven Luke's lab. Most of these scripts are an modification/extension of a previous analysis I completed as part of the [Skilled Reading Project] (https://github.com/btcarter/LinguisticPrediction). Check that out for additional details on the development if answers are not found here.
+This repository contains all the analysis scripts used for my dissertation, part of the NIH Dyslexia Study at BYU in Steven Luke's lab. Most of these scripts are a modification/extension of a previous analysis I completed as part of the [Skilled Reading Project] (https://github.com/btcarter/LinguisticPrediction). Check that out for additional details on the development if answers are not found here.
 
 ## Project status
 
-incrementally testing structural scripts to map I/O on step1 got hung up on some missing packages. Am reinstalling cmake and ANTs to attempt a fix.
+incrementally testing structural scripts to map I/O.
+Step 1 build passed on one subject
+Step 2 build passed on one subject
+Step 3 build running on 
 
 
 
