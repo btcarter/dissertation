@@ -72,13 +72,13 @@ SIM=CC
 CON=2
 PROC=6
 
-buildtemplateparallel.sh \
+antsMultivariateTemplateConstruction.sh \
 -d $DIM \
 -m $ITER \
 -t $TRANS \
 -s $SIM \
 -c $CON \
 -j $PROC \
--o dyce_mni_ \
+-o nctosa_mni_ \
 -z ${ATLAS} \
 *mni.nii.gz
