@@ -27,11 +27,11 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 #######################
 
 START_DIR=${pwd} 											# in case you want an easy reference to return to the directory you started in.
-STUDY=~/compute/skilledReadingStudy					    	# location of study directory
+STUDY=~/compute/NihReadingStudy					    	# location of study directory
 TEMPLATE_DIR=${STUDY}/template 								# destination for template output
 CONSTRUCT_DIR=${TEMPLATE_DIR}/construct						# directory for template construction
-SCRIPT_DIR=~/analyses/structuralSkilledReading			# location of scripts that might be referenced; assumed to be separate from the data directory.
-LIST=${SCRIPT_DIR}/participants.tsv 					# list of participant IDs
+SCRIPT_DIR=~/analyses/dissertation/structural			# location of scripts that might be referenced; assumed to be separate from the data directory.
+LIST=${STUDY}/dissertation/participants.tsv 					# list of participant IDs
 PARTICIPANT_STRUCT=${STUDY}/structural					# location of derived participant structural data
 ATLAS=~/templates/adult/MNI152c/mni_icbm152_nlin_sym_09c/mni_icbm152_t1_tal_nlin_sym_09c.nii	# location of the MNI ICBM 2009c Nonlinear Symmetric atlas NIFTI files
 

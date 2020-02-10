@@ -6,10 +6,10 @@
 # --- VARIABLES --- #
 #####################
 
-STUDY=~/compute/skilledReadingStudy					    # location of study directory
+STUDY=~/compute/NihReadingStudy					    # location of study directory
 TEMPLATE_DIR=${STUDY}/template 							# destination for template output
-SCRIPT_DIR=~/analyses/structuralSkilledReading			# location of scripts that might be referenced; assumed to be separate from the data directory.
-LIST=${SCRIPT_DIR}/participants.tsv 					# list of participant IDs
+SCRIPT_DIR=~/analyses/dissertation/structural			# location of scripts that might be referenced; assumed to be separate from the data directory.
+LIST=${STUDY}/dissertation/participants.tsv 					# list of participant IDs
 LOG=~/logfiles											# where to put documentation about errors and outputs
 TIME=`date '+%Y_%m_%d-%H_%M_%S'`						# time stamp for e's and o's
 
