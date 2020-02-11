@@ -7,7 +7,8 @@ This repository contains all the analysis scripts used for my dissertation, part
 incrementally testing structural scripts to map I/O.
 Step 1 build passed on one subject
 Step 2 build passed on one subject
-Step 3 build running on three subjects
+Step 3 build passed on three subjects
+Step 4 build testing on one template
 
 
 
