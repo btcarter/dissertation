@@ -29,7 +29,7 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 # --- ENVIRONMENT --- #
 #######################
 
-WORK_DIR=~/compute/skilledReadingStudy/template/construct
+WORK_DIR=~/compute/NihReadingStudy/template/construct
 OASIS_DIR=~/templates/adult/OASIS-TRT-20_volumes
 
 ####################
