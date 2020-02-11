@@ -48,7 +48,7 @@ cd $WORK_DIR
 
 dim=3
 out=${WORK_DIR}/JLF_
-subj=${WORK_DIR}/dyce_mni_template.nii.gz
+subj=${WORK_DIR}/nctosa_mni_template0.nii.gz
 atlas=${OASIS_DIR}
 labels=${OASIS_DIR}
 parallel=5
