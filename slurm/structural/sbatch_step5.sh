@@ -45,4 +45,4 @@ c=0; while [ $c -lt $roiLen ]; do
 done
 
 ${C3D}/c3d label*.nii.gz -accum -add -endaccum -o gm_mask_raw.nii.gz
-${C3D}/c3d gm_mask_raw.nii.gz -thresh 1 inf 1 0 -o dyce_mni_GM.nii.gz
+${C3D}/c3d gm_mask_raw.nii.gz -thresh 1 inf 1 0 -o nctosa_mni_GM.nii.gz
