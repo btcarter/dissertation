@@ -99,7 +99,8 @@ fi
 
 
 #blur the output of the regression analysis
-if [ -f predictability_deconv+orig.BRIK ] && [ ! -f predictability_deconv_blur5+orig.BRIK ]
+if [ -f predictability_deconv+orig.BRIK ] && \
+[ ! -f predictability_deconv_blur5+orig.BRIK ]
     then
         ${AFNI_BIN}/3dmerge -prefix predictability_deconv_blur5 -1blur_fwhm 5.0 -doall predictability_deconv+orig
 fi
