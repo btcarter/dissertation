@@ -62,7 +62,13 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
     then
         #3dDeconvolve
         ${AFNI_BIN}/3dDeconvolve \
-            -input $subj_DIR/afni_data/epi1_volreg+orig $subj_DIR/afni_data/epi2_volreg+orig $subj_DIR/afni_data/epi3_volreg+orig \
+            -input \
+						$subj_DIR/afni_data/epi1_aligned+orig \
+						$subj_DIR/afni_data/epi2_aligned+orig \
+						$subj_DIR/afni_data/epi3_aligned+orig \
+						$subj_DIR/afni_data/epi4_aligned+orig \
+						$subj_DIR/afni_data/epi5_aligned+orig \
+						$subj_DIR/afni_data/epi6_volreg+orig \
             -mask $subj_DIR/afni_data/struct_mask+orig \
             -polort A \
             -num_stimts 9 \
