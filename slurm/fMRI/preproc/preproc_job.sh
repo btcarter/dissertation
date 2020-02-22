@@ -67,10 +67,21 @@ if [ ! -f $PPROC/epi1+orig.BRIK ]
     then
         epi1TRs=`ls -1 ${RAW_DIR}/EPI_Run1*/*.dcm | wc -l`
         ${AFNI_BIN}/to3d -time:zt 43 $epi1TRs 2500 alt+z -prefix epi1 ${RAW_DIR}/EPI_Run1*/*.dcm
+
         epi2TRs=`ls -1 ${RAW_DIR}/EPI_Run2*/*.dcm | wc -l`
         ${AFNI_BIN}/to3d -time:zt 43 $epi2TRs 2500 alt+z -prefix epi2 ${RAW_DIR}/EPI_Run2*/*.dcm
+
         epi3TRs=`ls -1 ${RAW_DIR}/EPI_Run3*/*.dcm | wc -l`
         ${AFNI_BIN}/to3d -time:zt 43 $epi3TRs 2500 alt+z -prefix epi3 ${RAW_DIR}/EPI_Run3*/*.dcm
+
+        epi4TRs=`ls -1 ${RAW_DIR}/EPI_Run4*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi4TRs 2500 alt+z -prefix epi4 ${RAW_DIR}/EPI_Run4*/*.dcm
+
+        epi5TRs=`ls -1 ${RAW_DIR}/EPI_Run5*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi5TRs 2500 alt+z -prefix epi5 ${RAW_DIR}/EPI_Run5*/*.dcm
+
+        epi6TRs=`ls -1 ${RAW_DIR}/EPI_Run6*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi6TRs 2500 alt+z -prefix epi6 ${RAW_DIR}/EPI_Run6*/*.dcm
 fi
 
 #import structural
@@ -89,7 +100,7 @@ fi
 
 if [ ! -f $PPROC/struct_rotated+orig.BRIK ]
     then
-        ${AFNI_BIN}/3dWarp -oblique_parent epi3+orig -prefix struct_rotated struct+orig
+        ${AFNI_BIN}/3dWarp -oblique_parent epi6+orig -prefix struct_rotated struct+orig
 fi
 
 #Slice-time correction
@@ -99,6 +110,9 @@ if [ ! -f $PPROC/epi1_shift+orig.BRIK ]
         ${AFNI_BIN}/3dTshift -verbose -prefix epi1_shift epi1+orig
         ${AFNI_BIN}/3dTshift -verbose -prefix epi2_shift epi2+orig
         ${AFNI_BIN}/3dTshift -verbose -prefix epi3_shift epi3+orig
+        ${AFNI_BIN}/3dTshift -verbose -prefix epi4_shift epi4+orig
+        ${AFNI_BIN}/3dTshift -verbose -prefix epi5_shift epi5+orig
+        ${AFNI_BIN}/3dTshift -verbose -prefix epi6_shift epi6+orig
 fi
 
 ###################
@@ -118,8 +132,16 @@ MOVE=${subj_DIR}/motion
 if [ ! -f $PPROC/epi1_volreg+orig.BRIK ]
     then
         ${AFNI_BIN}/3dvolreg -base 'epi1_shift+orig[69]' -prefix epi1_volreg -1Dfile ${MOVE}/motion_1 epi1_shift+orig
+
         ${AFNI_BIN}/3dvolreg -base 'epi2_shift+orig[69]' -prefix epi2_volreg -1Dfile ${MOVE}/motion_2 epi2_shift+orig
+
         ${AFNI_BIN}/3dvolreg -base 'epi3_shift+orig[69]' -prefix epi3_volreg -1Dfile ${MOVE}/motion_3 epi3_shift+orig
+
+        ${AFNI_BIN}/3dvolreg -base 'epi4_shift+orig[69]' -prefix epi4_volreg -1Dfile ${MOVE}/motion_4 epi4_shift+orig
+
+        ${AFNI_BIN}/3dvolreg -base 'epi5_shift+orig[69]' -prefix epi5_volreg -1Dfile ${MOVE}/motion_5 epi5_shift+orig
+
+        ${AFNI_BIN}/3dvolreg -base 'epi6_shift+orig[69]' -prefix epi6_volreg -1Dfile ${MOVE}/motion_6 epi6_shift+orig
 fi
 
 #concatenate the two motion regressor text files into a single motion.txt file
@@ -129,6 +151,9 @@ if [ ! -f ${subjDIR}/afni_data/motion.txt ]
         cat ${MOVE}/motion_1 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_2 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_3 >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_4 >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_5 >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_6 >> ${MOVE}/motion.txt
         mv ${MOVE}/motion.txt ${subjDir}/afni_data/motion.txt
 fi
 
@@ -136,8 +161,15 @@ fi
 
 if [ ! -f $PPROC/epi2_aligned+org.BRIK ]
     then
-        ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi2_aligned epi2_volreg+orig
-        ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi1_aligned epi1_volreg+orig
+      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi5_aligned epi5_volreg+orig
+
+      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi4_aligned epi4_volreg+orig
+
+      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi3_aligned epi3_volreg+orig
+
+      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi2_aligned epi2_volreg+orig
+
+      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi1_aligned epi1_volreg+orig
 fi
 
 #create the censor file. Requires the following file:
