@@ -161,15 +161,15 @@ fi
 
 if [ ! -f $PPROC/epi2_aligned+org.BRIK ]
     then
-      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi5_aligned epi5_volreg+orig
+      ${AFNI_BIN}/3dvolreg -base 'epi6_volreg+orig[69]' -prefix epi5_aligned epi5_volreg+orig
 
-      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi4_aligned epi4_volreg+orig
+      ${AFNI_BIN}/3dvolreg -base 'epi6_volreg+orig[69]' -prefix epi4_aligned epi4_volreg+orig
 
-      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi3_aligned epi3_volreg+orig
+      ${AFNI_BIN}/3dvolreg -base 'epi6_volreg+orig[69]' -prefix epi3_aligned epi3_volreg+orig
 
-      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi2_aligned epi2_volreg+orig
+      ${AFNI_BIN}/3dvolreg -base 'epi6_volreg+orig[69]' -prefix epi2_aligned epi2_volreg+orig
 
-      ${AFNI_BIN}/3dvolreg -base 'epi3_volreg+orig[69]' -prefix epi1_aligned epi1_volreg+orig
+      ${AFNI_BIN}/3dvolreg -base 'epi6_volreg+orig[69]' -prefix epi1_aligned epi1_volreg+orig
 fi
 
 #create the censor file. Requires the following file:
