@@ -68,19 +68,7 @@ for (i in FACTORS) {
 }
 
 # create table 1
-CONTVARS <- c("Vocabulary Score", "Matrix Reasoning",
-          "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
-          "Elision", "Blending Words", "Phoneme Isolation",
-          "Rapid Digit Naming Time", "Rapid Digit Naming Error",
-          "Rapid Letter Naming Time", "Rapid Letter Naming Error",
-          "Age")
-
-LABS2 <- c("Vocabulary Score", "Matrix Reasoning",
-           "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
-           "Elision", "Blending Words", "Phoneme Isolation",
-           "Rapid Digit Naming Time", "Rapid Digit Naming Error",
-           "Rapid Letter Naming Time", "Rapid Letter Naming Error",
-           "University student",
+LABS2 <- c("University student",
            "Documentation",
            "Other learning disorders",
            "Other psychiatric disorders",
@@ -104,9 +92,52 @@ cat(table1,
     sep = "",
     append = FALSE)
 
-#####
-# do 
-#####
+# make table 2
+
+mean_sd <- function(a) {
+  b <- round(mean(a, na.rm = TRUE), digits = 2)
+  c <- round(sd(a, na.rm = TRUE), digits = 2)
+  return(paste(b," (",c,")",sep=""))
+}
+
+CONTVARS <- c("Group", "Vocabulary Score", "Matrix Reasoning",
+              "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
+              "Elision", "Blending Words", "Phoneme Isolation",
+              "Rapid Digit Naming Time", "Rapid Digit Naming Error",
+              "Rapid Letter Naming Time", "Rapid Letter Naming Error"
+              )
+
+
+cog_tab <- df[,CONTVARS] %>%
+  group_by(Group) %>%
+  summarise(
+    `Vocabulary Score` = mean_sd(`Vocabulary Score`),
+    `Matrix Reasoning` = mean_sd(`Matrix Reasoning`),
+    `Reading Rate` = mean_sd(`Reading Rate`),
+    `Reading Accuracy` = mean_sd(`Reading Accuracy`),
+    `Reading Fluency` = mean_sd(`Reading Fluency`),
+    `Comprehension` = mean_sd(`Comprehension`),
+    `Elision` = mean_sd(`Elision`),
+    `Blending Words` = mean_sd(`Blending Words`),
+    `Phoneme Isolation` = mean_sd(`Phoneme Isolation`),
+    `Rapid Digit Naming Time` = mean_sd(`Rapid Digit Naming Time`),
+    `Rapid Digit Naming Error` = mean_sd(`Rapid Digit Naming Error`),
+    `Rapid Letter Naming Time` = mean_sd(`Rapid Letter Naming Time`),
+    `Rapid Letter Naming Error` = mean_sd(`Rapid Letter Naming Error`)
+  ) %>%
+  gather(Test, Value, "Vocabulary Score":"Rapid Letter Naming Error") %>%
+  spread(Group, Value) %>%
+  rename(
+    Control = control,
+    Dylexia = dyslexia
+  ) %>%
+  knitr::kable(format = "latex")
+
+# save the output
+cat(cog_tab,
+    file = file.path(OUT.DIR, "cog_tab.tex"),
+    sep = "",
+    append = FALSE)
 
 
 
