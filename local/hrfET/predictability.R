@@ -69,7 +69,7 @@ REPORT <- REPORT %>%
   )
 
 
-# clean up subject labes, add mriID and run number variables
+# clean up subject labes
 REPORT$RECORDING_SESSION_LABEL <- as.character(REPORT$RECORDING_SESSION_LABEL)
 
 for (booboo in CORS$RECORDING_SESSION_LABEL) {
@@ -78,7 +78,7 @@ for (booboo in CORS$RECORDING_SESSION_LABEL) {
     CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
 }
 
-
+# add mriID and run number variables
 
 
 
