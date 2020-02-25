@@ -1,17 +1,19 @@
-#####
-# Environmental variables
+##### Environmental Variables #####
 # libraries
 library(dplyr)
+library(readxl)
 
 #Set the working environment.
 HM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
                               "data", "eyetracking", "mri_session")
 HRF.DIR <- file.path(HM.DIR, "hrfs")
 RP.DIR <- file.path(HM.DIR, "reports")
+PT.XL <- read_excel(file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
+                              "data", "participants", "master.xlsx")
+                    ) 
 
 
-#####
-# Setting the mood
+#### Structure Directories ####
 
 #create the directory to hold timing files.
 if (file.exists(HRF.DIR)){
@@ -21,8 +23,7 @@ if (file.exists(HRF.DIR)){
   setwd(HRF.DIR)
 }
 
-#####
-# Gather the data
+#### Read data ####
 
 #Read in fixation report.
 REPORT <- read.delim2(
@@ -46,8 +47,10 @@ CORS <- read.delim2(
   stringsAsFactors = FALSE
 )
 
-#####
-# Data cleaning
+# participant list
+PARTICIPANTS <- read.csv2()
+
+#### Data cleaning ####
 
 vars <- c("RECORDING_SESSION_LABEL",
           "TRIAL_INDEX",
@@ -73,17 +76,29 @@ REPORT <- REPORT %>%
 REPORT$RECORDING_SESSION_LABEL <- as.character(REPORT$RECORDING_SESSION_LABEL)
 
 for (booboo in CORS$RECORDING_SESSION_LABEL) {
-  booboo = "c002"
   REPORT$RECORDING_SESSION_LABEL[REPORT$RECORDING_SESSION_LABEL == booboo] <-
     CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
 }
 
 # add mriID and run number variables
+REPORT$mriID <- toupper(REPORT$RECORDING_SESSION_LABEL)
+REPORT$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
+                     "Luke_nih_\\2\\3",
+                     REPORT$mriID)
+REPORT$run <- gsub("R(\\d)(C|D)(\\d{3})",
+                     "\\1",
+                     REPORT$RECORDING_SESSION_LABEL)
 
+# remove all non-study recording session labels
+REPORT <- REPORT[REPORT$mriID %in% unique(PT.XL$mriID),]
 
 
 # merge fixation report with predictabilities
-df <- ORTHOS[c("Text_ID","IA_ID","OrthoMatchModel","Word_Length","Word_Content_Or_Function")] %>% 
+df <- ORTHOS[c("Text_ID",
+               "IA_ID",
+               "OrthoMatchModel",
+               "Word_Length",
+               "Word_Content_Or_Function")] %>% 
   filter(is.na(Word_Length) != TRUE,
          is.na(Word_Content_Or_Function) != TRUE
   ) %>%
@@ -95,7 +110,7 @@ df <- ORTHOS[c("Text_ID","IA_ID","OrthoMatchModel","Word_Length","Word_Content_O
                     "IA_ID" = "CURRENT_FIX_INTEREST_AREA_LABEL")
   )
 
-rm(ORTHOS, REPORT) # unload superfluous dataframes
+rm(ORTHOS, REPORT, CORS, PT.XL) # unload superfluous dataframes
 
 
 
@@ -109,10 +124,7 @@ rm(ORTHOS, REPORT) # unload superfluous dataframes
 
 
 
-
-
-
-
+#### Make HRF files ####
 
 #remove unneeded columns/values
 group = group[group$Content_Or_Function == "Content", ]
