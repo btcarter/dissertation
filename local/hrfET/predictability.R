@@ -2,6 +2,7 @@
 # libraries
 library(dplyr)
 library(readxl)
+library(stringr)
 
 #Set the working environment.
 HM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
@@ -74,7 +75,24 @@ REPORT <- REPORT %>%
 
 # clean up subject labes
 REPORT$RECORDING_SESSION_LABEL <- as.character(REPORT$RECORDING_SESSION_LABEL)
+REPORT$textnumber <- as.numeric(
+  as.character(REPORT$textnumber)
+)
 
+# detect bad session labels
+# test <- REPORT %>% 
+#   filter(str_detect(RECORDING_SESSION_LABEL, "r\\d(c|d)\\d{3}"))
+# 
+# goodLabels <- unique(test$RECORDING_SESSION_LABEL)
+# 
+# 
+# badlabels <- unique(
+#   REPORT$RECORDING_SESSION_LABEL[
+#   !(REPORT$RECORDING_SESSION_LABEL %in% goodLabels)]
+# )
+
+
+# fix bad session labels
 for (booboo in CORS$RECORDING_SESSION_LABEL) {
   REPORT$RECORDING_SESSION_LABEL[REPORT$RECORDING_SESSION_LABEL == booboo] <-
     CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
