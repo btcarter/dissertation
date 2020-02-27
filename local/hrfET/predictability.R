@@ -124,7 +124,9 @@ df <- ORTHOS[c("Text_ID",
   ) %>%
   group_by(Text_ID, 
            IA_ID, 
-           OrthoMatchModel, 
+           OrthoMatchModel,
+           POSMatchModel,
+           LSA_Context_Score,
            Word_Length, 
            Word_Content_Or_Function) %>%
   summarize(
@@ -138,51 +140,78 @@ df <- ORTHOS[c("Text_ID",
 
 rm(ORTHOS, REPORT, CORS, PT.XL) # unload superfluous dataframes
 
+# Make dataframes ####
+
+df_reading <- df %>% filter(
+  Word_Content_Or_Function == "Content", # select fixations on content words only
+  stimtype == 1 # select only word interest areas
+)
+
+df_pictures <- df %>% filter(
+  stimtype == 2 # select only picture interest areas
+)
 
 #### Make HRF files ####
 
 make_predictability_hrf <- function(report, pred_type, output_directory){
   
-}
+  #testing variables
+  report <- df_reading
+  pred_type <- "LSA_Context_Score"
+  output_directory <- HRF.DIR
+  
+  
+  vars <- c("RECORDING_SESSION_LABEL",
+            "run",
+            "IA_FIRST_FIXATION_TIME",
+            pred_type,
+            "IA_DWELL_TIME")
+ 
+  #remove unneeded columns/values and convert times
+  report <- report %>%
+    select(vars) %>%
+    mutate(
+      Parametric = paste(
+        "IA_FIRST_FIXATION_TIME"/1000,
+        "*",
+        pred_type,
+        ":",
+        "IA_DWELL_TIME"/1000,
+        sep = ""
+      )
+    )
+  
 
-#remove unneeded columns/values
-group = group[group$Content_Or_Function == "Content", ]
-group <- group[,c("RECORDING_SESSION_LABEL",
-                  "RUN","START_TIME","LSA_Context_Score",
-                  "IA_FIRST_RUN_DWELL_TIME")]
-
-#remove NA values form group matrix
-group = group[is.na(group$START_TIME) == FALSE, ]
-
-#Create a column with times in parametric format 
-# ([event1 start time]*[predictability]:[Duration] ...  [eventn start time]*[LSA]:[Duration]) 
-# and perform maths to convert times from milliseconds to seconds.
-group$Parametric_times = paste((group$START_TIME/1000),
-                               scale(group$LSA_Context_Score), sep = "*")
-group$Parametric_times = paste(group$Parametric_times,
-                               (group$IA_FIRST_RUN_DWELL_TIME/1000), sep = ":")
-
-mdata = group
-colnames(mdata)
-mdata <- mdata[c(1,2,6)]
-library(reshape2)
-mdata <- melt(mdata, id=c("RECORDING_SESSION_LABEL","RUN"))
-mdata = mdata[is.na(mdata$RECORDING_SESSION_LABEL) == FALSE, ]
-
-#Assemble the individual AM timing files so that each subject 
-# has an individual timing file with one row per run
-for (i in unique(mdata$RECORDING_SESSION_LABEL)) {
-  sub1data = mdata[mdata$RECORDING_SESSION_LABEL == i, ]
-  colnames(sub1data)
-  #sub1data = sub1data[order(sub1data$RUN), ]
-  if (nrow(sub1data) > 0) {
-    sub1data = sub1data[c(2:4)]
-    sub1data$variable = 1:nrow(sub1data)
-    sub1data[sub1data$RUN == 3, ]$variable = sub1data[sub1data$RUN == 3, ]$variable - max(sub1data[sub1data$RUN == 2, ]$variable)
-    sub1data[sub1data$RUN == 2, ]$variable = sub1data[sub1data$RUN == 2, ]$variable - max(sub1data[sub1data$RUN == 1, ]$variable)
-    sub1data = dcast(sub1data, RUN ~ variable)
-    #max(sub1data[sub1data$RUN == 3, ]$variable)
-    sub1data = sub1data[2:ncol(sub1data)]
-    write.table(sub1data, paste(i, ".txt", sep = ""), sep = "\t", na = "", col.names = FALSE, row.names = FALSE, quote = FALSE)
+  #Create a column with times in parametric format 
+  # ([event1 start time]*[predictability]:[Duration] ...  [eventn start time]*[LSA]:[Duration]) 
+  # and perform maths to convert times from milliseconds to seconds.
+  group$Parametric_times = paste((group$START_TIME/1000),
+                                 scale(group$LSA_Context_Score), sep = "*")
+  group$Parametric_times = paste(group$Parametric_times,
+                                 (group$IA_FIRST_RUN_DWELL_TIME/1000), sep = ":")
+  
+  mdata = group
+  colnames(mdata)
+  mdata <- mdata[c(1,2,6)]
+  library(reshape2)
+  mdata <- melt(mdata, id=c("RECORDING_SESSION_LABEL","RUN"))
+  mdata = mdata[is.na(mdata$RECORDING_SESSION_LABEL) == FALSE, ]
+  
+  #Assemble the individual AM timing files so that each subject 
+  # has an individual timing file with one row per run
+  for (i in unique(mdata$RECORDING_SESSION_LABEL)) {
+    sub1data = mdata[mdata$RECORDING_SESSION_LABEL == i, ]
+    colnames(sub1data)
+    #sub1data = sub1data[order(sub1data$RUN), ]
+    if (nrow(sub1data) > 0) {
+      sub1data = sub1data[c(2:4)]
+      sub1data$variable = 1:nrow(sub1data)
+      sub1data[sub1data$RUN == 3, ]$variable = sub1data[sub1data$RUN == 3, ]$variable - max(sub1data[sub1data$RUN == 2, ]$variable)
+      sub1data[sub1data$RUN == 2, ]$variable = sub1data[sub1data$RUN == 2, ]$variable - max(sub1data[sub1data$RUN == 1, ]$variable)
+      sub1data = dcast(sub1data, RUN ~ variable)
+      #max(sub1data[sub1data$RUN == 3, ]$variable)
+      sub1data = sub1data[2:ncol(sub1data)]
+      write.table(sub1data, paste(i, ".txt", sep = ""), sep = "\t", na = "", col.names = FALSE, row.names = FALSE, quote = FALSE)
     }
+  }
 }
