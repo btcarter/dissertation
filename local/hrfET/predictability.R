@@ -166,12 +166,17 @@ make_predictability_hrf <- function(report, pred_type, output_directory){
             "IA_FIRST_FIXATION_TIME",
             pred_type,
             "IA_DWELL_TIME")
+  
+  # transform predictability measure if necessary
+  if (pred_type = "LSA_Context_Score") {
+    report[[pred_type]] <- scale(report[[pred_type]])
+  }
  
   #remove unneeded columns/values and convert times
   report <- report %>%
     select(vars) %>%
     mutate(
-      Parametric = paste(
+      Parametric_times = paste(
         "IA_FIRST_FIXATION_TIME"/1000,
         "*",
         pred_type,
@@ -182,14 +187,6 @@ make_predictability_hrf <- function(report, pred_type, output_directory){
     )
   
 
-  #Create a column with times in parametric format 
-  # ([event1 start time]*[predictability]:[Duration] ...  [eventn start time]*[LSA]:[Duration]) 
-  # and perform maths to convert times from milliseconds to seconds.
-  group$Parametric_times = paste((group$START_TIME/1000),
-                                 scale(group$LSA_Context_Score), sep = "*")
-  group$Parametric_times = paste(group$Parametric_times,
-                                 (group$IA_FIRST_RUN_DWELL_TIME/1000), sep = ":")
-  
   mdata = group
   colnames(mdata)
   mdata <- mdata[c(1,2,6)]
