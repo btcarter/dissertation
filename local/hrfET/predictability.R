@@ -28,7 +28,7 @@ if (file.exists(HRF.DIR)){
 
 #Read in fixation report.
 REPORT <- read.delim2(
-  file.path(RP.DIR, "test.txt"),
+  file.path(RP.DIR, "test_IAReport.txt"),
   header = TRUE,
   sep = "\t",
   fill = TRUE)
@@ -48,28 +48,29 @@ CORS <- read.delim2(
   stringsAsFactors = FALSE
 )
 
-# participant list
-PARTICIPANTS <- read.csv2()
-
 #### Data cleaning ####
-
 vars <- c("RECORDING_SESSION_LABEL",
           "TRIAL_INDEX",
-          "CURRENT_FIX_DURATION",
-          "CURRENT_FIX_START",
-          "CURRENT_FIX_INTEREST_AREA_LABEL",
+          "picture",
           "practice",
           "sce_id",
           "scenecondition",
           "stimtype",
           "text",
           "textnumber",
-          "trialcount")
+          "trialcount",
+          "IA_ID",
+          "IA_FIRST_FIXATION_TIME",
+          "IA_DWELL_TIME",
+          "IA_FIRST_FIXATION_DURATION",
+          "IA_SKIP"
+          )
 
 REPORT <- REPORT %>%
   select(vars) %>% # only select wanted variables, listed in vars
   filter(
-    practice != 1  # remove practice runs
+    practice != 1, # remove practice runs
+    IA_SKIP == 0
   )
 
 
@@ -92,7 +93,7 @@ REPORT$textnumber <- as.numeric(
 # )
 
 
-# fix bad session labels
+# fix bad recording session labels
 for (booboo in CORS$RECORDING_SESSION_LABEL) {
   REPORT$RECORDING_SESSION_LABEL[REPORT$RECORDING_SESSION_LABEL == booboo] <-
     CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
@@ -105,44 +106,44 @@ REPORT$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
                      REPORT$mriID)
 REPORT$run <- gsub("R(\\d)(C|D)(\\d{3})",
                      "\\1",
-                     REPORT$RECORDING_SESSION_LABEL)
+                   toupper(REPORT$RECORDING_SESSION_LABEL))
 
 # remove all non-study recording session labels
 REPORT <- REPORT[REPORT$mriID %in% unique(PT.XL$mriID),]
-
 
 # merge fixation report with predictabilities
 df <- ORTHOS[c("Text_ID",
                "IA_ID",
                "OrthoMatchModel",
+               "POSMatchModel",
+               "LSA_Context_Score",
                "Word_Length",
                "Word_Content_Or_Function")] %>% 
   filter(is.na(Word_Length) != TRUE,
          is.na(Word_Content_Or_Function) != TRUE
   ) %>%
-  group_by(Text_ID, IA_ID, OrthoMatchModel, Word_Length, Word_Content_Or_Function) %>%
-  summarize(mean_OrthoMatchModel = mean(OrthoMatchModel)) %>%
+  group_by(Text_ID, 
+           IA_ID, 
+           OrthoMatchModel, 
+           Word_Length, 
+           Word_Content_Or_Function) %>%
+  summarize(
+    mean_OrthoMatchModel = mean(OrthoMatchModel)
+    ) %>%
   ungroup() %>%
   right_join(REPORT,
              by = c("Text_ID" = "textnumber", 
-                    "IA_ID" = "CURRENT_FIX_INTEREST_AREA_LABEL")
+                    "IA_ID" = "IA_ID")
   )
 
 rm(ORTHOS, REPORT, CORS, PT.XL) # unload superfluous dataframes
 
 
-
-
-
-
-
-
-
-
-
-
-
 #### Make HRF files ####
+
+make_predictability_hrf <- function(report, pred_type, output_directory){
+  
+}
 
 #remove unneeded columns/values
 group = group[group$Content_Or_Function == "Content", ]
