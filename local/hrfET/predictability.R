@@ -28,7 +28,7 @@ if (file.exists(HRF.DIR)){
 # Read data ####
 
 # trial report
-TRIALS <- file.path(RP.DIR, "name.txt")
+TRIAL <- file.path(RP.DIR, "name.txt")
 
 #Read in interest areas report.
 REPORT <- read.delim2(
@@ -150,7 +150,7 @@ df <- ORTHOS[c("Text_ID",
                     "IA_ID" = "IA_ID")
   )
 
-rm(ORTHOS, REPORT, CORS, PT.XL) # unload superfluous dataframes
+rm(ORTHOS, REPORT) # unload superfluous dataframes
 
 # Make dataframes ####
 
@@ -251,12 +251,37 @@ sapply(predictabilities,
        output_directory=HRF.DIR)
 
 # Block Data Cleaning ####
-TRIALS <- read.delim2(
-  TRIALS,
+TRIAL <- read.delim2(
+  TRIAL,
   header = TRUE,
   sep = "\t",
   fill = TRUE
 )
 
-# Make dataframes ####
+  # fix bad recording session labels
+for (booboo in CORS$RECORDING_SESSION_LABEL) {
+  TRIAL$RECORDING_SESSION_LABEL[TRIAL$RECORDING_SESSION_LABEL == booboo] <-
+    CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
+}
+
+  # add mriID and run number variables
+TRIAL$mriID <- toupper(TRIAL$RECORDING_SESSION_LABEL)
+TRIAL$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
+                     "Luke_nih_\\2\\3",
+                     TRIAL$mriID)
+TRIAL$run <- gsub("R(\\d)(C|D)(\\d{3})",
+                   "\\1",
+                   toupper(TRIAL$RECORDING_SESSION_LABEL))
+
+  # remove all non-study recording session labels
+TRIAL <- TRIAL[TRIAL$mriID %in% unique(PT.XL$mriID),]
+
+# Make dataframe #
+TRIAL %>%
+  select(
+    RECORDING_SESSION_LABEL,
+    INDEX,
+    START_TIME
+  )
+
 # Make HRFs ####
