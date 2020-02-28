@@ -1,8 +1,9 @@
-##### Environmental Variables #####
+# Environmental Variables #####
 # libraries
 library(dplyr)
 library(readxl)
 library(stringr)
+library(reshape2)
 
 #Set the working environment.
 HM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
@@ -14,7 +15,7 @@ PT.XL <- read_excel(file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
                     ) 
 
 
-#### Structure Directories ####
+# Structure Directories ####
 
 #create the directory to hold timing files.
 if (file.exists(HRF.DIR)){
@@ -24,9 +25,12 @@ if (file.exists(HRF.DIR)){
   setwd(HRF.DIR)
 }
 
-#### Read data ####
+# Read data ####
 
-#Read in fixation report.
+# trial report
+TRIALS <- file.path(RP.DIR, "name.txt")
+
+#Read in interest areas report.
 REPORT <- read.delim2(
   file.path(RP.DIR, "test_IAReport.txt"),
   header = TRUE,
@@ -48,7 +52,7 @@ CORS <- read.delim2(
   stringsAsFactors = FALSE
 )
 
-#### Data cleaning ####
+# Predictability Data cleaning ####
 vars <- c("RECORDING_SESSION_LABEL",
           "TRIAL_INDEX",
           "picture",
@@ -71,6 +75,14 @@ REPORT <- REPORT %>%
   filter(
     practice != 1, # remove practice runs
     IA_SKIP == 0
+  ) %>%
+  mutate(
+    "IA_FIRST_FIXATION_TIME" = as.numeric(
+      as.character(IA_FIRST_FIXATION_TIME)
+      ),
+    "IA_DWELL_TIME" = as.numeric(
+      as.character(IA_DWELL_TIME)
+      )/1000
   )
 
 
@@ -151,24 +163,25 @@ df_pictures <- df %>% filter(
   stimtype == 2 # select only picture interest areas
 )
 
-#### Make HRF files ####
+# Make HRF files ####
 
+#### predictability hrfs
 make_predictability_hrf <- function(report, pred_type, output_directory){
   
-  #testing variables
-  report <- df_reading
-  pred_type <- "LSA_Context_Score"
-  output_directory <- HRF.DIR
+  # debugging variables
+  # report <- df_reading
+  # pred_type <- "LSA_Context_Score"
+  # output_directory <- HRF.DIR
   
   
-  vars <- c("RECORDING_SESSION_LABEL",
+  vars <- c("mriID",
             "run",
             "IA_FIRST_FIXATION_TIME",
             pred_type,
             "IA_DWELL_TIME")
   
   # transform predictability measure if necessary
-  if (pred_type = "LSA_Context_Score") {
+  if (pred_type == "LSA_Context_Score") {
     report[[pred_type]] <- scale(report[[pred_type]])
   }
  
@@ -177,38 +190,73 @@ make_predictability_hrf <- function(report, pred_type, output_directory){
     select(vars) %>%
     mutate(
       Parametric_times = paste(
-        "IA_FIRST_FIXATION_TIME"/1000,
+        IA_FIRST_FIXATION_TIME,
         "*",
-        pred_type,
+        report[[pred_type]],
         ":",
-        "IA_DWELL_TIME"/1000,
+        IA_DWELL_TIME,
         sep = ""
       )
+    ) %>%
+    select(
+      mriID,
+      run,
+      Parametric_times
+    ) %>%
+    melt(
+      id=c("mriID","run")
     )
-  
-
-  mdata = group
-  colnames(mdata)
-  mdata <- mdata[c(1,2,6)]
-  library(reshape2)
-  mdata <- melt(mdata, id=c("RECORDING_SESSION_LABEL","RUN"))
-  mdata = mdata[is.na(mdata$RECORDING_SESSION_LABEL) == FALSE, ]
   
   #Assemble the individual AM timing files so that each subject 
   # has an individual timing file with one row per run
-  for (i in unique(mdata$RECORDING_SESSION_LABEL)) {
-    sub1data = mdata[mdata$RECORDING_SESSION_LABEL == i, ]
-    colnames(sub1data)
-    #sub1data = sub1data[order(sub1data$RUN), ]
-    if (nrow(sub1data) > 0) {
-      sub1data = sub1data[c(2:4)]
-      sub1data$variable = 1:nrow(sub1data)
-      sub1data[sub1data$RUN == 3, ]$variable = sub1data[sub1data$RUN == 3, ]$variable - max(sub1data[sub1data$RUN == 2, ]$variable)
-      sub1data[sub1data$RUN == 2, ]$variable = sub1data[sub1data$RUN == 2, ]$variable - max(sub1data[sub1data$RUN == 1, ]$variable)
-      sub1data = dcast(sub1data, RUN ~ variable)
-      #max(sub1data[sub1data$RUN == 3, ]$variable)
-      sub1data = sub1data[2:ncol(sub1data)]
-      write.table(sub1data, paste(i, ".txt", sep = ""), sep = "\t", na = "", col.names = FALSE, row.names = FALSE, quote = FALSE)
+  for (i in unique(report$mriID)) {
+    
+    # debugging
+    # i<-"Luke_nih_C001"
+    
+    sub_data = report[report$mriID == i, ]
+    if (nrow(sub_data) > 0) {
+      sub_data = sub_data[c(2:4)]
+      sub_data$variable = 1:nrow(sub_data)
+      sub_data[sub_data$run == 6, ]$variable = 
+        sub_data[sub_data$run == 6, ]$variable - 
+        max(sub_data[sub_data$run == 5, ]$variable)
+      sub_data[sub_data$run == 5, ]$variable = 
+        sub_data[sub_data$run == 5, ]$variable - 
+        max(sub_data[sub_data$run == 4, ]$variable)
+      sub_data[sub_data$run == 4, ]$variable = 
+        sub_data[sub_data$run == 4, ]$variable - 
+        max(sub_data[sub_data$run == 3, ]$variable)
+      sub_data[sub_data$run == 3, ]$variable = 
+        sub_data[sub_data$run == 3, ]$variable - 
+        max(sub_data[sub_data$run == 2, ]$variable)
+      sub_data[sub_data$run == 2, ]$variable = 
+        sub_data[sub_data$run == 2, ]$variable - 
+        max(sub_data[sub_data$run == 1, ]$variable)
+      sub_data = dcast(sub_data, run ~ variable)
+      sub_data = sub_data[2:ncol(sub_data)]
+      dir.create(file.path(output_directory, pred_type))
+      write.table(sub_data, 
+                  file.path(output_directory, pred_type, paste(i, ".txt", sep = "")), 
+                  sep = "\t", na = "", col.names = FALSE, row.names = FALSE, quote = FALSE)
     }
   }
 }
+
+predictabilities <- list("LSA_Context_Score", "OrthoMatchModel", "POSMatchModel")
+
+sapply(predictabilities, 
+       make_predictability_hrf, 
+       report=df_reading, 
+       output_directory=HRF.DIR)
+
+# Block Data Cleaning ####
+TRIALS <- read.delim2(
+  TRIALS,
+  header = TRUE,
+  sep = "\t",
+  fill = TRUE
+)
+
+# Make dataframes ####
+# Make HRFs ####
