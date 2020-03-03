@@ -10,10 +10,15 @@ HM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
                               "data", "eyetracking", "mri_session")
 HRF.DIR <- file.path(HM.DIR, "hrfs")
 RP.DIR <- file.path(HM.DIR, "reports")
-PT.XL <- read_excel(file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
-                              "data", "participants", "master.xlsx")
-                    ) 
 
+PT.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
+                    "data", "participants")
+PT.XL <- read_excel(file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
+                              "data", "participants", "master.xlsx")) 
+PT.LIST <- file.path(PT.DIR, "participants.tsv") # name of output file with participant list in it.
+
+RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
+                    "results", "dissertation")
 
 # Structure Directories ####
 
@@ -25,10 +30,10 @@ if (file.exists(HRF.DIR)){
   setwd(HRF.DIR)
 }
 
-# Read data ####
+# Load data ####
 
 # trial report
-TRIAL <- file.path(RP.DIR, "name.txt")
+TRIAL <- file.path(RP.DIR, "test_Trial")
 
 #Read in interest areas report.
 REPORT <- read.delim2(
@@ -52,6 +57,23 @@ CORS <- read.delim2(
   stringsAsFactors = FALSE
 )
 
+
+# Make participant list for MRI analysis ####
+PT.XL <- PT.XL %>%
+  filter(
+    mriEtGood == TRUE,
+    structMri == TRUE,
+    !is.na(ctoppRapidDigitError)
+  )
+
+write.table(PT.XL$mriID,
+            file = PT.LIST, 
+            sep = "\t", 
+            quote = FALSE,
+            col.names = FALSE,
+            row.names = FALSE
+)
+
 # Predictability Data cleaning ####
 vars <- c("RECORDING_SESSION_LABEL",
           "TRIAL_INDEX",
@@ -67,22 +89,26 @@ vars <- c("RECORDING_SESSION_LABEL",
           "IA_FIRST_FIXATION_TIME",
           "IA_DWELL_TIME",
           "IA_FIRST_FIXATION_DURATION",
-          "IA_SKIP"
+          "IA_SKIP",
+          "IA_FIXATION_COUNT",
+          "IA_REGRESSION_IN",
+          "IA_FIRST_RUN_DWELL_TIME"
           )
+
+factor_to_numeric <- function(x) {as.numeric(as.character(x))}
 
 REPORT <- REPORT %>%
   select(vars) %>% # only select wanted variables, listed in vars
   filter(
-    practice != 1, # remove practice runs
-    IA_SKIP == 0
+    practice != 1 # remove practice runs
   ) %>%
   mutate(
-    "IA_FIRST_FIXATION_TIME" = as.numeric(
-      as.character(IA_FIRST_FIXATION_TIME)
-      ),
-    "IA_DWELL_TIME" = as.numeric(
-      as.character(IA_DWELL_TIME)
-      )/1000
+    "IA_FIRST_FIXATION_TIME" = factor_to_numeric(IA_FIRST_FIXATION_TIME),
+    "IA_DWELL_TIME" = factor_to_numeric(IA_DWELL_TIME)/1000,
+    "IA_FIRST_FIXATION_DURATION" = factor_to_numeric(IA_FIRST_FIXATION_DURATION),
+    "IA_FIXATION_COUNT" = factor_to_numeric(IA_FIXATION_COUNT),
+    "IA_REGRESSION_IN" = factor_to_numeric(IA_REGRESSION_IN),
+    "IA_FIRST_RUN_DWELL_TIME" = factor_to_numeric(IA_FIRST_RUN_DWELL_TIME)
   )
 
 
@@ -163,7 +189,7 @@ df_pictures <- df %>% filter(
   stimtype == 2 # select only picture interest areas
 )
 
-# Make HRF files ####
+# Make AM-HRF files ####
 
 #### predictability hrfs
 make_predictability_hrf <- function(report, pred_type, output_directory){
@@ -188,6 +214,7 @@ make_predictability_hrf <- function(report, pred_type, output_directory){
   #remove unneeded columns/values and convert times
   report <- report %>%
     select(vars) %>%
+    filter(IA_SKIP == 0) %>%
     mutate(
       Parametric_times = paste(
         IA_FIRST_FIXATION_TIME,
@@ -284,4 +311,70 @@ TRIAL %>%
     START_TIME
   )
 
-# Make HRFs ####
+# Make Block-HRFs ####
+
+# lmer model of ET data ####
+
+  # load packages
+  library(lme4)
+  library(lmerTest)
+
+  # add group labels
+  df_read_mod <- df_reading %>%
+    right_join(
+      PT.XL,
+      by = "mriID"
+    )
+
+  # do eye tracking summary statistics
+  vars_summ <- c("group",
+                 "IA_ID",
+                 "IA_SKIP",
+                 "IA_FIXATION_COUNT",
+                 "IA_REGRESSION_IN",
+                 "IA_FIRST_FIXATION_DURATION",
+                 "IA_DWELL_TIME",
+                 "IA_FIRST_RUN_DWELL_TIME")
+  
+  mean_sd <- function(a) {
+    b <- round(mean(a, na.rm = TRUE), digits = 2)
+    c <- round(sd(a, na.rm = TRUE), digits = 2)
+    return(paste(b," (",c,")",sep=""))
+  }
+  
+  sumStats1 <- df_read_mod %>%
+    group_by(group, IA_ID) %>%
+    summarise(
+      skipping_prob = sum(IA_SKIP)/n(),
+      refixation_prob = sum(IA_FIXATION_COUNT >= 2)/n(),
+      regression_prob = sum(IA_REGRESSION_IN, na.rm = TRUE)/n()
+    ) %>%
+    ungroup() %>%
+    group_by(windowcondition) %>%
+    summarise(
+      "Refixation probability" = mean_sd(refixation_prob),
+      "Regression probability" = mean_sd(regression_prob)
+    ) %>%
+    gather(Statistic, Value, "Refixation probability":"Regression probability") %>%
+    spread(group, Value)
+  
+  # first fixation duration, location and dwell time
+  sumStats2 <- df_read_mod %>%
+    group_by(group) %>%
+    summarize(
+      "First Fixation Duration" = mean_sd(IA_FIRST_FIXATION_DURATION),
+      "Dwell Time" = mean_sd(IA_DWELL_TIME),
+      "Gaze Duration" = mean_sd(IA_FIRST_RUN_DWELL_TIME)
+    ) %>%
+    gather(Statistic, Value, "First Fixation Duration":"Gaze Duration") %>%
+    spread(group, Value)
+  
+  # combine into single table
+  sumStats <- rbind(sumStats2,sumStats1)
+  
+  # do test
+  read_mod <- lmer(
+    IA_DWELL_TIME ~ as.factor(group) + OrthoMatchModel + (1|run),
+    df_read_mod
+  )
+  
