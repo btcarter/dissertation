@@ -4,6 +4,10 @@ library(dplyr)
 library(readxl)
 library(stringr)
 library(reshape2)
+library(tidyr)
+
+# options
+options(digits = 15)
 
 #Set the working environment.
 HM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
@@ -33,14 +37,15 @@ if (file.exists(HRF.DIR)){
 # Load data ####
 
 # trial report
-TRIAL <- file.path(RP.DIR, "test_Trial")
+TRIAL.RP <- file.path(RP.DIR, "test_Trial.txt")
 
-#Read in interest areas report.
+# Read in interest areas report.
 REPORT <- read.delim2(
   file.path(RP.DIR, "test_IAReport.txt"),
   header = TRUE,
   sep = "\t",
-  fill = TRUE)
+  fill = TRUE,
+  na.strings = ".")
 
 # predictabilities
 ORTHOS <- read.csv(file.path("~","Box","LukeLab",
@@ -92,23 +97,31 @@ vars <- c("RECORDING_SESSION_LABEL",
           "IA_SKIP",
           "IA_FIXATION_COUNT",
           "IA_REGRESSION_IN",
-          "IA_FIRST_RUN_DWELL_TIME"
+          "IA_FIRST_RUN_DWELL_TIME",
+          "TRIAL_START_TIME",
+          "sync_time.1."
           )
 
-factor_to_numeric <- function(x) {as.numeric(as.character(x))}
+factor_to_numeric <- function(x) {as.numeric(as.character(x), digits = 15)}
 
 REPORT <- REPORT %>%
   select(vars) %>% # only select wanted variables, listed in vars
   filter(
-    practice != 1 # remove practice runs
+    practice != 1, # remove practice runs
+    IA_SKIP == 0
   ) %>%
   mutate(
-    "IA_FIRST_FIXATION_TIME" = factor_to_numeric(IA_FIRST_FIXATION_TIME),
-    "IA_DWELL_TIME" = factor_to_numeric(IA_DWELL_TIME)/1000,
-    "IA_FIRST_FIXATION_DURATION" = factor_to_numeric(IA_FIRST_FIXATION_DURATION),
-    "IA_FIXATION_COUNT" = factor_to_numeric(IA_FIXATION_COUNT),
-    "IA_REGRESSION_IN" = factor_to_numeric(IA_REGRESSION_IN),
-    "IA_FIRST_RUN_DWELL_TIME" = factor_to_numeric(IA_FIRST_RUN_DWELL_TIME)
+    "SYNC" = factor_to_numeric(sync_time.1.),
+    "IA_FIRST_RUN_DWELL_TIME" = factor_to_numeric(IA_FIRST_RUN_DWELL_TIME),
+    "IA_DWELL_TIME" = factor_to_numeric(IA_DWELL_TIME)
+    ) %>%
+  mutate(
+   "START_TIME" = (TRIAL_START_TIME - 
+     SYNC + 
+     IA_FIRST_RUN_DWELL_TIME)/1000
+  ) %>%
+  filter(
+    IA_DWELL_TIME > 0
   )
 
 
@@ -176,13 +189,12 @@ df <- ORTHOS[c("Text_ID",
                     "IA_ID" = "IA_ID")
   )
 
-rm(ORTHOS, REPORT) # unload superfluous dataframes
-
 # Make dataframes ####
 
 df_reading <- df %>% filter(
   Word_Content_Or_Function == "Content", # select fixations on content words only
-  stimtype == 1 # select only word interest areas
+  stimtype == 1, # select only word interest areas
+  IA_SKIP == 0
 )
 
 df_pictures <- df %>% filter(
@@ -202,7 +214,7 @@ make_predictability_hrf <- function(report, pred_type, output_directory){
   
   vars <- c("mriID",
             "run",
-            "IA_FIRST_FIXATION_TIME",
+            "START_TIME",
             pred_type,
             "IA_DWELL_TIME")
   
@@ -213,11 +225,15 @@ make_predictability_hrf <- function(report, pred_type, output_directory){
  
   #remove unneeded columns/values and convert times
   report <- report %>%
+    arrange(mriID, run, TRIAL_INDEX, START_TIME) %>%
     select(vars) %>%
-    filter(IA_SKIP == 0) %>%
+    mutate(
+      IA_FIRST_FIXATION_TIME = START_TIME/1000,
+      IA_DWELL_TIME = IA_DWELL_TIME/1000
+    ) %>%
     mutate(
       Parametric_times = paste(
-        IA_FIRST_FIXATION_TIME,
+        START_TIME,
         "*",
         report[[pred_type]],
         ":",
@@ -278,12 +294,16 @@ sapply(predictabilities,
        output_directory=HRF.DIR)
 
 # Block Data Cleaning ####
-TRIAL <- read.delim2(
-  TRIAL,
+TRIAL <- read.delim(
+  TRIAL.RP,
   header = TRUE,
   sep = "\t",
-  fill = TRUE
+  fill = TRUE,
+  stringsAsFactors = FALSE
 )
+
+TRIAL$RECORDING_SESSION_LABEL <-
+  as.character(TRIAL$RECORDING_SESSION_LABEL)
 
   # fix bad recording session labels
 for (booboo in CORS$RECORDING_SESSION_LABEL) {
@@ -304,14 +324,80 @@ TRIAL$run <- gsub("R(\\d)(C|D)(\\d{3})",
 TRIAL <- TRIAL[TRIAL$mriID %in% unique(PT.XL$mriID),]
 
 # Make dataframe #
-TRIAL %>%
-  select(
-    RECORDING_SESSION_LABEL,
-    INDEX,
-    START_TIME
+df_block_read <- TRIAL %>%
+  filter(
+    practice == 0,
+    stimtype == 1
+  ) %>%
+  select("mriID",
+         "INDEX",
+         "START_TIME",
+         "run"
+  )
+
+df_block_pic <- TRIAL %>%
+  filter(
+    practice == 0,
+    stimtype == 2
+  ) %>%
+  select("mriID",
+         "INDEX",
+         "START_TIME",
+         "run"
   )
 
 # Make Block-HRFs ####
+
+  # make reading blocks
+make_blocks <- function(trial_report, output_directory){
+    
+    for (a in unique(trial_report$mriID)) {
+      
+      sub_df <- trial_report %>%
+        filter(
+          mriID == a
+        ) %>%
+        arrange(
+          run, INDEX
+        ) %>%
+        mutate(
+          START_TIME = START_TIME/1000
+          ) %>% 
+        mutate(
+        START_TIME = paste(as.character(START_TIME), ":", "12", sep=""),
+        run = as.numeric(run)
+        ) %>%
+        select(c(2:4))
+      
+      sub_df$ROW <- 1:nrow(sub_df)
+      
+      for (r in order(desc(unique(sub_df$run)))) {
+        
+        if (r > 1){
+          r2 <- r-1
+          sub_df[sub_df$run == r, ]$ROW =
+            sub_df[sub_df$run == r, ]$ROW -
+            max(sub_df[sub_df$run == r2, ]$ROW)
+        }
+      }
+      
+      sub_df <- sub_df %>%
+        select(-"INDEX") %>%
+        melt(id = c("run", "ROW")) %>%
+        dcast(
+          run~ROW
+        ) %>%
+        select(-1)
+      
+      write.table(sub_df, 
+                  file.path(output_directory, paste(a, ".txt", sep = "")), 
+                  sep = "\t", na = "", col.names = FALSE, row.names = FALSE, quote = FALSE)
+      
+      }
+    }
+
+make_blocks(df_block_read, file.path(HRF.DIR, "block_read"))
+make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
 
 # lmer model of ET data ####
 
@@ -350,7 +436,7 @@ TRIAL %>%
       regression_prob = sum(IA_REGRESSION_IN, na.rm = TRUE)/n()
     ) %>%
     ungroup() %>%
-    group_by(windowcondition) %>%
+    group_by(group) %>%
     summarise(
       "Refixation probability" = mean_sd(refixation_prob),
       "Regression probability" = mean_sd(regression_prob)
