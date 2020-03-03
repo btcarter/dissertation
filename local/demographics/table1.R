@@ -61,7 +61,11 @@ LABS <- c("Group", "Vocabulary Score", "Matrix Reasoning",
 
 names(df) <- LABS
 
-FACTORS <- c("Group", "University student", "Other psychiatric disorders", "Other psychiatric disorders", "Gender", "Ethnicity", "Race")
+FACTORS <- c("Group", 
+             "University student", 
+             "Other psychiatric disorders", 
+             "Other psychiatric disorders", 
+             "Gender", "Ethnicity", "Race")
 
 for (i in FACTORS) {
   df[[i]] <- as.factor(df[[i]])
