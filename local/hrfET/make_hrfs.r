@@ -21,7 +21,7 @@ PT.XL <- read_excel(file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
                               "data", "participants", "master.xlsx")) 
 PT.LIST <- file.path(PT.DIR, "participants.tsv") # name of output file with participant list in it.
 
-RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
+RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                     "results", "dissertation")
 
 # Structure Directories ####
@@ -400,7 +400,7 @@ make_blocks <- function(trial_report, output_directory){
 make_blocks(df_block_read, file.path(HRF.DIR, "block_read"))
 make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
 
-# lmer model of ET data ####
+# Summary Stats and lmer models of ET data ####
 
   # load packages
   library(lme4)
@@ -412,6 +412,9 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
       PT.XL,
       by = "mriID"
     )
+  
+  df_read_mod$group <- as.factor(df_read_mod$group)
+  df_read_mod$mriID <- as.factor(df_read_mod$mriID)
 
   # do eye tracking summary statistics
   vars_summ <- c("group",
@@ -434,7 +437,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
     summarise(
       skipping_prob = sum(IA_SKIP)/n(),
       refixation_prob = sum(IA_FIXATION_COUNT >= 2)/n(),
-      regression_prob = sum(IA_REGRESSION_IN, na.rm = TRUE)/n()
+      regression_prob = sum(factor_to_numeric(IA_REGRESSION_IN), na.rm = TRUE)/n()
     ) %>%
     ungroup() %>%
     group_by(group) %>%
@@ -456,12 +459,66 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
     gather(Statistic, Value, "First Fixation Duration":"Gaze Duration") %>%
     spread(group, Value)
   
-  # combine into single table
-  sumStats <- rbind(sumStats2,sumStats1)
+  # combine into single table and save it as a tex file in RS.DIR
+  sumStats <- rbind(sumStats2,sumStats1) %>%
+    knitr::kable(format = "latex")
+  cat(sumStats,
+      file = file.path(RS.DIR, "om_sum_table.tex"),
+      sep = "",
+      append = FALSE
+      )
   
   # do test
-  read_mod <- lmer(
-    IA_DWELL_TIME ~ as.factor(group) + OrthoMatchModel + (1|run),
+  read_mod_dt <- lmer(
+    log(IA_DWELL_TIME) ~ 
+      group + scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
     df_read_mod
-  )
+  ) %>%
+    summary()
   
+  # save results
+  knitr::kable(
+    read_mod_dt$coefficients,
+    format = "latex",
+    digits = 3) %>% 
+    cat(file = file.path(RS.DIR, "dwell_time_model.tex"),
+                         sep = "",
+                         append = FALSE)
+  
+  # do test
+  read_mod_ffd <- lmer(
+    log(IA_FIRST_FIXATION_DURATION) ~
+      group + scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
+    df_read_mod
+  ) %>% 
+    summary()
+  
+  # save results
+  knitr::kable(
+    read_mod_ffd$coefficients,
+    format = "latex",
+    digits = 3) %>% 
+    cat(file = file.path(RS.DIR,
+                         "first_fix_dur_model.tex"),
+                         sep = "",
+                         append = FALSE)
+
+  # do test
+  read_mod_frdt <- lmer(
+    log(IA_FIRST_RUN_DWELL_TIME) ~ 
+      group + scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
+    df_read_mod
+  ) %>%
+    summary()
+
+  # save results
+  knitr::kable(
+    read_mod_frdt$coefficients,
+    format = "latex",
+    digits = 3) %>% 
+    cat(file = file.path(RS.DIR,
+                         "gaze_dur_model.tex"),
+        sep = "",
+        append = FALSE)
+  
+    
