@@ -108,7 +108,8 @@ REPORT <- REPORT %>%
   select(vars) %>% # only select wanted variables, listed in vars
   filter(
     practice != 1, # remove practice runs
-    IA_SKIP == 0
+    IA_SKIP == 0,
+    TRIAL_START_TIME > 0
   ) %>%
   mutate(
     "SYNC" = factor_to_numeric(sync_time.1.),
