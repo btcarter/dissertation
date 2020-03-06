@@ -27,6 +27,7 @@ HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 LOG=/fslhome/ben88/logfiles
 SCRIPT_DIR=~/analyses/dissertation/fmri/preproc
 subj_DIR=${HOME_DIR}/functional/${1}
+DICOM_DIR=$${HOME_DIR}/dicomdir
 
 
 ##########
@@ -41,9 +42,9 @@ cd $subj_DIR
 
 #Rename raw data file and create raw data and preproc data files
 
-if [ -d ${subj_DIR}/Research_Luke* ]
+if [ ! -d ${subj_DIR} ]
     then
-        mv ${subj_DIR}/Research_Luke* ${subj_DIR}/raw_data/
+        cp -r ${DICOM_DIR}/${1} ${subj_DIR}
 fi
 
 if [ ! -d ${subj_DIR}/afni_data ]
