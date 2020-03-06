@@ -153,7 +153,7 @@ for (booboo in CORS$RECORDING_SESSION_LABEL) {
 # add mriID and run number variables
 REPORT$mriID <- toupper(REPORT$RECORDING_SESSION_LABEL)
 REPORT$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
-                     "Luke_nih_\\2\\3",
+                     "Luke_Nih_\\2\\3",
                      REPORT$mriID)
 REPORT$run <- gsub("R(\\d)(C|D)(\\d{3})",
                      "\\1",
@@ -314,7 +314,7 @@ for (booboo in CORS$RECORDING_SESSION_LABEL) {
   # add mriID and run number variables
 TRIAL$mriID <- toupper(TRIAL$RECORDING_SESSION_LABEL)
 TRIAL$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
-                     "Luke_nih_\\2\\3",
+                     "Luke_Nih_\\2\\3",
                      TRIAL$mriID)
 TRIAL$run <- gsub("R(\\d)(C|D)(\\d{3})",
                    "\\1",
