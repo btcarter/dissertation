@@ -10,9 +10,9 @@
 #ENVIRONMENT#
 #############
 
-HOME_DIR=/fslhome/ben88/compute/Reading/Compute_data
-SCRIPT_DIR=${HOME_DIR}/Scripts
-SUBJ_DIR=${HOME_DIR}/SubjData
+HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+SCRIPT_DIR=~/analyses/dissertation/fmri/preproc
+PART_LIST=${HOME_DIR}/dissertation/participants.tsv
 
 ##########
 #COMMANDS#
@@ -23,7 +23,7 @@ var=`date +"%Y%m%d-%H%M%S"`
 mkdir -p ~/logfiles/$var
 
 #Submit the job script
-for subj in $(ls ${SUBJ_DIR})
+for subj in $(cat ${PART_LIST})
     do
         sbatch \
         -o ~/logfiles/${var}/output_${subj}.txt \
