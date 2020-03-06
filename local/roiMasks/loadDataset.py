@@ -3,11 +3,11 @@
 # this script will load the dataset to be used for mask creation from Neurosynth. This should only be run once in a great while.
 
 import os
-
-os.chdir(r"/Users/ben88/Downloads/ns")
+DIR="/Users/ben88/Downloads/ns"
+os.chdir(DIR)
 
 import neurosynth as ns
-ns.dataset.download(path="/Users/ben88/Downloads/ns", unpack=True)
+ns.dataset.download(path=DIR, unpack=True)
 
 # Core functionality for managing and accessing data
 from neurosynth import Dataset
