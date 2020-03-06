@@ -37,11 +37,11 @@ if (file.exists(HRF.DIR)){
 # Load data ####
 
 # trial report
-TRIAL.RP <- file.path(RP.DIR, "test_Trial.txt")
+TRIAL.RP <- file.path(RP.DIR, "TrialReport.txt")
 
 # Read in interest areas report.
 REPORT <- read.delim2(
-  file.path(RP.DIR, "test_IAReport.txt"),
+  file.path(RP.DIR, "IAReport.txt"),
   header = TRUE,
   sep = "\t",
   fill = TRUE,
@@ -87,7 +87,6 @@ vars <- c("RECORDING_SESSION_LABEL",
           "sce_id",
           "scenecondition",
           "stimtype",
-          "text",
           "textnumber",
           "trialcount",
           "IA_ID",
@@ -324,6 +323,14 @@ TRIAL$run <- gsub("R(\\d)(C|D)(\\d{3})",
   # remove all non-study recording session labels
 TRIAL <- TRIAL[TRIAL$mriID %in% unique(PT.XL$mriID),]
 
+TRIAL <- TRIAL %>%
+  filter(
+    sync_time.1. > 0
+  ) %>%
+  mutate(
+    "START_TIME" = START_TIME - sync_time.1.
+  )
+
 # Make dataframe #
 df_block_read <- TRIAL %>%
   filter(
@@ -363,11 +370,7 @@ make_blocks <- function(trial_report, output_directory){
         ) %>%
         mutate(
           START_TIME = START_TIME/1000
-          ) %>% 
-        mutate(
-        START_TIME = paste(as.character(START_TIME), ":", "12", sep=""),
-        run = as.numeric(run)
-        ) %>%
+          ) %>%
         select(c(2:4))
       
       sub_df$ROW <- 1:nrow(sub_df)
