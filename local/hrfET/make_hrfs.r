@@ -7,7 +7,7 @@ library(reshape2)
 library(tidyr)
 
 # options
-options(digits = 15)
+options(digits = 4)
 
 #Set the working environment.
 HM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
