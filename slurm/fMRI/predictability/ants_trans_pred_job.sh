@@ -23,11 +23,12 @@ export ANTSPATH=/fslhome/ben88/apps/ants/bin
 PATH=${ANTSPATH}:${PATH}
 
 AFNI_BIN=/fslhome/ben88/abin
-HOME_DIR=/fslhome/ben88/compute/Reading/Compute_data
-    SCRIPT_DIR=${HOME_DIR}/Scripts
-        antifyFunk=$SCRIPT_DIR/ANTifyFunctional
-    subj_DIR=${HOME_DIR}/SubjData/${1}
-TEMPLATE=~/templates/Cthulhu/cthulhu_mni_template.nii.gz
+HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+    SCRIPT_DIR=~/analyses/dissertation/fMRI
+        antifyFunk=${SCRIPT_DIR}/preproc/ANTifyFunctional
+    subj_DIR=${HOME_DIR}/functional/${1}
+    pproc=${HOME_DIR}/preproc/${1}
+TEMPLATE=${HOME_DIR}/template/construct/nctosa_mni_template0.nii.gz
 LOG=/fslhome/ben88/logfiles
 
 ##########
@@ -39,7 +40,7 @@ LOG=/fslhome/ben88/logfiles
 
 
 cd $subj_DIR
-cd afni_data
+cd predictability
 
 #####################
 #REGRESSION ANALYSIS#
@@ -49,15 +50,15 @@ cd afni_data
 #Convert struc file from dicom to nifti
 if [ ! -f struct_rotated.nii.gz ]
 then
-${AFNI_BIN}/3dcopy struct_rotated+orig struct_rotated.nii.gz
+${AFNI_BIN}/3dcopy ${pproc}/struct_rotated+orig ${pproc}/struct_rotated.nii.gz
 fi
 
 #Put the structural dataset through the ANTs pipeline
-if [ -f struct_rotated.nii.gz ] && [ ! -f struct_rotatedWarp.nii ]
+if [ -f ${pproc}/struct_rotated.nii.gz ] && [ ! -f ${pproc}/struct_rotatedWarp.nii ]
     then
         dim=3
         template=${TEMPLATE}
-        scan=struct_rotated.nii.gz
+        scan=${pproc}/struct_rotated.nii.gz
         ~/apps/ants/bin/ants.sh ${dim} ${template} ${scan}
 fi
 
@@ -66,9 +67,9 @@ fi
 #modeltemplate.nii.gz & ANTifyFunctional in the main study directory
 #Also assumes that ANTs is installed on your system.
 
-cd $subj_DIR/afni_data/predictability/predictability1
+cd $subj_DIR/predictability
 
-${antifyFunk} $subj_DIR/afni_data/struct_rotated ${TEMPLATE} $subj_DIR/afni_data/predictability1/predictability_deconv_blur5+orig
+${antifyFunk} $subj_DIR/predictability/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_deconv_blur5+orig
 
 
 #cd back to the main study directory
