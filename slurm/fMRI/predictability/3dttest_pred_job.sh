@@ -31,7 +31,7 @@ AFNI_BIN=/fslhome/ben88/abin
 
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 FUNC_DIR=${HOME_DIR}/functional
-MASK=${HOME_DIR}/template/construct/dyce_mni_GM.nii.gz
+MASK=${HOME_DIR}/template/construct/nctosaMask_+tlrc
 RES_DIR=${HOME_DIR}/dissertation/predictability
 
 
@@ -53,8 +53,6 @@ $AFNI_BIN/3dttest++ \
 Luke_Nih_C002 ${FUNC_DIR}/Luke_Nih_C002/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
 Luke_Nih_D001 ${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
 Luke_Nih_D003 ${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Nih_D004 ${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Nih_D005 ${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
 Luke_Nih_D006 ${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
 Luke_Nih_D007 ${FUNC_DIR}/Luke_Nih_D007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
 Luke_Nih_D008 ${FUNC_DIR}/Luke_Nih_D008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
@@ -102,15 +100,13 @@ Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blu
 #LSA (semantics) group results
 $AFNI_BIN/3dttest++ \
 -prefix ${RES_DIR}/pred_lsa \
--mask $TEMPLATE \
+-mask ${MASK} \
 -Clustsim \
 -AminusB \
 -setA dys \
 Luke_Nih_C002 ${FUNC_DIR}/Luke_Nih_C002/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
 Luke_Nih_D001 ${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
 Luke_Nih_D003 ${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Nih_D004 ${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Nih_D005 ${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
 Luke_Nih_D006 ${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
 Luke_Nih_D007 ${FUNC_DIR}/Luke_Nih_D007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
 Luke_Nih_D008 ${FUNC_DIR}/Luke_Nih_D008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
@@ -158,15 +154,13 @@ Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blu
 #Ortho (lexical) group results
 $AFNI_BIN/3dttest++ \
 -prefix ${RES_DIR}/pred_ortho \
--mask $TEMPLATE \
+-mask ${MASK} \
 -Clustsim \
 -AminusB \
 -setA dys \
 Luke_Nih_C002 ${FUNC_DIR}/Luke_Nih_C002/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
 Luke_Nih_D001 ${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
 Luke_Nih_D003 ${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Nih_D004 ${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Nih_D005 ${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
 Luke_Nih_D006 ${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
 Luke_Nih_D007 ${FUNC_DIR}/Luke_Nih_D007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
 Luke_Nih_D008 ${FUNC_DIR}/Luke_Nih_D008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
