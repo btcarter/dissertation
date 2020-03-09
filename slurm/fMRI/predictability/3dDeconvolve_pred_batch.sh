@@ -23,7 +23,7 @@ var=`date +"%Y%m%d-%H%M%S"`
 mkdir -p ~/logfiles/$var
 
 #Submit the job script
-for subj in $(ls ${PART_LIST})
+for subj in $(cat ${PART_LIST})
     do
     sbatch \
         -o ~/logfiles/${var}/output_${subj}.txt \
