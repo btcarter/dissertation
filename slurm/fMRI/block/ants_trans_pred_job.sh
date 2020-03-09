@@ -69,5 +69,3 @@ fi
 #Also assumes that ANTs is installed on your system.
 
 ${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_deconv_blur5+orig
-
-mv *blur5_ANTS_resampled+tlrc* ${subj_DIR}/
