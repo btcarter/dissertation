@@ -69,7 +69,7 @@ fi
 
 cd $subj_DIR/predictability
 
-${antifyFunk} $subj_DIR/predictability/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_deconv_blur5+orig
+${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_deconv_blur5+orig
 
 
 #cd back to the main study directory
