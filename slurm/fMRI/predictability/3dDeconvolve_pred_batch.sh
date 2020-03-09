@@ -28,7 +28,7 @@ for subj in $(ls ${PART_LIST})
     sbatch \
         -o ~/logfiles/${var}/output_${subj}.txt \
         -e ~/logfiles/${var}/error_${subj}.txt \
-        ${SCRIPT_DIR}/predictability/3dDeconvolve_pred_job.sh \
+        ${SCRIPT_DIR}/3dDeconvolve_pred_job.sh \
         ${subj}
         sleep 1
 done
