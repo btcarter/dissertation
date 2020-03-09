@@ -25,7 +25,7 @@ PATH=${ANTSPATH}:${PATH}
 AFNI_BIN=/fslhome/ben88/abin
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 LOG=/fslhome/ben88/logfiles
-SCRIPT_DIR=~/analyses/dissertation/fmri/preproc
+SCRIPT_DIR=~/analyses/dissertation/fMRI/preproc
 subj_DIR=${HOME_DIR}/functional/${1}
 DICOM_DIR=${HOME_DIR}/dicomdir/${1}
 
