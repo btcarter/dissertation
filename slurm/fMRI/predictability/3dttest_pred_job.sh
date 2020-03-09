@@ -23,208 +23,194 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 AFNI_BIN=/fslhome/ben88/abin
 
 
-#First, use the TLRC transformation defined in struct_rotated+tlrc.HEAD to transform the 
+#First, use the TLRC transformation defined in struct_rotated+tlrc.HEAD to transform the
 #structural BRIK dataset and the deconv1 functional dataset to TLRC space
 #Now, make the group directory and cd into it
 #############################################
 #VARIABLES
 
-HOME_DIR=/fslhome/ben88/compute/Reading/Compute_data
-    workDir=$HOME_DIR/SubjData
-    TEMPLATE=/fslhome/ben88/templates/Cthulhu/fractionize+tlrc.BRIK.gz
+HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+FUNC_DIR=${HOME_DIR}/functional
+MASK=${HOME_DIR}/template/construct/fractionize+tlrc.BRIK.gz
+RES_DIR=${HOME_DIR}/dissertation/predictability
 
 
 #mkdir Group_Analysis/whatever the analysis is
-if [ ! -d $HOME_DIR/Group_Analysis/predictability1 ]
+if [ ! -d ${RES_DIR} ]
     then
-        mkdir -p $HOME_DIR/Group_Analysis/predictability1
+        mkdir -p ${RES_DIR}
 fi
 
-GROUP=$HOME_DIR/Group_Analysis/predictability1
-
-cd $GROUP
+cd ${RES_DIR}
 
 #POS (syntax) group results
 $AFNI_BIN/3dttest++ \
--prefix pred_pos \
--mask $TEMPLATE \
+-prefix ${RES_DIR}/pred_pos \
+-mask ${MASK} \
 -Clustsim \
 -AminusB \
--setA POS \
-Luke_Reading_S1    ${workDir}/Luke_Reading_S1/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S2    ${workDir}/Luke_Reading_S2/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S3    ${workDir}/Luke_Reading_S3/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S4    ${workDir}/Luke_Reading_S4/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S5    ${workDir}/Luke_Reading_S5/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S6    ${workDir}/Luke_Reading_S6/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S7    ${workDir}/Luke_Reading_S7/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S8    ${workDir}/Luke_Reading_S8/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S9    ${workDir}/Luke_Reading_S9/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S11    ${workDir}/Luke_Reading_S11/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S12    ${workDir}/Luke_Reading_S12/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S13    ${workDir}/Luke_Reading_S13/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S14    ${workDir}/Luke_Reading_S14/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S16    ${workDir}/Luke_Reading_S16/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S17    ${workDir}/Luke_Reading_S17/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S18    ${workDir}/Luke_Reading_S18/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S19    ${workDir}/Luke_Reading_S19/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S20    ${workDir}/Luke_Reading_S20/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S22    ${workDir}/Luke_Reading_S22/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S23    ${workDir}/Luke_Reading_S23/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S24    ${workDir}/Luke_Reading_S24/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S25    ${workDir}/Luke_Reading_S25/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S26    ${workDir}/Luke_Reading_S26/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S27    ${workDir}/Luke_Reading_S27/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S28    ${workDir}/Luke_Reading_S28/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S29    ${workDir}/Luke_Reading_S29/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S30    ${workDir}/Luke_Reading_S30/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S31    ${workDir}/Luke_Reading_S31/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S33    ${workDir}/Luke_Reading_S33/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S35    ${workDir}/Luke_Reading_S36/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S36    ${workDir}/Luke_Reading_S37/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S37    ${workDir}/Luke_Reading_S38/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S45    ${workDir}/Luke_Reading_S45/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S47    ${workDir}/Luke_Reading_S47/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S48    ${workDir}/Luke_Reading_S48/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S50    ${workDir}/Luke_Reading_S50/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S51    ${workDir}/Luke_Reading_S51/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S52    ${workDir}/Luke_Reading_S52/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S54    ${workDir}/Luke_Reading_S54/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S55    ${workDir}/Luke_Reading_S55/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
-Luke_Reading_S56    ${workDir}/Luke_Reading_S56/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
--setB ORTHO \
-Luke_Reading_S1    ${workDir}/Luke_Reading_S1/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S2    ${workDir}/Luke_Reading_S2/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S3    ${workDir}/Luke_Reading_S3/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S4    ${workDir}/Luke_Reading_S4/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S5    ${workDir}/Luke_Reading_S5/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S6    ${workDir}/Luke_Reading_S6/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S7    ${workDir}/Luke_Reading_S7/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S8    ${workDir}/Luke_Reading_S8/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S9    ${workDir}/Luke_Reading_S9/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S11    ${workDir}/Luke_Reading_S11/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S12    ${workDir}/Luke_Reading_S12/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S13    ${workDir}/Luke_Reading_S13/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S14    ${workDir}/Luke_Reading_S14/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S16    ${workDir}/Luke_Reading_S16/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S17    ${workDir}/Luke_Reading_S17/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S18    ${workDir}/Luke_Reading_S18/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S19    ${workDir}/Luke_Reading_S19/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S20    ${workDir}/Luke_Reading_S20/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S22    ${workDir}/Luke_Reading_S22/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S23    ${workDir}/Luke_Reading_S23/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S24    ${workDir}/Luke_Reading_S24/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S25    ${workDir}/Luke_Reading_S25/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S26    ${workDir}/Luke_Reading_S26/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S27    ${workDir}/Luke_Reading_S27/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S28    ${workDir}/Luke_Reading_S28/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S29    ${workDir}/Luke_Reading_S29/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S30    ${workDir}/Luke_Reading_S30/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S31    ${workDir}/Luke_Reading_S31/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S33    ${workDir}/Luke_Reading_S33/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S35    ${workDir}/Luke_Reading_S36/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S36    ${workDir}/Luke_Reading_S37/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S37    ${workDir}/Luke_Reading_S38/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S45    ${workDir}/Luke_Reading_S45/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S47    ${workDir}/Luke_Reading_S47/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S48    ${workDir}/Luke_Reading_S48/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S50    ${workDir}/Luke_Reading_S50/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S51    ${workDir}/Luke_Reading_S51/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S52    ${workDir}/Luke_Reading_S52/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S54    ${workDir}/Luke_Reading_S54/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S55    ${workDir}/Luke_Reading_S55/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S56    ${workDir}/Luke_Reading_S56/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]'
-
+-setA dys \
+Luke_Nih_C002 ${FUNC_DIR}/Luke_Nih_C002/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D001 ${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D003 ${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D004 ${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D005 ${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D006 ${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D007 ${FUNC_DIR}/Luke_Nih_D007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D008 ${FUNC_DIR}/Luke_Nih_D008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D009 ${FUNC_DIR}/Luke_Nih_D009/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D010 ${FUNC_DIR}/Luke_Nih_D010/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D011 ${FUNC_DIR}/Luke_Nih_D011/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D012 ${FUNC_DIR}/Luke_Nih_D012/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D013 ${FUNC_DIR}/Luke_Nih_D013/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D014 ${FUNC_DIR}/Luke_Nih_D014/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D015 ${FUNC_DIR}/Luke_Nih_D015/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D016 ${FUNC_DIR}/Luke_Nih_D016/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D017 ${FUNC_DIR}/Luke_Nih_D017/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D018 ${FUNC_DIR}/Luke_Nih_D018/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D019 ${FUNC_DIR}/Luke_Nih_D019/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D020 ${FUNC_DIR}/Luke_Nih_D020/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D021 ${FUNC_DIR}/Luke_Nih_D021/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D022 ${FUNC_DIR}/Luke_Nih_D022/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D023 ${FUNC_DIR}/Luke_Nih_D023/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D025 ${FUNC_DIR}/Luke_Nih_D025/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D026 ${FUNC_DIR}/Luke_Nih_D026/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_D027 ${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+-setB con \
+Luke_Nih_C001 ${FUNC_DIR}/Luke_Nih_C001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C003 ${FUNC_DIR}/Luke_Nih_C003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C004 ${FUNC_DIR}/Luke_Nih_C004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C005 ${FUNC_DIR}/Luke_Nih_C005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C006 ${FUNC_DIR}/Luke_Nih_C006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C007 ${FUNC_DIR}/Luke_Nih_C007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C008 ${FUNC_DIR}/Luke_Nih_C008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C009 ${FUNC_DIR}/Luke_Nih_C009/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C010 ${FUNC_DIR}/Luke_Nih_C010/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C011 ${FUNC_DIR}/Luke_Nih_C011/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C012 ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C013 ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C014 ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C016 ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C017 ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C018 ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C019 ${FUNC_DIR}/Luke_Nih_C019/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C020 ${FUNC_DIR}/Luke_Nih_C020/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C021 ${FUNC_DIR}/Luke_Nih_C021/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C022 ${FUNC_DIR}/Luke_Nih_C022/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]' \
+Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[1]'
 
 #LSA (semantics) group results
 $AFNI_BIN/3dttest++ \
--prefix pred_lsa \
+-prefix ${RES_DIR}/pred_lsa \
 -mask $TEMPLATE \
 -Clustsim \
 -AminusB \
--setA LSA \
-Luke_Reading_S1    ${workDir}/Luke_Reading_S1/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S2    ${workDir}/Luke_Reading_S2/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S3    ${workDir}/Luke_Reading_S3/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S4    ${workDir}/Luke_Reading_S4/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S5    ${workDir}/Luke_Reading_S5/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S6    ${workDir}/Luke_Reading_S6/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S7    ${workDir}/Luke_Reading_S7/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S8    ${workDir}/Luke_Reading_S8/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S9    ${workDir}/Luke_Reading_S9/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S11    ${workDir}/Luke_Reading_S11/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S12    ${workDir}/Luke_Reading_S12/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S13    ${workDir}/Luke_Reading_S13/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S14    ${workDir}/Luke_Reading_S14/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S16    ${workDir}/Luke_Reading_S16/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S17    ${workDir}/Luke_Reading_S17/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S18    ${workDir}/Luke_Reading_S18/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S19    ${workDir}/Luke_Reading_S19/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S20    ${workDir}/Luke_Reading_S20/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S22    ${workDir}/Luke_Reading_S22/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S23    ${workDir}/Luke_Reading_S23/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S24    ${workDir}/Luke_Reading_S24/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S25    ${workDir}/Luke_Reading_S25/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S26    ${workDir}/Luke_Reading_S26/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S27    ${workDir}/Luke_Reading_S27/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S28    ${workDir}/Luke_Reading_S28/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S29    ${workDir}/Luke_Reading_S29/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S30    ${workDir}/Luke_Reading_S30/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S31    ${workDir}/Luke_Reading_S31/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S33    ${workDir}/Luke_Reading_S33/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S35    ${workDir}/Luke_Reading_S36/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S36    ${workDir}/Luke_Reading_S37/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S37    ${workDir}/Luke_Reading_S38/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S45    ${workDir}/Luke_Reading_S45/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S47    ${workDir}/Luke_Reading_S47/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S48    ${workDir}/Luke_Reading_S48/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S50    ${workDir}/Luke_Reading_S50/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S51    ${workDir}/Luke_Reading_S51/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S52    ${workDir}/Luke_Reading_S52/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S54    ${workDir}/Luke_Reading_S54/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S55    ${workDir}/Luke_Reading_S55/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
-Luke_Reading_S56    ${workDir}/Luke_Reading_S56/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
--setB ORTHO \
-Luke_Reading_S1    ${workDir}/Luke_Reading_S1/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S2    ${workDir}/Luke_Reading_S2/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S3    ${workDir}/Luke_Reading_S3/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S4    ${workDir}/Luke_Reading_S4/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S5    ${workDir}/Luke_Reading_S5/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S6    ${workDir}/Luke_Reading_S6/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S7    ${workDir}/Luke_Reading_S7/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S8    ${workDir}/Luke_Reading_S8/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S9    ${workDir}/Luke_Reading_S9/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S11    ${workDir}/Luke_Reading_S11/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S12    ${workDir}/Luke_Reading_S12/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S13    ${workDir}/Luke_Reading_S13/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S14    ${workDir}/Luke_Reading_S14/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S16    ${workDir}/Luke_Reading_S16/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S17    ${workDir}/Luke_Reading_S17/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S18    ${workDir}/Luke_Reading_S18/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S19    ${workDir}/Luke_Reading_S19/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S20    ${workDir}/Luke_Reading_S20/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S22    ${workDir}/Luke_Reading_S22/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S23    ${workDir}/Luke_Reading_S23/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S24    ${workDir}/Luke_Reading_S24/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S25    ${workDir}/Luke_Reading_S25/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S26    ${workDir}/Luke_Reading_S26/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S27    ${workDir}/Luke_Reading_S27/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S28    ${workDir}/Luke_Reading_S28/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S29    ${workDir}/Luke_Reading_S29/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S30    ${workDir}/Luke_Reading_S30/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S31    ${workDir}/Luke_Reading_S31/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S33    ${workDir}/Luke_Reading_S33/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S35    ${workDir}/Luke_Reading_S36/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S36    ${workDir}/Luke_Reading_S37/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S37    ${workDir}/Luke_Reading_S38/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S45    ${workDir}/Luke_Reading_S45/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S47    ${workDir}/Luke_Reading_S47/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S48    ${workDir}/Luke_Reading_S48/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S50    ${workDir}/Luke_Reading_S50/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S51    ${workDir}/Luke_Reading_S51/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S52    ${workDir}/Luke_Reading_S52/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S54    ${workDir}/Luke_Reading_S54/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S55    ${workDir}/Luke_Reading_S55/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
-Luke_Reading_S56    ${workDir}/Luke_Reading_S56/afni_data/predictability1/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]'
+-setA dys \
+Luke_Nih_C002 ${FUNC_DIR}/Luke_Nih_C002/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D001 ${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D003 ${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D004 ${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D005 ${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D006 ${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D007 ${FUNC_DIR}/Luke_Nih_D007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D008 ${FUNC_DIR}/Luke_Nih_D008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D009 ${FUNC_DIR}/Luke_Nih_D009/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D010 ${FUNC_DIR}/Luke_Nih_D010/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D011 ${FUNC_DIR}/Luke_Nih_D011/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D012 ${FUNC_DIR}/Luke_Nih_D012/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D013 ${FUNC_DIR}/Luke_Nih_D013/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D014 ${FUNC_DIR}/Luke_Nih_D014/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D015 ${FUNC_DIR}/Luke_Nih_D015/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D016 ${FUNC_DIR}/Luke_Nih_D016/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D017 ${FUNC_DIR}/Luke_Nih_D017/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D018 ${FUNC_DIR}/Luke_Nih_D018/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D019 ${FUNC_DIR}/Luke_Nih_D019/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D020 ${FUNC_DIR}/Luke_Nih_D020/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D021 ${FUNC_DIR}/Luke_Nih_D021/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D022 ${FUNC_DIR}/Luke_Nih_D022/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D023 ${FUNC_DIR}/Luke_Nih_D023/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D025 ${FUNC_DIR}/Luke_Nih_D025/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D026 ${FUNC_DIR}/Luke_Nih_D026/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_D027 ${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+-setB con \
+Luke_Nih_C001 ${FUNC_DIR}/Luke_Nih_C001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C003 ${FUNC_DIR}/Luke_Nih_C003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C004 ${FUNC_DIR}/Luke_Nih_C004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C005 ${FUNC_DIR}/Luke_Nih_C005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C006 ${FUNC_DIR}/Luke_Nih_C006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C007 ${FUNC_DIR}/Luke_Nih_C007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C008 ${FUNC_DIR}/Luke_Nih_C008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C009 ${FUNC_DIR}/Luke_Nih_C009/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C010 ${FUNC_DIR}/Luke_Nih_C010/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C011 ${FUNC_DIR}/Luke_Nih_C011/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C012 ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C013 ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C014 ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C016 ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C017 ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C018 ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C019 ${FUNC_DIR}/Luke_Nih_C019/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C020 ${FUNC_DIR}/Luke_Nih_C020/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C021 ${FUNC_DIR}/Luke_Nih_C021/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C022 ${FUNC_DIR}/Luke_Nih_C022/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]' \
+Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[3]'
+
+#Ortho (lexical) group results
+$AFNI_BIN/3dttest++ \
+-prefix ${RES_DIR}/pred_ortho \
+-mask $TEMPLATE \
+-Clustsim \
+-AminusB \
+-setA dys \
+Luke_Nih_C002 ${FUNC_DIR}/Luke_Nih_C002/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D001 ${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D003 ${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D004 ${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D005 ${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D006 ${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D007 ${FUNC_DIR}/Luke_Nih_D007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D008 ${FUNC_DIR}/Luke_Nih_D008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D009 ${FUNC_DIR}/Luke_Nih_D009/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D010 ${FUNC_DIR}/Luke_Nih_D010/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D011 ${FUNC_DIR}/Luke_Nih_D011/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D012 ${FUNC_DIR}/Luke_Nih_D012/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D013 ${FUNC_DIR}/Luke_Nih_D013/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D014 ${FUNC_DIR}/Luke_Nih_D014/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D015 ${FUNC_DIR}/Luke_Nih_D015/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D016 ${FUNC_DIR}/Luke_Nih_D016/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D017 ${FUNC_DIR}/Luke_Nih_D017/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D018 ${FUNC_DIR}/Luke_Nih_D018/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D019 ${FUNC_DIR}/Luke_Nih_D019/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D020 ${FUNC_DIR}/Luke_Nih_D020/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D021 ${FUNC_DIR}/Luke_Nih_D021/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D022 ${FUNC_DIR}/Luke_Nih_D022/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D023 ${FUNC_DIR}/Luke_Nih_D023/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D025 ${FUNC_DIR}/Luke_Nih_D025/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D026 ${FUNC_DIR}/Luke_Nih_D026/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_D027 ${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+-setB con \
+Luke_Nih_C001 ${FUNC_DIR}/Luke_Nih_C001/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C003 ${FUNC_DIR}/Luke_Nih_C003/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C004 ${FUNC_DIR}/Luke_Nih_C004/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C005 ${FUNC_DIR}/Luke_Nih_C005/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C006 ${FUNC_DIR}/Luke_Nih_C006/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C007 ${FUNC_DIR}/Luke_Nih_C007/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C008 ${FUNC_DIR}/Luke_Nih_C008/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C009 ${FUNC_DIR}/Luke_Nih_C009/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C010 ${FUNC_DIR}/Luke_Nih_C010/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C011 ${FUNC_DIR}/Luke_Nih_C011/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C012 ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C013 ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C014 ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C016 ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C017 ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C018 ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C019 ${FUNC_DIR}/Luke_Nih_C019/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C020 ${FUNC_DIR}/Luke_Nih_C020/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C021 ${FUNC_DIR}/Luke_Nih_C021/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C022 ${FUNC_DIR}/Luke_Nih_C022/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blur5_ANTS_resampled+tlrc'[5]' \
+
+
 
 #END

@@ -10,9 +10,8 @@
 #ENVIRONMENT#
 #############
 
-HOME_DIR=/fslhome/ben88/compute/Reading/Compute_data
-SCRIPT_DIR=${HOME_DIR}/Scripts
-SUBJ_DIR=${HOME_DIR}/SubjData
+HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+SCRIPT_DIR=~/analyses/dissertation/fMRI/predictability
 
 ##########
 #COMMANDS#
@@ -28,4 +27,3 @@ sbatch \
     -e ~/logfiles/${var}/error_group_fixDur.txt \
     ${SCRIPT_DIR}/predictability/predictability1/3dttest_pred_job.sh \
     sleep 1
-

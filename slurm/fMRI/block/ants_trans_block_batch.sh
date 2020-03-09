@@ -28,7 +28,7 @@ for subj in $(cat ${PART_LIST})
     sbatch \
         -o ~/logfiles/${var}/output_${subj}.txt \
         -e ~/logfiles/${var}/error_${subj}.txt \
-        ${SCRIPT_DIR}/ants_trans_pred_job.sh \
+        ${SCRIPT_DIR}/ants_trans_block_job.sh \
         ${subj}
         sleep 1
 done
