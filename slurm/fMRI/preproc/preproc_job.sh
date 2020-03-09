@@ -27,7 +27,7 @@ HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 LOG=/fslhome/ben88/logfiles
 SCRIPT_DIR=~/analyses/dissertation/fmri/preproc
 subj_DIR=${HOME_DIR}/functional/${1}
-DICOM_DIR=$${HOME_DIR}/dicomdir
+DICOM_DIR=${HOME_DIR}/dicomdir/${1}
 
 
 ##########
@@ -42,18 +42,22 @@ cd $subj_DIR
 
 #Rename raw data file and create raw data and preproc data files
 
+if [ ! -d ${DICOM_DIR} ]
+  then
+    echo "no subject dicoms found"
+fi
+
 if [ ! -d ${subj_DIR} ]
     then
-        cp -r ${DICOM_DIR}/${1} ${subj_DIR}
+        mkdir -p ${subj_DIR}
 fi
 
-if [ ! -d ${subj_DIR}/afni_data ]
+if [ ! -d ${subj_DIR}/preproc ]
     then
-        mkdir ${subj_DIR}/afni_data
+        mkdir -p ${subj_DIR}/preproc
 fi
 
-PPROC=${subj_DIR}/afni_data
-RAW_DIR=${subj_DIR}/raw_data
+PPROC=${subj_DIR}/preproc
 
 cd $PPROC
 
@@ -66,30 +70,30 @@ cd $PPROC
 
 if [ ! -f $PPROC/epi1+orig.BRIK ]
     then
-        epi1TRs=`ls -1 ${RAW_DIR}/EPI_Run1*/*.dcm | wc -l`
-        ${AFNI_BIN}/to3d -time:zt 43 $epi1TRs 2500 alt+z -prefix epi1 ${RAW_DIR}/EPI_Run1*/*.dcm
+        epi1TRs=`ls -1 ${DICOM_DIR}/EPI_Run1*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi1TRs 2500 alt+z -prefix epi1 ${DICOM_DIR}/EPI_Run1*/*.dcm
 
-        epi2TRs=`ls -1 ${RAW_DIR}/EPI_Run2*/*.dcm | wc -l`
-        ${AFNI_BIN}/to3d -time:zt 43 $epi2TRs 2500 alt+z -prefix epi2 ${RAW_DIR}/EPI_Run2*/*.dcm
+        epi2TRs=`ls -1 ${DICOM_DIR}/EPI_Run2*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi2TRs 2500 alt+z -prefix epi2 ${DICOM_DIR}/EPI_Run2*/*.dcm
 
-        epi3TRs=`ls -1 ${RAW_DIR}/EPI_Run3*/*.dcm | wc -l`
-        ${AFNI_BIN}/to3d -time:zt 43 $epi3TRs 2500 alt+z -prefix epi3 ${RAW_DIR}/EPI_Run3*/*.dcm
+        epi3TRs=`ls -1 ${DICOM_DIR}/EPI_Run3*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi3TRs 2500 alt+z -prefix epi3 ${DICOM_DIR}/EPI_Run3*/*.dcm
 
-        epi4TRs=`ls -1 ${RAW_DIR}/EPI_Run4*/*.dcm | wc -l`
-        ${AFNI_BIN}/to3d -time:zt 43 $epi4TRs 2500 alt+z -prefix epi4 ${RAW_DIR}/EPI_Run4*/*.dcm
+        epi4TRs=`ls -1 ${DICOM_DIR}/EPI_Run4*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi4TRs 2500 alt+z -prefix epi4 ${DICOM_DIR}/EPI_Run4*/*.dcm
 
-        epi5TRs=`ls -1 ${RAW_DIR}/EPI_Run5*/*.dcm | wc -l`
-        ${AFNI_BIN}/to3d -time:zt 43 $epi5TRs 2500 alt+z -prefix epi5 ${RAW_DIR}/EPI_Run5*/*.dcm
+        epi5TRs=`ls -1 ${DICOM_DIR}/EPI_Run5*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi5TRs 2500 alt+z -prefix epi5 ${DICOM_DIR}/EPI_Run5*/*.dcm
 
-        epi6TRs=`ls -1 ${RAW_DIR}/EPI_Run6*/*.dcm | wc -l`
-        ${AFNI_BIN}/to3d -time:zt 43 $epi6TRs 2500 alt+z -prefix epi6 ${RAW_DIR}/EPI_Run6*/*.dcm
+        epi6TRs=`ls -1 ${DICOM_DIR}/EPI_Run6*/*.dcm | wc -l`
+        ${AFNI_BIN}/to3d -time:zt 43 $epi6TRs 2500 alt+z -prefix epi6 ${DICOM_DIR}/EPI_Run6*/*.dcm
 fi
 
 #import structural
 
 if [ ! -f $PPROC/struct+orig.BRIK ]
     then
-        ${AFNI_BIN}/to3d -prefix struct ${RAW_DIR}/t1_mpr_sag_iso_*/*.dcm
+        ${AFNI_BIN}/to3d -prefix struct ${DICOM_DIR}/t1_mpr_sag_iso_*/*.dcm
 fi
 
 ###########################################
