@@ -40,7 +40,7 @@ LOG=/fslhome/ben88/logfiles
 
 
 cd $subj_DIR
-cd predictability
+cd block
 
 #####################
 #REGRESSION ANALYSIS#
@@ -68,4 +68,4 @@ fi
 #modeltemplate.nii.gz & ANTifyFunctional in the main study directory
 #Also assumes that ANTs is installed on your system.
 
-${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_deconv_blur5+orig
+${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/block/block_deconv_blur5+orig

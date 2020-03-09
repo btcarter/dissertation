@@ -11,7 +11,7 @@
 #############
 
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
-SCRIPT_DIR=~/analyses/dissertation/fMRI/predictability
+SCRIPT_DIR=~/analyses/dissertation/fMRI/block
 PART_LIST=${HOME_DIR}/dissertation/participants.tsv
 
 ##########

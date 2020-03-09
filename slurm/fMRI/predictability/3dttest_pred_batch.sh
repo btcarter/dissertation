@@ -25,5 +25,5 @@ mkdir -p ~/logfiles/$var
 sbatch \
     -o ~/logfiles/${var}/output_group_fixDur.txt \
     -e ~/logfiles/${var}/error_group_fixDur.txt \
-    ${SCRIPT_DIR}/predictability/predictability1/3dttest_pred_job.sh \
+    ${SCRIPT_DIR}/3dttest_pred_job.sh \
     sleep 1
