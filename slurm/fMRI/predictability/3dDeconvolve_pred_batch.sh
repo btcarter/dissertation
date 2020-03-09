@@ -10,9 +10,9 @@
 #ENVIRONMENT#
 #############
 
-HOME_DIR=/fslhome/ben88/compute/Reading/Compute_data
-SCRIPT_DIR=${HOME_DIR}/Scripts
-SUBJ_DIR=${HOME_DIR}/SubjData
+HOME_DIR=/fslhome/ben88/compute/NihReadingStudy/
+SCRIPT_DIR=~/analyses/dissertation/fMRI/predictability
+PART_LIST=${HOME_DIR}/dissertation/participants.tsv
 
 ##########
 #COMMANDS#
@@ -23,12 +23,12 @@ var=`date +"%Y%m%d-%H%M%S"`
 mkdir -p ~/logfiles/$var
 
 #Submit the job script
-for subj in $(ls ${SUBJ_DIR})
+for subj in $(ls ${PART_LIST})
     do
     sbatch \
         -o ~/logfiles/${var}/output_${subj}.txt \
         -e ~/logfiles/${var}/error_${subj}.txt \
-        ${SCRIPT_DIR}/predictability/predictability1/3dDeconvolve_pred_job.sh \
+        ${SCRIPT_DIR}/predictability/3dDeconvolve_pred_job.sh \
         ${subj}
         sleep 1
 done

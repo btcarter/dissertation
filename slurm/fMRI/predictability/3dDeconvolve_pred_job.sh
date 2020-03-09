@@ -21,17 +21,13 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 
 
 AFNI_BIN=/fslhome/ben88/abin
-HOME_DIR=/fslhome/ben88/compute/Reading/Compute_data
-	SCRIPT_DIR=${HOME_DIR}/Scripts
-		antifyFunk=$SCRIPT_DIR/ANTifyFunctional
-	subj_DIR=${HOME_DIR}/SubjData/${1}
-	TEMPLATE=${HOME_DIR}/templates/
-	TIMING=${HOME_DIR}/TimingFiles/predictability
-        TIMING_POS=$TIMING/pos/${1}.txt
-        TIMING_LSA=$TIMING/lsa/${1}.txt
-        TIMING_ORTHO=$TIMING/ortho/${1}.txt
-        TIMING_FREQ=$TIMING/frequency/${1}.txt
-        TIMING_LENG=$TIMING/length/${1}.txt
+HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+	subj_DIR=${HOME_DIR}/functional/${1}
+	TIMING=${HOME_DIR}/hrfs/predictability
+        TIMING_POS=$TIMING/POSMatchModel/${1}.txt
+        TIMING_LSA=$TIMING/LSA_Context_Score/${1}.txt
+        TIMING_ORTHO=$TIMING/OrthoMatchModel/${1}.txt
+				TIMING_PIC=${TIMING}/block_pictures/${1}.txt
 LOG=/fslhome/ben88/logfiles
 
 ##########
@@ -43,14 +39,13 @@ LOG=/fslhome/ben88/logfiles
 
 
 cd $subj_DIR
-cd afni_data
 
-if [ ! -d predictability1 ]
+if [ ! -d predictability ]
     then
-        mkdir predictability1
+        mkdir predictability
 fi
 
-cd predictability1
+cd predictability
 
 #####################
 #REGRESSION ANALYSIS#
@@ -63,24 +58,25 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
         #3dDeconvolve
         ${AFNI_BIN}/3dDeconvolve \
             -input \
-						$subj_DIR/afni_data/epi1_aligned+orig \
-						$subj_DIR/afni_data/epi2_aligned+orig \
-						$subj_DIR/afni_data/epi3_aligned+orig \
-						$subj_DIR/afni_data/epi4_aligned+orig \
-						$subj_DIR/afni_data/epi5_aligned+orig \
-						$subj_DIR/afni_data/epi6_volreg+orig \
-            -mask $subj_DIR/afni_data/struct_mask+orig \
+						$subj_DIR/preproc/epi1_aligned+orig \
+						$subj_DIR/preproc/epi2_aligned+orig \
+						$subj_DIR/preproc/epi3_aligned+orig \
+						$subj_DIR/preproc/epi4_aligned+orig \
+						$subj_DIR/preproc/epi5_aligned+orig \
+						$subj_DIR/preproc/epi6_volreg+orig \
+            -mask $subj_DIR/preproc/struct_mask+orig \
             -polort A \
-            -num_stimts 9 \
+            -num_stimts 10 \
             -stim_file 1 "$subj_DIR/motion/motion.txt[0]" -stim_label 1 "Roll"  -stim_base   1 \
             -stim_file 2 "$subj_DIR/motion/motion.txt[1]" -stim_label 2 "Pitch" -stim_base   2 \
             -stim_file 3 "$subj_DIR/motion/motion.txt[2]" -stim_label 3 "Yaw"   -stim_base   3 \
             -stim_file 4 "$subj_DIR/motion/motion.txt[3]" -stim_label 4 "dS"    -stim_base   4 \
             -stim_file 5 "$subj_DIR/motion/motion.txt[4]" -stim_label 5 "dL"    -stim_base   5 \
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
-            -stim_times_AM2 7 ${TIMING_POS} 'dmBLOCK' -stim_label 7 "POS" \
-            -stim_times_AM2 8 ${TIMING_LSA} 'dmBLOCK' -stim_label 8 "LSA" \
-            -stim_times_AM2 9 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 9 "ORTHO" \
+						-stim_times 7 ${TIMING_PIC} 'BLOCK(12)' -stim_label 7 "PICS" \
+            -stim_times_AM2 8 ${TIMING_POS} 'dmBLOCK' -stim_label 8 "POS" \
+            -stim_times_AM2 9 ${TIMING_LSA} 'dmBLOCK' -stim_label 9 "LSA" \
+            -stim_times_AM2 10 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 10 "ORTHO" \
             -num_glt 3 \
             -gltsym 'SYM: POS' \
             -glt_label 1 POS \
