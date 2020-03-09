@@ -55,6 +55,7 @@ cd predictability
 
 if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
     then
+			echo "I decided to run"
         #3dDeconvolve
         ${AFNI_BIN}/3dDeconvolve \
             -input \
@@ -98,5 +99,6 @@ fi
 if [ -f predictability_deconv+orig.BRIK ] && \
 [ ! -f predictability_deconv_blur5+orig.BRIK ]
     then
+			echo "I found something to blur"
         ${AFNI_BIN}/3dmerge -prefix predictability_deconv_blur5 -1blur_fwhm 5.0 -doall predictability_deconv+orig
 fi
