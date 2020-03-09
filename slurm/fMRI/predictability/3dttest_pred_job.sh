@@ -31,7 +31,7 @@ AFNI_BIN=/fslhome/ben88/abin
 
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 FUNC_DIR=${HOME_DIR}/functional
-MASK=${HOME_DIR}/template/construct/fractionize+tlrc.BRIK.gz
+MASK=${HOME_DIR}/template/construct/dyce_mni_GM.nii.gz
 RES_DIR=${HOME_DIR}/dissertation/predictability
 
 
