@@ -45,7 +45,7 @@ cd ${RES_DIR}
 
 #POS (syntax) group results
 $AFNI_BIN/3dttest++ \
--prefix ${RES_DIR}/block \
+-prefix block \
 -mask ${MASK} \
 -Clustsim \
 -AminusB \

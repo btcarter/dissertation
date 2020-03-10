@@ -45,7 +45,7 @@ cd ${RES_DIR}
 
 #POS (syntax) group results
 $AFNI_BIN/3dttest++ \
--prefix ${RES_DIR}/pred_pos \
+-prefix pred_pos \
 -mask ${MASK} \
 -Clustsim \
 -AminusB \
@@ -99,7 +99,7 @@ Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blu
 
 #LSA (semantics) group results
 $AFNI_BIN/3dttest++ \
--prefix ${RES_DIR}/pred_lsa \
+-prefix pred_lsa \
 -mask ${MASK} \
 -Clustsim \
 -AminusB \
@@ -153,7 +153,7 @@ Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blu
 
 #Ortho (lexical) group results
 $AFNI_BIN/3dttest++ \
--prefix ${RES_DIR}/pred_ortho \
+-prefix pred_ortho \
 -mask ${MASK} \
 -Clustsim \
 -AminusB \
