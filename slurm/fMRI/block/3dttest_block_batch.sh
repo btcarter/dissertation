@@ -25,5 +25,17 @@ mkdir -p ~/logfiles/$var
 sbatch \
     -o ~/logfiles/${var}/output_group_block.txt \
     -e ~/logfiles/${var}/error_group_block.txt \
-    ${SCRIPT_DIR}/3dttest_block_job.sh \
+    ${SCRIPT_DIR}/3dttest_blockMaskWhole_job.sh \
+    sleep 1
+
+sbatch \
+    -o ~/logfiles/${var}/output_group_block.txt \
+    -e ~/logfiles/${var}/error_group_block.txt \
+    ${SCRIPT_DIR}/3dttest_blockMaskRead_job.sh \
+    sleep 1
+
+sbatch \
+    -o ~/logfiles/${var}/output_group_block.txt \
+    -e ~/logfiles/${var}/error_group_block.txt \
+    ${SCRIPT_DIR}/3dttest_blockMaskOM_job.sh \
     sleep 1

@@ -25,5 +25,17 @@ mkdir -p ~/logfiles/$var
 sbatch \
     -o ~/logfiles/${var}/output_group_fixDur.txt \
     -e ~/logfiles/${var}/error_group_fixDur.txt \
-    ${SCRIPT_DIR}/3dttest_pred_job.sh \
+    ${SCRIPT_DIR}/3dttest_predMaskWhole_job.sh \
+    sleep 1
+
+sbatch \
+    -o ~/logfiles/${var}/output_group_fixDur.txt \
+    -e ~/logfiles/${var}/error_group_fixDur.txt \
+    ${SCRIPT_DIR}/3dttest_predMaskRead_job.sh \
+    sleep 1
+
+sbatch \
+    -o ~/logfiles/${var}/output_group_fixDur.txt \
+    -e ~/logfiles/${var}/error_group_fixDur.txt \
+    ${SCRIPT_DIR}/3dttest_predMaskOM_job.sh \
     sleep 1

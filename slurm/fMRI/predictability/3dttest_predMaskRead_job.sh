@@ -31,7 +31,7 @@ AFNI_BIN=/fslhome/ben88/abin
 
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 FUNC_DIR=${HOME_DIR}/functional
-MASK=${HOME_DIR}/template/construct/nctosaMask_+tlrc
+MASK=${HOME_DIR}/masks/reading_network_mask+tlrc
 RES_DIR=${HOME_DIR}/dissertation/predictability
 
 
@@ -45,7 +45,7 @@ cd ${RES_DIR}
 
 #POS (syntax) group results
 $AFNI_BIN/3dttest++ \
--prefix pred_pos \
+-prefix posRead \
 -mask ${MASK} \
 -Clustsim \
 -AminusB \
@@ -99,7 +99,7 @@ Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blu
 
 #LSA (semantics) group results
 $AFNI_BIN/3dttest++ \
--prefix pred_lsa \
+-prefix lsaRead \
 -mask ${MASK} \
 -Clustsim \
 -AminusB \
@@ -153,7 +153,7 @@ Luke_Nih_C023 ${FUNC_DIR}/Luke_Nih_C023/predictability/predictability_deconv_blu
 
 #Ortho (lexical) group results
 $AFNI_BIN/3dttest++ \
--prefix pred_ortho \
+-prefix orthoRead \
 -mask ${MASK} \
 -Clustsim \
 -AminusB \
