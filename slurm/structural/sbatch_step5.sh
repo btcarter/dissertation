@@ -35,6 +35,20 @@ roiLen=${#jlfList[@]}
 # 1. Output from the first four steps
 # ------------------
 
+if [ -f label_*.nii.gz ]
+  then
+    rm label_*.nii.gz
+fi
+
+if [ -f gm_mask_raw.nii.gz ]
+  then
+    rm gm_mask_raw.nii.gz
+fi
+
+if [ -f nctosa_mni_GM.nii.gz ]
+  then
+    rm nctosa_mni_GM.nii.gz
+fi
 
 cd $WORK_DIR
 
@@ -46,3 +60,6 @@ done
 
 ${C3D}/c3d label*.nii.gz -accum -add -endaccum -o gm_mask_raw.nii.gz
 ${C3D}/c3d gm_mask_raw.nii.gz -thresh 1 inf 1 0 -o nctosa_mni_GM.nii.gz
+
+${C3D}/c3d label_11.nii.gz label_12.nii.gz label_13.nii.gz label_26.nii.gz label_26.nii.gz label_50.nii.gz label_51.nii.gz label_52.nii.gz label_58.nii.gz -accum -add -endaccum -o striatal_mask_raw.nii.gz
+${C3D}/c3d striatal_mask_raw.nii.gz -thresh 1 inf 1 0 -o nctosa_mni_STRI.nii.gz
