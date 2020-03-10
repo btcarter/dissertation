@@ -359,6 +359,9 @@ df_block_pic <- TRIAL %>%
   # make reading blocks
 make_blocks <- function(trial_report, output_directory){
     
+  #debugging
+  # trial_report <- df_block_read
+  # output_directory <- file.path(HRF.DIR, "block_read")
     for (a in unique(trial_report$mriID)) {
       
       sub_df <- trial_report %>%
