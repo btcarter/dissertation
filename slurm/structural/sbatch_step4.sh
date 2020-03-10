@@ -29,6 +29,9 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 # --- ENVIRONMENT --- #
 #######################
 
+export ANTSPATH=/fslhome/ben88/apps/install/bin
+PATH=${ANTSPATH}:${PATH}
+
 WORK_DIR=~/compute/NihReadingStudy/template/construct
 OASIS_DIR=~/templates/adult/OASIS-TRT-20_volumes
 LABELS_DIR=~/templates/adult/OASIS-TRT-20_DKT31_CMA_labels_v2
@@ -62,7 +65,7 @@ if [ -f ${out}* ]
 fi
 
 
-antsJointLabelFusion.sh \
+~/apps/ANTs/Scripts/antsJointLabelFusion.sh \
 -d ${dim} \
 -t ${subj} \
 -o ${out} \
