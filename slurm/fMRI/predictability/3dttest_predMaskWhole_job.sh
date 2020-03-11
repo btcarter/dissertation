@@ -31,7 +31,7 @@ AFNI_BIN=/fslhome/ben88/abin
 
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 FUNC_DIR=${HOME_DIR}/functional
-MASK=${HOME_DIR}/masks/nctosaMask_+tlrc
+MASK=${HOME_DIR}/masks/nctosaMask+tlrc
 RES_DIR=${HOME_DIR}/dissertation/predictability
 
 
