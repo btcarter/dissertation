@@ -8,7 +8,7 @@
 ###################################
 
 # load packages
-list.of.packages <- c("readxl", "dplyr", "tidyr", "tableone")
+list.of.packages <- c("readxl", "dplyr", "tidyr", "tableone", "ggplot2")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]                           # compare the list to the installed packages list and add missing packages to new list
 if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)                                          # install missing packages
 lapply(list.of.packages,library,character.only = TRUE)                                                                # load packages
@@ -41,7 +41,7 @@ VARS <- c("group", "wasiVocab", "wasiMatrix",
 df <- df %>%
   filter(mriEtGood == TRUE,
          structMri == TRUE,
-         !is.na(wasiVocab)) %>%
+         !is.na(ctoppRapidLetterTime)) %>%
   select(VARS)
 
 # format and rename variables
@@ -71,7 +71,7 @@ for (i in FACTORS) {
   df[[i]] <- as.factor(df[[i]])
 }
 
-# create table 1
+# create table 1 ####
 LABS2 <- c("University student",
            "Documentation",
            "Other learning disorders",
@@ -96,7 +96,7 @@ cat(table1,
     sep = "",
     append = FALSE)
 
-# make table 2
+# make table 2 ####
 
 mean_sd <- function(a) {
   b <- round(mean(a, na.rm = TRUE), digits = 2)
@@ -145,3 +145,54 @@ cat(cog_tab,
 
 
 
+
+
+# statistical tests ####
+e_var <- c("Vocabulary Score", "Matrix Reasoning",
+           "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
+           "Elision", "Blending Words", "Phoneme Isolation",
+           "Rapid Digit Naming Time", "Rapid Letter Naming Time", "Rapid Letter Naming Error")
+tab_t <- data.frame()
+for (i in e_var){
+  model <- t.test(DF[[i]] ~ DF[["Group"]], data=df)
+  tab_var <- data.frame(
+    "Variable" = i,
+    "T-statistic" = as.numeric(model$statistic),
+    "Degrees of Freedom" = as.numeric(model$parameter),
+    "p-value" = model$p.value
+  )
+  tab_t <- rbind(tab_t, tab_var)
+}
+
+tab_t <- tab_t %>% 
+  filter(
+    p.value <= 0.5
+  )
+
+tab_t %>%
+  knitr::kable(format = "latex") %>%
+  cat(file = file.path(OUT.DIR, "tTests.tex"),
+    sep = "",
+    append = FALSE)
+
+# facet wrap some graphs
+
+sort_vars <- c("Group", "Vocabulary Score", "Matrix Reasoning",
+              "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
+              "Elision", "Blending Words", "Phoneme Isolation", "Rapid Digit Naming Error",
+              "Rapid Digit Naming Time", "Rapid Letter Naming Time", "Rapid Letter Naming Error")
+
+df %>%
+  select(sort_vars) %>%
+  gather(key = "Subtest",
+         value = "Score",
+         -Group) %>%
+  ggplot(aes(Group, Score, fill = Group)) +
+  geom_boxplot() +
+  geom_jitter(alpha = 0.5) +
+  facet_wrap( ~ Subtest)
+
+df %>%
+  select(Group, 'Reading Rate') %>%
+  ggplot(aes(Group, df$'Reading Rate', color = Group)) +
+  geom_boxplot()
