@@ -477,7 +477,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
   # do test
   read_mod_dt <- lmer(
     log(IA_DWELL_TIME) ~ 
-      group + scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
+      group * scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
     df_read_mod
   ) %>%
     summary()
@@ -494,7 +494,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
   # do test
   read_mod_ffd <- lmer(
     log(IA_FIRST_FIXATION_DURATION) ~
-      group + scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
+      group * scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
     df_read_mod
   ) %>% 
     summary()
@@ -512,7 +512,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
   # do test
   read_mod_frdt <- lmer(
     log(IA_FIRST_RUN_DWELL_TIME) ~ 
-      group + scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
+      group * scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
     df_read_mod
   ) %>%
     summary()
