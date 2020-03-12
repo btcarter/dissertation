@@ -177,22 +177,24 @@ tab_t %>%
 
 # facet wrap some graphs
 
-sort_vars <- c("Group", "Vocabulary Score", "Matrix Reasoning",
+sort_vars <- c("Vocabulary Score", "Matrix Reasoning",
               "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
               "Elision", "Blending Words", "Phoneme Isolation", "Rapid Digit Naming Error",
               "Rapid Digit Naming Time", "Rapid Letter Naming Time", "Rapid Letter Naming Error")
 
-df %>%
-  select(sort_vars) %>%
-  gather(key = "Subtest",
-         value = "Score",
-         -Group) %>%
-  ggplot(aes(Group, Score, fill = Group)) +
-  geom_boxplot() +
-  geom_jitter(alpha = 0.5) +
-  facet_wrap( ~ Subtest)
+for (i in sort_vars) {
 
 df %>%
-  select(Group, 'Reading Rate') %>%
-  ggplot(aes(Group, df$'Reading Rate', color = Group)) +
-  geom_boxplot()
+  select(Group, i) %>%
+  ggplot(aes(Group, df[[i]], color = Group)) +
+  geom_boxplot() +
+    labs(title = i,
+         y=Score)
+
+  d <- paste(i,".pdf", sep="")
+  NAME <- file.path(OUT.DIR, d)
+  pdf(NAME)
+  
+}
+
+dev.off()
