@@ -32,7 +32,7 @@ AFNI_BIN=/fslhome/ben88/abin
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 FUNC_DIR=${HOME_DIR}/functional
 MASK=${HOME_DIR}/masks/nctosaMask+tlrc
-RES_DIR=${HOME_DIR}/dissertation/block
+RES_DIR=${HOME_DIR}/dissertation/gort_block
 
 
 #mkdir Group_Analysis/whatever the analysis is
