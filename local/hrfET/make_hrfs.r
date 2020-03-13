@@ -19,7 +19,8 @@ PT.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
                     "data", "participants")
 PT.XL <- read_excel(file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
                               "data", "participants", "master.xlsx")) 
-PT.LIST <- file.path(PT.DIR, "participants.tsv") # name of output file with participant list in it.
+PT.LIST1 <- file.path(PT.DIR, "participants.tsv") # name of output file with participant list in it.
+PT.LIST2 <- file.path(PT.DIR, "gorted.txt")
 
 RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                     "results", "dissertation")
@@ -63,7 +64,7 @@ CORS <- read.delim2(
 )
 
 
-# Make participant list for MRI analysis ####
+# Make participant lists for MRI analysis ####
 PT.XL <- PT.XL %>%
   filter(
     mriEtGood == TRUE,
