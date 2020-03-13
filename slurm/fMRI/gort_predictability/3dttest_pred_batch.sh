@@ -11,7 +11,7 @@
 #############
 
 HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
-SCRIPT_DIR=~/analyses/dissertation/fMRI/predictability
+SCRIPT_DIR=~/analyses/dissertation/fMRI/gort_predictability
 
 ##########
 #COMMANDS#
