@@ -73,12 +73,31 @@ PT.XL <- PT.XL %>%
   )
 
 write.table(PT.XL$mriID,
-            file = PT.LIST, 
+            file = PT.LIST1, 
             sep = "\t", 
             quote = FALSE,
             col.names = FALSE,
             row.names = FALSE
 )
+
+mu <- median(PT.XL$gortFluency)
+
+PT.XL %>%
+  select(mriID, gortFluency) %>%
+  arrange(desc(gortFluency)) %>%
+  mutate(
+    group = ifelse (gortFluency > median(PT.XL$gortFluency), "control", "dyslexia")
+  ) %>%
+  select(
+    mriID, group
+  ) %>%
+  write.table(file = PT.LIST2,
+              sep = "\t",
+              quote = FALSE,
+              col.names = FALSE,
+              row.names = FALSE)
+
+
 
 # Predictability Data cleaning ####
 vars <- c("RECORDING_SESSION_LABEL",
