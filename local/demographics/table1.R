@@ -153,8 +153,9 @@ e_var <- c("Vocabulary Score", "Matrix Reasoning",
            "Elision", "Blending Words", "Phoneme Isolation",
            "Rapid Digit Naming Time", "Rapid Letter Naming Time", "Rapid Letter Naming Error")
 tab_t <- data.frame()
+
 for (i in e_var){
-  model <- t.test(DF[[i]] ~ DF[["Group"]], data=df)
+  model <- t.test(df[[i]] ~ df[["Group"]], data=df)
   tab_var <- data.frame(
     "Variable" = i,
     "T-statistic" = as.numeric(model$statistic),
