@@ -71,6 +71,8 @@ for (i in FACTORS) {
   df[[i]] <- as.factor(df[[i]])
 }
 
+levels(df$Group) <- c("Control", "Dyslexia")
+
 # create table 1 ####
 LABS2 <- c("University student",
            "Documentation",
@@ -178,24 +180,22 @@ tab_t %>%
 
 # facet wrap some graphs
 
-sort_vars <- c("Vocabulary Score", "Matrix Reasoning",
-              "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
-              "Elision", "Blending Words", "Phoneme Isolation", "Rapid Digit Naming Error",
-              "Rapid Digit Naming Time", "Rapid Letter Naming Time", "Rapid Letter Naming Error")
+sort_vars <- tab_t$Variable
+
 
 for (i in sort_vars) {
-
-df %>%
-  select(Group, i) %>%
-  ggplot(aes(Group, df[[i]], color = Group)) +
-  geom_boxplot() +
-    labs(title = i,
-         y=Score)
-
+# i <- "Vocabulary Score"
   d <- paste(i,".pdf", sep="")
   NAME <- file.path(OUT.DIR, d)
   pdf(NAME)
   
+  PLOT <- df %>%
+  select(Group, i) %>%
+  ggplot(aes(Group, df[[i]])) +
+  geom_boxplot(aes(y = df[[i]])) +
+    labs(title = i,
+         y="Score")
+  print(PLOT)
+  dev.off()
 }
 
-dev.off()
