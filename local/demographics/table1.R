@@ -15,6 +15,8 @@ lapply(list.of.packages,library,character.only = TRUE)                          
 
 # I/O variables
 OUT.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "results", "dissertation")
+TAB.DIR <- file.path(OUT.DIR, "tables")
+FIG.DIR <- file.path(OUT.DIR, "figures")
 
 
 # load data
@@ -94,7 +96,7 @@ table1 <- knitr::kable(tab_tex, format = "latex")
 
 # save the output
 cat(table1,
-    file = file.path(OUT.DIR, "table1.tex"),
+    file = file.path(TAB.DIR, "table1.tex"),
     sep = "",
     append = FALSE)
 
@@ -133,15 +135,11 @@ cog_tab <- df[,CONTVARS] %>%
   ) %>%
   gather(Test, Value, "Vocabulary Score":"Rapid Letter Naming Error") %>%
   spread(Group, Value) %>%
-  rename(
-    Control = control,
-    Dylexia = dyslexia
-  ) %>%
   knitr::kable(format = "latex")
 
 # save the output
 cat(cog_tab,
-    file = file.path(OUT.DIR, "cog_tab.tex"),
+    file = file.path(TAB.DIR, "cog_tab.tex"),
     sep = "",
     append = FALSE)
 
@@ -174,7 +172,7 @@ tab_t <- tab_t %>%
 
 tab_t %>%
   knitr::kable(format = "latex") %>%
-  cat(file = file.path(OUT.DIR, "tTests.tex"),
+  cat(file = file.path(TAB.DIR, "tTests.tex"),
     sep = "",
     append = FALSE)
 
@@ -186,13 +184,14 @@ sort_vars <- tab_t$Variable
 for (i in sort_vars) {
 # i <- "Vocabulary Score"
   d <- paste(i,".pdf", sep="")
-  NAME <- file.path(OUT.DIR, d)
+  NAME <- file.path(FIG.DIR, d)
   pdf(NAME)
   
   PLOT <- df %>%
   select(Group, i) %>%
   ggplot(aes(Group, df[[i]])) +
   geom_boxplot(aes(y = df[[i]])) +
+    geom_jitter(alpha = 0.65) +
     labs(title = i,
          y="Score")
   print(PLOT)
