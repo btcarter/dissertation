@@ -27,15 +27,3 @@ sbatch \
     -e ~/logfiles/${var}/error_group_rvp.txt \
     ${SCRIPT_DIR}/3dttest_rvpWhole_job.sh \
     sleep 1
-
-sbatch \
-    -o ~/logfiles/${var}/output_group_rvp.txt \
-    -e ~/logfiles/${var}/error_group_rvp.txt \
-    ${SCRIPT_DIR}/3dttest_rvpRead_job.sh \
-    sleep 1
-
-sbatch \
-    -o ~/logfiles/${var}/output_group_rvp.txt \
-    -e ~/logfiles/${var}/error_group_rvp.txt \
-    ${SCRIPT_DIR}/3dttest_rvpOM_job.sh \
-    sleep 1
