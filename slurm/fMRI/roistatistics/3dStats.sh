@@ -14,7 +14,6 @@ SUBJ_DIR=${PROJECT}/functional #directory with individual subject data
 RES_DIR=${PROJECT}/dissertation/roiStats  #directory with group results
 READING=${RES_DIR}/readingNetwork.txt   #statistics data
 OM=${RES_DIR}/omNetwork.txt
-STR=${RES_DIR}/striatum.txt
 MASK=${PROJECT}/masks/reading_mask+tlrc #mask used to create statistics
 DECON=block/block_deconv_blur5_ANTS_resampled+tlrc[1]  #path and prefix for participant's template aligned deconvolution file with subbrick
 PARTICIPANTS=${PROJECT}/dissertation/participants.tsv
@@ -26,8 +25,8 @@ if [ ! -d ${RES_DIR} ]
   then mkdir ${RES_DIR}
 fi
 
-if [ ! -f ${OUTPUT} ]
-  then touch ${OUTPUT}
+if [ ! -f ${READING} ]
+  then touch ${OUTPUT} ${OM}
 fi
 
 for i in $(cat ${PARTICIPANTS}); do
@@ -35,6 +34,4 @@ for i in $(cat ${PARTICIPANTS}); do
   ${stat} >> ${READING}
   stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK} ${SUBJ_DIR}/${i}/${DECON}"
   ${stat} >> ${OM}
-  stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK} ${SUBJ_DIR}/${i}/${DECON}"
-  ${stat} >> ${STR}
 done
