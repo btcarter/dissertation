@@ -65,7 +65,7 @@ if [ -f $TIMING_POS ] && [ ! -f rvp_deconv+orig.BRIK ]
 						$subj_DIR/preproc/epi6_volreg+orig \
             -mask $subj_DIR/preproc/struct_mask+orig \
             -polort A \
-            -num_stimts 7 \
+            -num_stimts 8 \
             -stim_file 1 "$subj_DIR/motion/motion.txt[0]" -stim_label 1 "Roll"  -stim_base   1 \
             -stim_file 2 "$subj_DIR/motion/motion.txt[1]" -stim_label 2 "Pitch" -stim_base   2 \
             -stim_file 3 "$subj_DIR/motion/motion.txt[2]" -stim_label 3 "Yaw"   -stim_base   3 \
@@ -74,11 +74,13 @@ if [ -f $TIMING_POS ] && [ ! -f rvp_deconv+orig.BRIK ]
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${TIMING_READ} 'BLOCK(12)' -stim_label 7 "READ" \
 						-stim_times 8 ${TIMING_PIC} 'BLOCK(12)' -stim_label 8 "PIC" \
-            -num_glt 1 \
+            -num_glt 2 \
             -gltsym 'SYM: READ' \
             -glt_label 1 READ \
 						-gltsym 'SYM: PIC' \
             -glt_label 2 PIC \
+						-gltsym 'SYM: READ-PIC' \
+						-glt_label 3 read-pic
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
             -bucket rvp_deconv \
