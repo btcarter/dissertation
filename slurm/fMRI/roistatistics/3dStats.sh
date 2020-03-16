@@ -9,7 +9,7 @@
 
 
 START=$(pwd)    #starting directory
-PROJECT=/fslhome/ben88/compute/NihReadingStudy/   #home directory
+PROJECT=/fslhome/ben88/compute/NihReadingStudy   #home directory
 SUBJ_DIR=${PROJECT}/functional #directory with individual subject data
 RES_DIR=${PROJECT}/dissertation/roiStats  #directory with group results
 READING=${RES_DIR}/readingNetwork.txt   #statistics data
