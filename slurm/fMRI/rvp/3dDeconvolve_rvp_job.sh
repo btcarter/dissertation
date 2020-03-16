@@ -79,8 +79,8 @@ if [ -f $TIMING_POS ] && [ ! -f rvp_deconv+orig.BRIK ]
             -glt_label 1 READ \
 						-gltsym 'SYM: PIC' \
             -glt_label 2 PIC \
-						-gltsym 'SYM: READ-PIC' \
-						-glt_label 3 read -pic \
+						-gltsym 'SYM: READ -PIC' \
+						-glt_label 3 READ-PIC \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
             -bucket rvp_deconv \
