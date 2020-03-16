@@ -74,7 +74,7 @@ if [ -f $TIMING_POS ] && [ ! -f rvp_deconv+orig.BRIK ]
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${TIMING_READ} 'BLOCK(12)' -stim_label 7 "READ" \
 						-stim_times 8 ${TIMING_PIC} 'BLOCK(12)' -stim_label 8 "PIC" \
-            -num_glt 2 \
+            -num_glt 3 \
             -gltsym 'SYM: READ' \
             -glt_label 1 READ \
 						-gltsym 'SYM: PIC' \
