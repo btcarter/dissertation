@@ -73,9 +73,12 @@ if [ -f $TIMING_POS ] && [ ! -f rvp_deconv+orig.BRIK ]
             -stim_file 5 "$subj_DIR/motion/motion.txt[4]" -stim_label 5 "dL"    -stim_base   5 \
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${TIMING_READ} 'BLOCK(12)' -stim_label 7 "READ" \
+						-stim_times 8 ${TIMING_PIC} 'BLOCK(12)' -stim_label 8 "PIC" \
             -num_glt 1 \
             -gltsym 'SYM: READ' \
             -glt_label 1 READ \
+						-gltsym 'SYM: PIC' \
+            -glt_label 2 PIC \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
             -bucket rvp_deconv \
