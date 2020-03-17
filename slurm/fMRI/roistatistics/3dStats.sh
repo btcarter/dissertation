@@ -15,8 +15,8 @@ PARTICIPANTS=${PROJECT}/dissertation/participants.tsv
 
 
 #### Find stats for masks
-R_MASK=${PROJECT}/masks/ns_reading_mask_sphereROI_MI+tlrc #mask created from NS map
-OM_MASK=${PROJECT}/masks/ns_om_mask_sphereROI_MI+tlrc
+R_MASK=${PROJECT}/masks/ns_reading #mask created from NS map
+OM_MASK=${PROJECT}/masks/ns_om
 
 for MASK in ${R_MASK} ${OM_MASK}; do
 
@@ -38,7 +38,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
   DECON=block/block_deconv_blur5_ANTS_resampled+tlrc[1]
 
   for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
+    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
     ${stat} >> ${OUT}
   done
 
@@ -53,7 +53,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
   DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[5]
 
   for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
+    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
     ${stat} >> ${OUT}
   done
 
@@ -67,7 +67,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
   DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[3]
 
   for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
+    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
     ${stat} >> ${OUT}
   done
 
@@ -81,7 +81,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
   DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[1]
 
   for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
+    stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
     ${stat} >> ${OUT}
   done
 
