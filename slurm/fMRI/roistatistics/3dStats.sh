@@ -33,7 +33,9 @@ for MASK in ${R_MASK} ${OM_MASK}; do
     then touch ${OUT}
   fi
 
-  DECON=block/block_deconv_blur5_ANTS_resampled+tlrc[1]  #path and prefix for participant's template aligned deconvolution file with subbrick
+  #path and prefix for participant's template aligned deconvolution file with subbrick
+  # blocked contrast
+  DECON=block/block_deconv_blur5_ANTS_resampled+tlrc[1]
 
   for i in $(cat ${PARTICIPANTS}); do
     stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
@@ -48,7 +50,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
     then touch ${OUT}
   fi
 
-  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[5]  #path and prefix for participant's template aligned deconvolution file with subbrick
+  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[5]
 
   for i in $(cat ${PARTICIPANTS}); do
     stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
@@ -62,7 +64,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
     then touch ${OUT}
   fi
 
-  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[3]  #path and prefix for participant's template aligned deconvolution file with subbrick
+  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[3]
 
   for i in $(cat ${PARTICIPANTS}); do
     stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
@@ -76,7 +78,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
     then touch ${OUT}
   fi
 
-  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[1]  #path and prefix for participant's template aligned deconvolution file with subbrick
+  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[1]
 
   for i in $(cat ${PARTICIPANTS}); do
     stat="3dROIstats -minmax -sigma -1DRformat -mask ${MASK}_mask+tlrc ${SUBJ_DIR}/${i}/${DECON}"
