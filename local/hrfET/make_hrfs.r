@@ -547,4 +547,3 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
         sep = "",
         append = FALSE)
   
-    
