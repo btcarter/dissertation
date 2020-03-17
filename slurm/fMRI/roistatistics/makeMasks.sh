@@ -32,7 +32,7 @@ RADIUS=7.5
   1dcat ${TABLE}.1D'[13..15]' > ${TABLE}_MI.1D
 
   #afni makes the spherical mask
-  3dUndump -prefix sphereROI_MI -master $MASTER -orient LPI -srad $RADIUS -xyz ${TABLE}_MI.1D
+  3dUndump -prefix ${PREFIX}_sphereROI_MI -master $MASTER -orient LPI -srad $RADIUS -xyz ${TABLE}_MI.1D
 
   # reading mask
 
@@ -65,4 +65,4 @@ RADIUS=7.5
   1dcat ${TABLE}.1D'[13..15]' > ${TABLE}_MI.1D
 
   #afni makes the spherical mask
-  3dUndump -prefix sphereROI_MI -master $MASTER -orient LPI -srad $RADIUS -xyz ${TABLE}_MI.1D
+  3dUndump -prefix ${PREFIX}_sphereROI_MI -master $MASTER -orient LPI -srad $RADIUS -xyz ${TABLE}_MI.1D
