@@ -23,6 +23,7 @@ RADIUS=7.5
   -1dindex ${T_brick} \
   -1tindex ${T_brick} \
   -2thresh ${left} ${right} \
+  -NN1 \
   -dxyz=1 \
   -savemask ${PREFIX} \
   1.01 \
@@ -56,6 +57,7 @@ RADIUS=7.5
   -1dindex ${T_brick} \
   -1tindex ${T_brick} \
   -2thresh ${left} ${right} \
+  -NN1 \
   -dxyz=1 \
   -savemask ${PREFIX} \
   1.01 \
