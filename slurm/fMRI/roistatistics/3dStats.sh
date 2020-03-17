@@ -12,11 +12,7 @@ START=$(pwd)    #starting directory
 PROJECT=/fslhome/ben88/compute/NihReadingStudy   #home directory
 SUBJ_DIR=${PROJECT}/functional #directory with individual subject data
 RES_DIR=${PROJECT}/dissertation/roiStats  #directory with group results
-READING=${RES_DIR}/readingNetwork.txt   #statistics data
-OM=${RES_DIR}/omNetwork.txt
-R_MASK=${PROJECT}/masks/reading_network_mask+tlrc #mask used to create statistics
-O_MASK=${PROJECT}/masks/eye_fields_mask+tlrc #mask used to create statistics
-DECON=block/block_deconv_blur5_ANTS_resampled+tlrc[1]  #path and prefix for participant's template aligned deconvolution file with subbrick
+R_MASK=${PROJECT}/masks/roistats_block_pos_mask+tlrc #mask used to create statistics
 PARTICIPANTS=${PROJECT}/dissertation/participants.tsv
 
 
@@ -26,13 +22,60 @@ if [ ! -d ${RES_DIR} ]
   then mkdir ${RES_DIR}
 fi
 
-if [ ! -f ${READING} ]
-  then touch ${OUTPUT} ${OM}
+
+# get stats from the block contrast
+OUT=${RES_DIR}/block.txt   #statistics data
+
+if [ ! -f ${OUT} ]
+  then touch ${OUT}
 fi
+
+DECON=block/block_deconv_blur5_ANTS_resampled+tlrc[1]  #path and prefix for participant's template aligned deconvolution file with subbrick
 
 for i in $(cat ${PARTICIPANTS}); do
   stat="3dROIstats -minmax -sigma -1DRformat -mask ${R_MASK} ${SUBJ_DIR}/${i}/${DECON}"
-  ${stat} >> ${READING}
-  stat="3dROIstats -minmax -sigma -1DRformat -mask ${O_MASK} ${SUBJ_DIR}/${i}/${DECON}"
-  ${stat} >> ${OM}
+  ${stat} >> ${OUT}
+done
+
+# get stats from the predictability contrasts
+# ortho
+OUT=${RES_DIR}/ortho.txt   #statistics data
+
+if [ ! -f ${OUT} ]
+  then touch ${OUT}
+fi
+
+DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[5]  #path and prefix for participant's template aligned deconvolution file with subbrick
+
+for i in $(cat ${PARTICIPANTS}); do
+  stat="3dROIstats -minmax -sigma -1DRformat -mask ${R_MASK} ${SUBJ_DIR}/${i}/${DECON}"
+  ${stat} >> ${OUT}
+done
+
+# lsa
+OUT=${RES_DIR}/lsa.txt   #statistics data
+
+if [ ! -f ${OUT} ]
+  then touch ${OUT}
+fi
+
+DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[3]  #path and prefix for participant's template aligned deconvolution file with subbrick
+
+for i in $(cat ${PARTICIPANTS}); do
+  stat="3dROIstats -minmax -sigma -1DRformat -mask ${R_MASK} ${SUBJ_DIR}/${i}/${DECON}"
+  ${stat} >> ${OUT}
+done
+
+# pos
+OUT=${RES_DIR}/pos.txt   #statistics data
+
+if [ ! -f ${OUT} ]
+  then touch ${OUT}
+fi
+
+DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[1]  #path and prefix for participant's template aligned deconvolution file with subbrick
+
+for i in $(cat ${PARTICIPANTS}); do
+  stat="3dROIstats -minmax -sigma -1DRformat -mask ${R_MASK} ${SUBJ_DIR}/${i}/${DECON}"
+  ${stat} >> ${OUT}
 done
