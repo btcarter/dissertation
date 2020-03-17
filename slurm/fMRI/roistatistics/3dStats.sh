@@ -9,7 +9,7 @@
 
 
 START=$(pwd)    #starting directory
-PROJECT=/fslhome/ben88/compute/NihReadingStudy   #home directory
+PROJECT=~/compute/NihReadingStudy   #home directory
 SUBJ_DIR=${PROJECT}/functional #directory with individual subject data
 PARTICIPANTS=${PROJECT}/dissertation/participants.tsv
 
