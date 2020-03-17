@@ -15,8 +15,8 @@ PARTICIPANTS=${PROJECT}/dissertation/participants.tsv
 
 
 #### Find stats for masks
-R_MASK=${PROJECT}/masks/ns_reading #mask created from NS map
-OM_MASK=${PROJECT}/masks/ns_om
+R_MASK=${PROJECT}/masks/ns_reading_mask_sphereROI_MI+tlrc #mask created from NS map
+OM_MASK=${PROJECT}/masks/ns_om_mask_sphereROI_MI+tlrc
 
 for MASK in ${R_MASK} ${OM_MASK}; do
 
