@@ -20,12 +20,13 @@ RADIUS=7.5
   3dclust \
   -1Dformat \
   -orient LPI \
-  -1dindex ${T_brick} \
+  -1dindex ${Z_brick} \
   -1tindex ${T_brick} \
   -2thresh ${left} ${right} \
   -NN1 ${CLUST} \
   -dxyz=1 \
-  -savemask ${PREFIX} >> ${TABLE}.1D
+  -savemask ${PREFIX} \
+  ${INPUT} >> ${TABLE}.1D
 
   #output coordinate data for most active voxels and center of mass
   1dcat ${TABLE}.1D'[13..15]' > ${TABLE}_MI.1D
@@ -52,16 +53,13 @@ RADIUS=7.5
   3dclust \
   -1Dformat \
   -orient LPI \
-  -1dindex ${T_brick} \
+  -1dindex ${Z_brick} \
   -1tindex ${T_brick} \
   -2thresh ${left} ${right} \
   -NN1 ${CLUST} \
   -dxyz=1 \
-  -savemask ${PREFIX} >> ${TABLE}.1D
-
-  #make functional roi mask and summary table
-  touch ${TABLE}.1D
-  $FUNCTIONAL_MASK $GROUP_FILE >> $TABLE.1D
+  -savemask ${PREFIX} \
+  ${INPUT} >> ${TABLE}.1D
 
   #output coordinate data for most active voxels and center of mass
   1dcat ${TABLE}.1D'[13..15]' > ${TABLE}_MI.1D
