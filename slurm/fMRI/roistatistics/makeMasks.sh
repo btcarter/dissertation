@@ -23,11 +23,9 @@ RADIUS=7.5
   -1dindex ${T_brick} \
   -1tindex ${T_brick} \
   -2thresh ${left} ${right} \
-  -NN1 \
+  -NN1 ${CLUST} \
   -dxyz=1 \
-  -savemask ${PREFIX} \
-  1.01 \
-  ${CLUST} >> ${TABLE}.1D
+  -savemask ${PREFIX} >> ${TABLE}.1D
 
   #output coordinate data for most active voxels and center of mass
   1dcat ${TABLE}.1D'[13..15]' > ${TABLE}_MI.1D
@@ -57,11 +55,9 @@ RADIUS=7.5
   -1dindex ${T_brick} \
   -1tindex ${T_brick} \
   -2thresh ${left} ${right} \
-  -NN1 \
+  -NN1 ${CLUST} \
   -dxyz=1 \
-  -savemask ${PREFIX} \
-  1.01 \
-  ${CLUST}
+  -savemask ${PREFIX} >> ${TABLE}.1D
 
   #make functional roi mask and summary table
   touch ${TABLE}.1D
