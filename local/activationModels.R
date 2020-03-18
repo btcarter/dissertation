@@ -9,218 +9,220 @@ library(readxl)
 library(stringr)
 library(reshape2)
 library(tidyr)
-library(lme4)
-library(lmerTest)
 
 #Set the working environment.
-HM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
-                    "data", "eyetracking", "mri_session")
-
-HRF.DIR <- file.path(HM.DIR, "hrfs")
-
-RP.DIR <- file.path(HM.DIR, "reports")
-
 PT.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study",
                     "data", "participants")
 
-PT.XL <- read_excel(file.path(PT.DIR, "master.xlsx")) 
+PT.XL <- read.csv(file.path(PT.DIR, "masterdatatrim.csv")) 
 
-PT.LIST1 <- file.path(PT.DIR, "participants.tsv") # name of output file with participant list in it.
+PT.LIST <- file.path(PT.DIR, "participants.tsv") # name of output file with participant list in it.
 
 RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                     "results", "dissertation")
 
-ROIS <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
-                 "results", "dissertation", "fMRI", "roiStats")
+ROIS.OM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
+                 "results", "dissertation", "fMRI", "roiStats", "ns_om")
 
+ROIS.READ.DIR <-file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
+                          "results", "dissertation", "fMRI", "roiStats", "ns_reading")
 
 # Load data ####
 
-# Read in interest areas report.
-REPORT <- read.delim2(
-  file.path(RP.DIR, "IAReport.txt"),
-  header = TRUE,
-  sep = "\t",
-  fill = TRUE,
-  na.strings = ".")
-
-# predictabilities
-ORTHOS <- read.csv(file.path("~","Box","LukeLab",
-                             "UnderstandingTheProcessOfReading","data",
-                             "Provo_Corpus-Eyetracking_Data.csv"), 
-                   header = TRUE, sep = ",", fill = TRUE)
-
-# corrections to subject labels
-CORS <- read.delim2(
-  file.path(RP.DIR, "corrections.txt"),
-  header = TRUE,
-  sep = "\t",
-  fill = TRUE,
-  stringsAsFactors = FALSE
-)
-
 # roi stats
-ROIS.BLOCK <- read.delim2(file.path(ROIS, "block.txt"),
+ROIS.OM.BLOCK <- read.delim2(file.path(ROIS.OM.DIR, "block.txt"),
                          header = TRUE,
                          sep = "\t",
                          fill = TRUE,
                          stringsAsFactors = FALSE
                          )
 
+ROIS.OM.PRED <- read.delim2(file.path(ROIS.OM.DIR, "predictability.txt"),
+                           header = TRUE,
+                           sep = "\t",
+                           fill = TRUE,
+                           stringsAsFactors = FALSE
+                          )
 
-# OM Data cleaning ####
-vars <- c("RECORDING_SESSION_LABEL",
-          "TRIAL_INDEX",
-          "picture",
-          "practice",
-          "sce_id",
-          "scenecondition",
-          "stimtype",
-          "textnumber",
-          "trialcount",
-          "IA_ID",
-          "IA_FIRST_FIXATION_TIME",
-          "IA_DWELL_TIME",
-          "IA_FIRST_FIXATION_DURATION",
-          "IA_SKIP",
-          "IA_FIXATION_COUNT",
-          "IA_REGRESSION_IN",
-          "IA_FIRST_RUN_DWELL_TIME",
-          "TRIAL_START_TIME",
-          "sync_time.1."
+ROIS.READ.BLOCK <- read.delim2(file.path(ROIS.READ.DIR, "block.txt"),
+                               header = TRUE,
+                               sep = "\t",
+                               fill = TRUE,
+                               stringsAsFactors = FALSE
 )
 
-factor_to_numeric <- function(x) {as.numeric(as.character(x), digits = 15)}
+ROIS.READ.PRED <- read.delim2(file.path(ROIS.READ.DIR, "predictability.txt"),
+                              header = TRUE,
+                              sep = "\t",
+                              fill = TRUE,
+                              stringsAsFactors = FALSE
+)
 
-REPORT <- REPORT %>%
-  select(vars) %>% # only select wanted variables, listed in vars
+
+# roi mask names were manually created after viewing the mask on the template image
+# and with some guidance from the whereami documents
+OM.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
+                                 "data","masks","om_mask_names.txt"),
+                       stringsAsFactors = FALSE)
+
+READ.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
+                                 "data","masks","read_mask_names.txt"),
+                         stringsAsFactors = FALSE)
+
+
+# participant master sheet cleaning ####
+
+PT.XL <- PT.XL %>%
   filter(
-    practice != 1, # remove practice runs
-    IA_SKIP == 0,
-    TRIAL_START_TIME > 0
-  ) 
-
-# clean up subject labes
-REPORT$RECORDING_SESSION_LABEL <- as.character(REPORT$RECORDING_SESSION_LABEL)
-REPORT$textnumber <- as.numeric(
-  as.character(REPORT$textnumber)
-)
-
-# fix bad recording session labels
-for (booboo in CORS$RECORDING_SESSION_LABEL) {
-  REPORT$RECORDING_SESSION_LABEL[REPORT$RECORDING_SESSION_LABEL == booboo] <-
-    CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
-}
-
-# add mriID and run number variables
-REPORT$mriID <- toupper(REPORT$RECORDING_SESSION_LABEL)
-REPORT$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
-                     "Luke_Nih_\\2\\3",
-                     REPORT$mriID)
-REPORT$run <- gsub("R(\\d)(C|D)(\\d{3})",
-                   "\\1",
-                   toupper(REPORT$RECORDING_SESSION_LABEL))
-
-# remove all non-study recording session labels
-REPORT <- REPORT[REPORT$mriID %in% unique(PT.XL$mriID),]
-
-# merge fixation report with predictabilities
-df <- ORTHOS[c("Text_ID",
-               "IA_ID",
-               "OrthoMatchModel",
-               "POSMatchModel",
-               "LSA_Context_Score",
-               "Word_Length",
-               "Word_Content_Or_Function")] %>% 
-  filter(is.na(Word_Length) != TRUE,
-         is.na(Word_Content_Or_Function) != TRUE
+    mriID != "Luke_Nih_D029"
   ) %>%
-  group_by(Text_ID, 
-           IA_ID, 
-           OrthoMatchModel,
-           POSMatchModel,
-           LSA_Context_Score,
-           Word_Length, 
-           Word_Content_Or_Function) %>%
-  summarize(
-    mean_OrthoMatchModel = mean(OrthoMatchModel)
-  ) %>%
-  ungroup() %>%
-  right_join(REPORT,
-             by = c("Text_ID" = "textnumber", 
-                    "IA_ID" = "IA_ID")
+  mutate(
+    mriID = as.character(mriID)
   )
 
+# ROI data cleaning ####
+# remove blank columns
 
-
-# ROI data cleaning
-
-ROIS.BLOCK <- ROIS.BLOCK[-c(48,49),]
-
-remove_even_rows <- function(x){
-  row_array <- 2:nrow(x)
-  even_rows <- row_array %% 2
-  x <- x[even_rows == 0,]
+toss_blanks <- function(x){
+  x <- x[,-c(2,3)]
   return(x)
 }
 
-ROIS.BLOCK <- remove_even_rows(ROIS.BLOCK)
-ROIS.BLOCK$mriID <-
-  gsub("\\/fslhome\\/ben88\\/compute\\/NihReadingStudy\\/functional\\/Luke_Nih_(C|D)(\\d{3})\\/.*",
-       "Luke_Nih_\\1\\2",
-       ROIS.BLOCK$name)
+remove_header_rows <- function(x, interval){
+  row_array <- 2:nrow(x)
+  bad_rows <- row_array %% interval
+  x <- x[bad_rows != 1,]
+  return(x)
+}
 
-ROIS.BLOCK <- ROIS.BLOCK %>%
-  right_join(
-    PT.XL,
-    by = "mriID"
-  ) %>%
-  filter(
-    !is.na(name)
-  )
+make_mriID_condition <- function(x){
+  x$mriID <-
+    gsub("\\/fslhome\\/ben88\\/compute\\/NihReadingStudy\\/functional\\/Luke_Nih_(C|D)(\\d{3})\\/.*",
+         "Luke_Nih_\\1\\2",
+         x$name)
+  
+  x$condition <-
+    gsub("\\/fslhome\\/ben88\\/compute\\/NihReadingStudy\\/functional\\/Luke_Nih_(C|D)(\\d{3})\\/.*\\/.*\\[(\\w{3,6})_GLT.*",
+         "\\3",
+         x$name)
+  
+  return(x)
+}
 
-# fMRI classifitation model ####
-km_fmri <- ROIS.BLOCK %>%
-  select(Max_1,
-         Max_2,
-         Max_3,
-         Max_4) %>%
-kmeans(centers = 2)
+fix_names <- function(DF, COR) {
+  COLS <- colnames(DF)
+  for (COL in COLS){
+    number <- gsub(
+      "\\w*_(\\d+)",
+      "\\1",
+      COL
+    )
+    value <- gsub(
+      "(\\w*_)\\d+",
+      "\\1",
+      COL
+    )
+    anat <- as.character(COR$anat_name[COR$mask_num == number])
+    new <- paste(value, anat, sep = "")
+    COLS[COLS == COL] <- new
+  }
+  colnames(DF) <- COLS
+  return(DF)
+}
 
-ROIS.BLOCK$km_fmri_group <- km_fmri$cluster
+ROIS.OM.BLOCK <- toss_blanks(ROIS.OM.BLOCK) %>% 
+  remove_header_rows(interval = 2) %>%
+  fix_names(COR = OM.ANAT) %>%
+  make_mriID_condition()
 
-km_gort <- ROIS.BLOCK %>%
-  select(
-    gortAccuracy,
-    gortRate,
-    gortComprehension
-  ) %>%
-  kmeans(centers = 2)
-
-ROIS.BLOCK$km_gort_group <- km_gort$cluster
-
-km_ctopp <- ROIS.BLOCK %>%
-  select(
-    ctoppElision,
-    ctoppBlendingWords,
-    ctoppPhonemeIsolation
-  ) %>%
-  kmeans(centers = 2)
+ROIS.OM.BLOCK <- ROIS.OM.BLOCK %>% right_join(
+  PT.XL,
+  by = "mriID"
+)
 
 
-km_all_cog <- ROIS.BLOCK %>%
-  select(
-    gortAccuracy,
-    gortRate,
-    gortComprehension,
-    ctoppElision,
-    ctoppBlendingWords,
-    ctoppPhonemeIsolation
-  ) %>%
-  kmeans(centers = 2)
+ROIS.OM.PRED <- toss_blanks(ROIS.OM.PRED) %>% 
+  remove_header_rows(interval = 4) %>%
+  fix_names(COR = OM.ANAT) %>%
+  make_mriID_condition()
 
-# regression
-model_1 <- lm(Mean_1 ~ gortFluency + gortComprehension, ROIS.BLOCK)
-model_2 <- lm(Mean_2 ~ gortFluency, ROIS.BLOCK)
-model_3 <- lm(Mean_3 ~ gortFluency, ROIS.BLOCK)
-model_4 <- lm(Mean_4 ~ gortFluency, ROIS.BLOCK)
+ROIS.OM.PRED <- ROIS.OM.PRED %>% right_join(
+  PT.XL,
+  by = "mriID"
+)
+
+
+ROIS.READ.BLOCK <- toss_blanks(ROIS.READ.BLOCK) %>% 
+  remove_header_rows(interval = 2) %>%
+  fix_names(COR = READ.ANAT) %>%
+  make_mriID_condition()
+
+ROIS.READ.BLOCK <- ROIS.READ.BLOCK %>% right_join(
+  PT.XL,
+  by = "mriID"
+)
+
+ROIS.READ.PRED <- toss_blanks(ROIS.READ.PRED) %>% 
+  remove_header_rows(interval = 4) %>%
+  fix_names(COR = READ.ANAT) %>%
+  make_mriID_condition()
+
+ROIS.READ.PRED <- ROIS.READ.PRED %>% right_join(
+  PT.XL,
+  by = "mriID"
+)
+
+# Regression models ####
+
+omBlockModels <- list()
+
+for (region in OM.ANAT$anat_name){
+  # region <- "rPrecentralGyrus"
+  val <- paste("Mean_", region, sep = "")
+  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  model <- lm(fmla, ROIS.OM.BLOCK)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
+    omBlockModels[[val]] <- model
+  }
+}
+
+omPredModels <- list()
+
+for (region in OM.ANAT$anat_name){
+  # region <- "rPrecentralGyrus"
+  val <- paste("Mean_", region, sep = "")
+  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  model <- lm(fmla, ROIS.OM.PRED)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
+    omPredModels[[val]] <- model
+  }
+}
+
+readBlockModels <- list()
+
+for (region in READ.ANAT$anat_name){
+  # region <- "rPrecentralGyrus"
+  val <- paste("Mean_", region, sep = "")
+  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  model <- lm(fmla, ROIS.READ.BLOCK)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
+    readBlockModels[[val]] <- model
+  }
+}
+
+readPredModels <- list()
+
+for (region in READ.ANAT$anat_name){
+  # region <- "rPrecentralGyrus"
+  val <- paste("Mean_", region, sep = "")
+  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  model <- lm(fmla, ROIS.READ.PRED)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
+    readPredModels[[val]] <- model
+  }
+}
+
