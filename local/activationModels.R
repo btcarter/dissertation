@@ -177,7 +177,6 @@ ROIS.READ.PRED <- ROIS.READ.PRED %>% right_join(
 omBlockModels <- list()
 
 for (region in OM.ANAT$anat_name){
-  # region <- "rPrecentralGyrus"
   val <- paste("Mean_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.OM.BLOCK)
@@ -190,7 +189,6 @@ for (region in OM.ANAT$anat_name){
 omPredModels <- list()
 
 for (region in OM.ANAT$anat_name){
-  # region <- "rPrecentralGyrus"
   val <- paste("Mean_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.OM.PRED)
@@ -203,7 +201,6 @@ for (region in OM.ANAT$anat_name){
 readBlockModels <- list()
 
 for (region in READ.ANAT$anat_name){
-  # region <- "rPrecentralGyrus"
   val <- paste("Mean_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.READ.BLOCK)
@@ -216,7 +213,6 @@ for (region in READ.ANAT$anat_name){
 readPredModels <- list()
 
 for (region in READ.ANAT$anat_name){
-  # region <- "rPrecentralGyrus"
   val <- paste("Mean_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.READ.PRED)
