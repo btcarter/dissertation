@@ -44,41 +44,13 @@ for MASK in ${R_MASK} ${OM_MASK}; do
 
   # get stats from the predictability contrasts
   # ortho
-  OUT=${RES_DIR}/ortho.txt   #statistics data
+  OUT=${RES_DIR}/predictability.txt   #statistics data
 
   if [ ! -f ${OUT} ]
     then touch ${OUT}
   fi
 
-  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[5]
-
-  for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${PROJECT}/masks/${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
-    ${stat} >> ${OUT}
-  done
-
-  # lsa
-  OUT=${RES_DIR}/lsa.txt   #statistics data
-
-  if [ ! -f ${OUT} ]
-    then touch ${OUT}
-  fi
-
-  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[3]
-
-  for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${PROJECT}/masks/${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
-    ${stat} >> ${OUT}
-  done
-
-  # pos
-  OUT=${RES_DIR}/pos.txt   #statistics data
-
-  if [ ! -f ${OUT} ]
-    then touch ${OUT}
-  fi
-
-  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[1]
+  DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[1,3,5]
 
   for i in $(cat ${PARTICIPANTS}); do
     stat="3dROIstats -minmax -sigma -1DRformat -mask ${PROJECT}/masks/${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
