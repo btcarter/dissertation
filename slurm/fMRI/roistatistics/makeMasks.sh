@@ -1,6 +1,6 @@
 #!/bin/bash
 MASTER=~/compute/NihReadingStudy/dissertation/predictability/orthoWhole+tlrc
-RADIUS=7.5
+RADIUS=15
 
   # OM Mask
   TABLE=~/compute/NihReadingStudy/masks/OM
