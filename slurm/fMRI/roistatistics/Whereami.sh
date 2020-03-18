@@ -4,6 +4,7 @@
 MASKDIR=~/compute/NihReadingStudy/masks
 MASKLIST=(ns_om_mask_sphereROI_MI+tlrc ns_reading_mask_sphereROI_MI+tlrc)
 
+cd $MASKDIR
 for i in ${MASKLIST[@]}; do
 
   touch whereami_${i}.txt
