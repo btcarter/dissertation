@@ -24,7 +24,7 @@ MASK_DIR=~/compute/NihReadingStudy/masks
 
 3dfractionize \
 -template ${MASTER} \
--input ~${MASK_DIR}/eye_movements_association-test_z_FDR_0.01.nii \
+-input ${MASK_DIR}/eye_movements_association-test_z_FDR_0.01.nii \
 -prefix ${MASK_DIR}/eye_movements_association
 
 3dClusterize -nosum \
