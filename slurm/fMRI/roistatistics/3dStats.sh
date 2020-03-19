@@ -15,8 +15,8 @@ PARTICIPANTS=${PROJECT}/dissertation/participants.tsv
 
 
 #### Find stats for masks
-R_MASK=ns_reading #mask created from NS map
-OM_MASK=ns_om
+R_MASK=ns_reading_func_mask #mask created from NS map
+OM_MASK=ns_om_func_mask
 
 for MASK in ${R_MASK} ${OM_MASK}; do
 
@@ -27,7 +27,7 @@ for MASK in ${R_MASK} ${OM_MASK}; do
     then mkdir -p ${RES_DIR}
   fi
 
-  OUT=${RES_DIR}/block.txt   #statistics data
+  OUT=${RES_DIR}/ns_func_block.txt   #statistics data
 
   if [ ! -f ${OUT} ]
     then touch ${OUT}
@@ -38,13 +38,13 @@ for MASK in ${R_MASK} ${OM_MASK}; do
   DECON=block/block_deconv_blur5_ANTS_resampled+tlrc[1]
 
   for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${PROJECT}/masks/${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
+    stat="3dROIstats -minmax -sigma -1DRformat -mask ${PROJECT}/masks/${MASK}+tlrc ${SUBJ_DIR}/${i}/${DECON}"
     ${stat} >> ${OUT}
   done
 
   # get stats from the predictability contrasts
   # ortho
-  OUT=${RES_DIR}/predictability.txt   #statistics data
+  OUT=${RES_DIR}/ns_func_predictability.txt   #statistics data
 
   if [ ! -f ${OUT} ]
     then touch ${OUT}
@@ -53,9 +53,8 @@ for MASK in ${R_MASK} ${OM_MASK}; do
   DECON=predictability/predictability_deconv_blur5_ANTS_resampled+tlrc[1,3,5]
 
   for i in $(cat ${PARTICIPANTS}); do
-    stat="3dROIstats -minmax -sigma -1DRformat -mask ${PROJECT}/masks/${MASK}_mask_sphereROI_MI+tlrc ${SUBJ_DIR}/${i}/${DECON}"
+    stat="3dROIstats -minmax -sigma -1DRformat -mask ${PROJECT}/masks/${MASK}+tlrc ${SUBJ_DIR}/${i}/${DECON}"
     ${stat} >> ${OUT}
   done
 
 done
-# Do stats for OM mask
