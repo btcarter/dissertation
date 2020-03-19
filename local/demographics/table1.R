@@ -43,7 +43,9 @@ VARS <- c("group", "wasiVocab", "wasiMatrix",
 df <- df %>%
   filter(mriEtGood == TRUE,
          structMri == TRUE,
-         !is.na(ctoppRapidLetterTime)) %>%
+         !is.na(ctoppRapidLetterTime),
+         mriID != "Luke_Nih_D029"
+         ) %>%
   select(VARS)
 
 # format and rename variables
