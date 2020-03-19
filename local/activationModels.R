@@ -22,36 +22,36 @@ RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                     "results", "dissertation")
 
 ROIS.OM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
-                 "results", "dissertation", "fMRI", "roiStats", "ns_om")
+                 "results", "dissertation", "fMRI", "roiStats", "ns_om_func_mask")
 
 ROIS.READ.DIR <-file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
-                          "results", "dissertation", "fMRI", "roiStats", "ns_reading")
+                          "results", "dissertation", "fMRI", "roiStats", "ns_reading_func_mask")
 
 # Load data ####
 
 # roi stats
-ROIS.OM.BLOCK <- read.delim2(file.path(ROIS.OM.DIR, "block.txt"),
+ROIS.OM.BLOCK <- read.delim2(file.path(ROIS.OM.DIR, "ns_func_block.txt"),
                          header = TRUE,
                          sep = "\t",
                          fill = TRUE,
                          stringsAsFactors = FALSE
                          )
 
-ROIS.OM.PRED <- read.delim2(file.path(ROIS.OM.DIR, "predictability.txt"),
+ROIS.OM.PRED <- read.delim2(file.path(ROIS.OM.DIR, "ns_func_predictability.txt"),
                            header = TRUE,
                            sep = "\t",
                            fill = TRUE,
                            stringsAsFactors = FALSE
                           )
 
-ROIS.READ.BLOCK <- read.delim2(file.path(ROIS.READ.DIR, "block.txt"),
+ROIS.READ.BLOCK <- read.delim2(file.path(ROIS.READ.DIR, "ns_func_block.txt"),
                                header = TRUE,
                                sep = "\t",
                                fill = TRUE,
                                stringsAsFactors = FALSE
 )
 
-ROIS.READ.PRED <- read.delim2(file.path(ROIS.READ.DIR, "predictability.txt"),
+ROIS.READ.PRED <- read.delim2(file.path(ROIS.READ.DIR, "ns_func_predictability.txt"),
                               header = TRUE,
                               sep = "\t",
                               fill = TRUE,
@@ -132,7 +132,6 @@ fix_names <- function(DF, COR) {
 
 ROIS.OM.BLOCK <- toss_blanks(ROIS.OM.BLOCK) %>% 
   remove_header_rows(interval = 2) %>%
-  fix_names(COR = OM.ANAT) %>%
   make_mriID_condition()
 
 ROIS.OM.BLOCK <- ROIS.OM.BLOCK %>% right_join(
@@ -143,7 +142,6 @@ ROIS.OM.BLOCK <- ROIS.OM.BLOCK %>% right_join(
 
 ROIS.OM.PRED <- toss_blanks(ROIS.OM.PRED) %>% 
   remove_header_rows(interval = 4) %>%
-  fix_names(COR = OM.ANAT) %>%
   make_mriID_condition()
 
 ROIS.OM.PRED <- ROIS.OM.PRED %>% right_join(
@@ -154,7 +152,6 @@ ROIS.OM.PRED <- ROIS.OM.PRED %>% right_join(
 
 ROIS.READ.BLOCK <- toss_blanks(ROIS.READ.BLOCK) %>% 
   remove_header_rows(interval = 2) %>%
-  fix_names(COR = READ.ANAT) %>%
   make_mriID_condition()
 
 ROIS.READ.BLOCK <- ROIS.READ.BLOCK %>% right_join(
@@ -164,7 +161,6 @@ ROIS.READ.BLOCK <- ROIS.READ.BLOCK %>% right_join(
 
 ROIS.READ.PRED <- toss_blanks(ROIS.READ.PRED) %>% 
   remove_header_rows(interval = 4) %>%
-  fix_names(COR = READ.ANAT) %>%
   make_mriID_condition()
 
 ROIS.READ.PRED <- ROIS.READ.PRED %>% right_join(
@@ -176,8 +172,8 @@ ROIS.READ.PRED <- ROIS.READ.PRED %>% right_join(
 
 omBlockModels <- list()
 
-for (region in OM.ANAT$anat_name){
-  val <- paste("Mean_", region, sep = "")
+for (region in 1:12){
+  val <- paste("Max_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.OM.BLOCK)
   
@@ -188,8 +184,8 @@ for (region in OM.ANAT$anat_name){
 
 omPredModels <- list()
 
-for (region in OM.ANAT$anat_name){
-  val <- paste("Mean_", region, sep = "")
+for (region in 1:12){
+  val <- paste("Max_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.OM.PRED)
   
@@ -200,8 +196,8 @@ for (region in OM.ANAT$anat_name){
 
 readBlockModels <- list()
 
-for (region in READ.ANAT$anat_name){
-  val <- paste("Mean_", region, sep = "")
+for (region in 1:12){
+  val <- paste("Max_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.READ.BLOCK)
   
@@ -212,8 +208,8 @@ for (region in READ.ANAT$anat_name){
 
 readPredModels <- list()
 
-for (region in READ.ANAT$anat_name){
-  val <- paste("Mean_", region, sep = "")
+for (region in 1:12){
+  val <- paste("Max_", region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
   model <- lm(fmla, ROIS.READ.PRED)
   

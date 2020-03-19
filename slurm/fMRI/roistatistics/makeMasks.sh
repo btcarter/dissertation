@@ -29,7 +29,7 @@ MASK_DIR=~/compute/NihReadingStudy/masks
 
 3dClusterize -nosum \
 -1Dformat \
--inset ${MASK_DIR}/reading_association+tlrc \
+-inset ${MASK_DIR}/eye_movements_association+tlrc \
 -ithr 0 \
 -NN 1 \
 -clust_nvox 40 \
