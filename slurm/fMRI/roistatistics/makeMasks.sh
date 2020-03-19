@@ -34,4 +34,4 @@ MASK_DIR=~/compute/NihReadingStudy/masks
 -NN 1 \
 -clust_nvox 40 \
 -1sided RIGHT_TAIL 0.0001 \
--pref_map ${MASK_DIR}/ns_reading_func_mask
+-pref_map ${MASK_DIR}/ns_om_func_mask
