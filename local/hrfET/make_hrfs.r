@@ -560,10 +560,9 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                    fill = group)) +
     geom_smooth(method = "lm") +
     labs(
-      title = "The Effect of Group and Lexical 
-            Frequency on First Fixation Duration ",
+      title = "The Effect of Group and Lexical Predictability on First Fixation Duration",
       x = "log Predictability",
-      y = "First Fixation Duration (sec)",
+      y = "First Fixation Duration (ms)",
       fill = "Group"
     )
   print(PLOT)
@@ -597,10 +596,9 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                    fill = group)) +
     geom_smooth(method = "lm") +
     labs(
-      title = "The Effect of Group and Lexical 
-            Frequency on First Run Dwell Time ",
+      title = "The Effect of Group and Lexical Predictability on First Run Dwell Time",
       x = "log Predictability",
-      y = "First Run Dwell Time (sec)",
+      y = "First Run Dwell Time (ms)",
       fill = "Group"
     )
   print(PLOT)
