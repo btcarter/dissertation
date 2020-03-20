@@ -515,7 +515,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                          append = FALSE)
   
   # graph it and save it
-  NAME <- file.path(FIG.DIR, "Dwell Time") 
+  NAME <- file.path(FIG.DIR, "Dwell Time.pdf") 
   pdf(NAME)
   PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
          aes(
@@ -551,7 +551,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                          append = FALSE)
   
   # graph it and save it
-  NAME <- file.path(FIG.DIR, "First Fixation Duration") 
+  NAME <- file.path(FIG.DIR, "First Fixation Duration.pdf") 
   pdf(NAME)
   PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
                  aes(
@@ -587,7 +587,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
         append = FALSE)
   
   # graph it and save it
-  NAME <- file.path(FIG.DIR, "First Fixation Duration") 
+  NAME <- file.path(FIG.DIR, "First Fixation Duration.pdf") 
   pdf(NAME)
   PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
                  aes(
