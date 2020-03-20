@@ -23,7 +23,7 @@ PT.LIST1 <- file.path(PT.DIR, "participants.tsv") # name of output file with par
 PT.LIST2 <- file.path(PT.DIR, "gorted.txt")
 
 RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
-                    "results", "dissertation")
+                    "results", "dissertation", "tables")
 
 # Structure Directories ####
 
@@ -41,7 +41,7 @@ if (file.exists(HRF.DIR)){
 TRIAL.RP <- file.path(RP.DIR, "TrialReport.txt")
 
 # Read in interest areas report.
-REPORT <- read.delim2(
+REPORT1 <- read.delim2(
   file.path(RP.DIR, "IAReport.txt"),
   header = TRUE,
   sep = "\t",
@@ -123,12 +123,13 @@ vars <- c("RECORDING_SESSION_LABEL",
 
 factor_to_numeric <- function(x) {as.numeric(as.character(x), digits = 15)}
 
-REPORT <- REPORT %>%
+REPORT <- REPORT1 %>%
   select(vars) %>% # only select wanted variables, listed in vars
   filter(
     practice != 1, # remove practice runs
     IA_SKIP == 0,
-    TRIAL_START_TIME > 0
+    TRIAL_START_TIME > 0,
+    RECORDING_SESSION_LABEL != "Luke_Nih_D029"
   ) %>%
   mutate(
     "SYNC" = factor_to_numeric(sync_time.1.),
@@ -544,6 +545,146 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
     digits = 3) %>% 
     cat(file = file.path(RS.DIR,
                          "gaze_dur_model.tex"),
+        sep = "",
+        append = FALSE)
+  
+# make summary statistics for each group for a t-test ####
+
+  # Predictability Data cleaning ####
+  vars <- c("RECORDING_SESSION_LABEL",
+            "TRIAL_INDEX",
+            "picture",
+            "practice",
+            "sce_id",
+            "scenecondition",
+            "stimtype",
+            "textnumber",
+            "trialcount",
+            "IA_ID",
+            "IA_FIRST_FIXATION_TIME",
+            "IA_DWELL_TIME",
+            "IA_FIRST_FIXATION_DURATION",
+            "IA_SKIP",
+            "IA_FIXATION_COUNT",
+            "IA_REGRESSION_IN",
+            "IA_FIRST_RUN_DWELL_TIME",
+            "TRIAL_START_TIME",
+            "sync_time.1."
+  )
+  
+  factor_to_numeric <- function(x) {as.numeric(as.character(x), digits = 15)}
+  
+  TTEST <- REPORT1 %>%
+    select(vars) %>% # only select wanted variables, listed in vars
+    filter(
+      practice != 1, # remove practice runs
+      TRIAL_START_TIME > 0
+    ) %>%
+    mutate(
+      "SYNC" = factor_to_numeric(sync_time.1.),
+      "IA_FIRST_RUN_DWELL_TIME" = factor_to_numeric(IA_FIRST_RUN_DWELL_TIME),
+      "IA_DWELL_TIME" = factor_to_numeric(IA_DWELL_TIME)
+    ) %>%
+    mutate(
+      "START_TIME" = (TRIAL_START_TIME - 
+                        SYNC + 
+                        IA_FIRST_RUN_DWELL_TIME)/1000
+    ) %>%
+    filter(
+      IA_DWELL_TIME > 0
+    )
+  
+  
+  # clean up subject labes
+  REPORT$RECORDING_SESSION_LABEL <- as.character(REPORT$RECORDING_SESSION_LABEL)
+  REPORT$textnumber <- as.numeric(
+    as.character(REPORT$textnumber)
+  )
+
+  # fix bad recording session labels
+  for (booboo in CORS$RECORDING_SESSION_LABEL) {
+    REPORT$RECORDING_SESSION_LABEL[REPORT$RECORDING_SESSION_LABEL == booboo] <-
+      CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
+  }
+  
+  # add mriID and run number variables
+  REPORT$mriID <- toupper(REPORT$RECORDING_SESSION_LABEL)
+  REPORT$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
+                       "Luke_Nih_\\2\\3",
+                       REPORT$mriID)
+  REPORT$run <- gsub("R(\\d)(C|D)(\\d{3})",
+                     "\\1",
+                     toupper(REPORT$RECORDING_SESSION_LABEL))
+  
+  # remove all non-study recording session labels
+  REPORT <- REPORT[REPORT$mriID %in% unique(PT.XL$mriID),]
+  
+  # merge fixation report with predictabilities
+  TTEST <- ORTHOS[c("Text_ID",
+                 "IA_ID",
+                 "OrthoMatchModel",
+                 "POSMatchModel",
+                 "LSA_Context_Score",
+                 "Word_Length",
+                 "Word_Content_Or_Function")] %>% 
+    filter(is.na(Word_Length) != TRUE,
+           is.na(Word_Content_Or_Function) != TRUE
+    ) %>%
+    group_by(Text_ID, 
+             IA_ID, 
+             OrthoMatchModel,
+             POSMatchModel,
+             LSA_Context_Score,
+             Word_Length, 
+             Word_Content_Or_Function) %>%
+    summarize(
+      mean_OrthoMatchModel = mean(OrthoMatchModel)
+    ) %>%
+    ungroup() %>%
+    right_join(TTEST,
+               by = c("Text_ID" = "textnumber", 
+                      "IA_ID" = "IA_ID")
+    )
+  
+    
+TTEST <- TTEST %>%
+    group_by(
+      Group,
+      mriID
+    ) %>%
+    summarise(
+      "MeanFFD" = mean(IA_FIRST_FIXATION_DURATION),
+      "MeanDT" = mean(IA_DWELL_TIME),
+      "MeanGD" = mean(IA_FIRST_RUN_DWELL_TIME),
+      skipping_prob = sum(IA_SKIP)/n(),
+      refixation_prob = sum(IA_FIXATION_COUNT >= 2)/n(),
+      regression_prob = sum(factor_to_numeric(IA_REGRESSION_IN), na.rm = TRUE)/n()
+    ) %>%
+    ungroup() %>%
+    filter(
+      mriID != "Luke_Nih_D029"
+    )
+  
+  # statistical tests ####
+  e_var <- c("MeanFFD", "MeanDT", "MeanGD", "skipping_prob",
+             "refixation_prob", "regression_prob")
+  
+  tab_t <- data.frame()
+  
+  for (i in e_var){
+    model <- t.test(TTEST[[i]] ~ TTEST[["Group"]], data=TTEST)
+    tab_var <- data.frame(
+      "Variable" = i,
+      "T-statistic" = as.numeric(model$statistic),
+      "Degrees of Freedom" = as.numeric(model$parameter),
+      "p-value" = model$p.value
+    )
+    tab_t <- rbind(tab_t, tab_var)
+  }
+  
+    tab_t %>%
+    knitr::kable(format = "latex") %>%
+    cat(file = file.path(RS.DIR, "omTtest.tex"),
         sep = "",
         append = FALSE)
   

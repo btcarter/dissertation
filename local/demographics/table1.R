@@ -167,11 +167,6 @@ for (i in e_var){
   tab_t <- rbind(tab_t, tab_var)
 }
 
-tab_t <- tab_t %>% 
-  filter(
-    p.value <= 0.5
-  )
-
 tab_t %>%
   knitr::kable(format = "latex") %>%
   cat(file = file.path(TAB.DIR, "tTests.tex"),
@@ -195,7 +190,8 @@ for (i in sort_vars) {
   geom_boxplot(aes(y = df[[i]])) +
     geom_jitter(alpha = 0.65) +
     labs(title = i,
-         y="Score")
+         y="Score") +
+    theme_classic()
   print(PLOT)
   dev.off()
 }

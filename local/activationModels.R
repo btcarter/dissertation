@@ -218,3 +218,5 @@ for (region in 1:12){
   }
 }
 
+# output models to tables for reporting
+
