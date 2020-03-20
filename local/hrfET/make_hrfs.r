@@ -524,11 +524,13 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
            fill = group)) +
          geom_smooth(method = "lm") +
           labs(
-            title = "The Effect of Group and Lexical Predictability on Dwell Time",
             x = "log Predictability",
-            y = "Dwell Time (ms)",
-            fill = "Group"
+            y = "Dwell Time (ms)"
           ) +
+    scale_fill_discrete(name="Group",
+      breaks=c("control", "dyslexia"),
+      labels=c("Control","Dyslexia")
+    ) +
     theme_classic()
   print(PLOT)
   dev.off()
@@ -561,10 +563,13 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                    fill = group)) +
     geom_smooth(method = "lm") +
     labs(
-      title = "The Effect of Group and Lexical Predictability on First Fixation Duration",
       x = "log Predictability",
       y = "First Fixation Duration (ms)",
       fill = "Group"
+    ) +
+    scale_fill_discrete(name="Group",
+                        breaks=c("control", "dyslexia"),
+                        labels=c("Control","Dyslexia")
     ) +
     theme_classic()
   print(PLOT)
@@ -598,11 +603,14 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                    fill = group)) +
     geom_smooth(method = "lm") +
     labs(
-      title = "The Effect of Group and Lexical Predictability on Gaze Duration",
       x = "log Predictability",
       y = "First Run Dwell Time (ms)",
       fill = "Group"
-    ) + 
+    ) +
+    scale_fill_discrete(name="Group",
+                        breaks=c("control", "dyslexia"),
+                        labels=c("Control","Dyslexia")
+    ) +
     theme_classic()
   print(PLOT)
   dev.off()

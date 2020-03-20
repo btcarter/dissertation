@@ -20,17 +20,15 @@ FIG.DIR <- file.path(OUT.DIR, "figures")
 
 
 # load data
-WB <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "participants", "masterdatatrim.csv")
-df <- read.csv(WB,
-               header = TRUE)
+WB <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "participants", "masterdatatrim.xlsx")
+df <- read_xlsx(WB)
 
 # select data for fMRI only
 
-VARS <- c("group", "wasiVocab", "wasiMatrix",
-          "gortRate", "gortAccuracy", "gortFluency", "gortComprehension",
-          "ctoppElision", "ctoppBlendingWords", "ctoppPhonemeIsolation",
-          "ctoppRapidDigitTime", "ctoppRapidDigitError",
-          "ctoppRapidLetterTime", "ctoppRapidLetterError",
+VARS <- c("group", 
+          "wasiFSIQ2",
+          "gortSumofScaledScores",
+          "ctoppCompositePA", "ctoppCompositeRSN",
           "Are you a student at BYU or UVU?",
           "Can you provide documentation of this diagnosis?",
           "Have you ever been diagnosed with other learning disorders?",
@@ -50,11 +48,11 @@ df <- df %>%
   select(VARS)
 
 # format and rename variables
-LABS <- c("Group", "Vocabulary Score", "Matrix Reasoning",
-          "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
-          "Elision", "Blending Words", "Phoneme Isolation",
-          "Rapid Digit Naming Time", "Rapid Digit Naming Error",
-          "Rapid Letter Naming Time", "Rapid Letter Naming Error",
+LABS <- c("Group", 
+          "FSIQ-2",
+          "GORT-V Sum of Scaled Scores",
+          "CTOPP Phonological Awareness",
+          "CTOPP Rapid Symbolic Naming",
           "University student",
           "Documentation",
           "Other learning disorders",
@@ -79,14 +77,15 @@ for (i in FACTORS) {
 levels(df$Group) <- c("Control", "Dyslexia")
 
 # create table 1 ####
-LABS2 <- c("University student",
-           "Documentation",
-           "Other learning disorders",
-           "Other psychiatric disorders",
-           "Gender",
+LABS2 <- c("Gender",
            "Age",
            "Ethnicity",
-           "Race")
+           "Race",
+           "University student",
+           "Documentation",
+           "Other learning disorders",
+           "Other psychiatric disorders"
+           )
 
 tab <- CreateTableOne(LABS2, "Group", df, test = FALSE)
 tab_tex <- print(tab,
@@ -111,32 +110,23 @@ mean_sd <- function(a) {
   return(paste(b," (",c,")",sep=""))
 }
 
-CONTVARS <- c("Group", "Vocabulary Score", "Matrix Reasoning",
-              "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
-              "Elision", "Blending Words", "Phoneme Isolation",
-              "Rapid Digit Naming Time", "Rapid Digit Naming Error",
-              "Rapid Letter Naming Time", "Rapid Letter Naming Error"
+CONTVARS <- c("Group", 
+              "FSIQ-2",
+              "GORT-V Sum of Scaled Scores",
+              "CTOPP Phonological Awareness",
+              "CTOPP Rapid Symbolic Naming"
               )
 
 
 cog_tab <- df[,CONTVARS] %>%
   group_by(Group) %>%
   summarise(
-    `Vocabulary Score` = mean_sd(`Vocabulary Score`),
-    `Matrix Reasoning` = mean_sd(`Matrix Reasoning`),
-    `Reading Rate` = mean_sd(`Reading Rate`),
-    `Reading Accuracy` = mean_sd(`Reading Accuracy`),
-    `Reading Fluency` = mean_sd(`Reading Fluency`),
-    `Comprehension` = mean_sd(`Comprehension`),
-    `Elision` = mean_sd(`Elision`),
-    `Blending Words` = mean_sd(`Blending Words`),
-    `Phoneme Isolation` = mean_sd(`Phoneme Isolation`),
-    `Rapid Digit Naming Time` = mean_sd(`Rapid Digit Naming Time`),
-    `Rapid Digit Naming Error` = mean_sd(`Rapid Digit Naming Error`),
-    `Rapid Letter Naming Time` = mean_sd(`Rapid Letter Naming Time`),
-    `Rapid Letter Naming Error` = mean_sd(`Rapid Letter Naming Error`)
+    `FSIQ-2` = mean_sd(`FSIQ-2`),
+    `GORT-V Sum of Scaled Scores` = mean_sd(`GORT-V Sum of Scaled Scores`),
+    `CTOPP Phonological Awareness` = mean_sd(`CTOPP Phonological Awareness`),
+    `CTOPP Rapid Symbolic Naming` = mean_sd(`CTOPP Rapid Symbolic Naming`)
   ) %>%
-  gather(Test, Value, "Vocabulary Score":"Rapid Letter Naming Error") %>%
+  gather(Test, Value, "FSIQ-2":"CTOPP Rapid Symbolic Naming") %>%
   spread(Group, Value) %>%
   knitr::kable(format = "latex")
 
@@ -151,10 +141,10 @@ cat(cog_tab,
 
 
 # statistical tests ####
-e_var <- c("Vocabulary Score", "Matrix Reasoning",
-           "Reading Rate", "Reading Accuracy", "Reading Fluency", "Comprehension",
-           "Elision", "Blending Words", "Phoneme Isolation",
-           "Rapid Digit Naming Time", "Rapid Letter Naming Time", "Rapid Letter Naming Error")
+e_var <- c("FSIQ-2",
+           "GORT-V Sum of Scaled Scores",
+           "CTOPP Phonological Awareness",
+           "CTOPP Rapid Symbolic Naming")
 tab_t <- data.frame()
 
 for (i in e_var){
