@@ -515,7 +515,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                          append = FALSE)
   
   # graph it and save it
-  NAME <- file.path(FIG.DIR, "Dwell Time.pdf") 
+  NAME <- file.path(FIG.DIR, "DwellTime.pdf") 
   pdf(NAME)
   PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
          aes(
@@ -528,7 +528,8 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
             x = "log Predictability",
             y = "Dwell Time (ms)",
             fill = "Group"
-          )
+          ) +
+    theme_classic()
   print(PLOT)
   dev.off()
   
@@ -551,7 +552,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                          append = FALSE)
   
   # graph it and save it
-  NAME <- file.path(FIG.DIR, "First Fixation Duration.pdf") 
+  NAME <- file.path(FIG.DIR, "FirstFixationDuration.pdf") 
   pdf(NAME)
   PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
                  aes(
@@ -564,7 +565,8 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
       x = "log Predictability",
       y = "First Fixation Duration (ms)",
       fill = "Group"
-    )
+    ) +
+    theme_classic()
   print(PLOT)
   dev.off()
 
@@ -587,20 +589,21 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
         append = FALSE)
   
   # graph it and save it
-  NAME <- file.path(FIG.DIR, "First Fixation Duration.pdf") 
+  NAME <- file.path(FIG.DIR, "GazeDuration.pdf") 
   pdf(NAME)
   PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
                  aes(
                    x = scale(log(OrthoMatchModel), scale = FALSE), 
-                   y = log(IA_FIRST_RUN_DWELL_TIME),
+                   y = IA_FIRST_RUN_DWELL_TIME,
                    fill = group)) +
     geom_smooth(method = "lm") +
     labs(
-      title = "The Effect of Group and Lexical Predictability on First Run Dwell Time",
+      title = "The Effect of Group and Lexical Predictability on Gaze Duration",
       x = "log Predictability",
       y = "First Run Dwell Time (ms)",
       fill = "Group"
-    )
+    ) + 
+    theme_classic()
   print(PLOT)
   dev.off()
   
