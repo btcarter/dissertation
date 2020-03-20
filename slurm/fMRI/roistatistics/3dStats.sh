@@ -17,6 +17,7 @@ PARTICIPANTS=${PROJECT}/dissertation/participants.tsv
 #### Find stats for masks
 R_MASK=ns_reading_func_mask #mask created from NS map
 OM_MASK=ns_om_func_mask
+PRED_MASK=ns_pred_func_mask
 
 for MASK in ${R_MASK} ${OM_MASK}; do
 
