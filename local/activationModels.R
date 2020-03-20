@@ -245,9 +245,9 @@ predBlockModels <- list()
 for (region in 1:2){
   val <- paste(PARAM, region, sep = "")
   fmla <- paste(val, " ~ ", "group", sep = "")
-  model <- lm(fmla, ROIS.READ.BLOCK)
+  model <- lm(fmla, ROIS.PRED.BLOCK)
   
-  if (summary(model)$coefficients[,4][2] <= 0.05) {
+  if (summary(model)$coefficients[,4][2] <= 0.25) {
     predBlockModels[[val]] <- model
   }
 }
@@ -309,7 +309,7 @@ predBlockModels_2 <- list()
 for (region in 1:2){
   val <- paste(PARAM, region, sep = "")
   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
-  model <- lm(fmla, ROIS.READ.BLOCK)
+  model <- lm(fmla, ROIS.PRED.BLOCK)
   
   if (summary(model)$coefficients[,4][2] <= 0.05) {
     readBlockModels_2[[val]] <- model
