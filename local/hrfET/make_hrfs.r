@@ -24,6 +24,8 @@ PT.LIST2 <- file.path(PT.DIR, "gorted.txt")
 
 RS.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                     "results", "dissertation", "tables")
+FIG.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
+                    "results", "dissertation", "figures")
 
 # Structure Directories ####
 
@@ -443,7 +445,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
   df_read_mod$group <- as.factor(df_read_mod$group)
   df_read_mod$mriID <- as.factor(df_read_mod$mriID)
 
-  # do eye tracking summary statistics
+  # do eye tracking summary statistics ####
   vars_summ <- c("group",
                  "IA_ID",
                  "IA_SKIP",
@@ -495,7 +497,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
       append = FALSE
       )
   
-  # do test
+  # do test for dwell time ####
   read_mod_dt <- lmer(
     log(IA_DWELL_TIME) ~ 
       group * scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
@@ -512,7 +514,26 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                          sep = "",
                          append = FALSE)
   
-  # do test
+  # graph it and save it
+  NAME <- file.path(FIG.DIR, "Dwell Time") 
+  pdf(NAME)
+  PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
+         aes(
+           x = scale(log(OrthoMatchModel), scale = FALSE), 
+           y = log(IA_DWELL_TIME),
+           fill = group)) +
+         geom_smooth(method = "lm") +
+          labs(
+            title = "The Effect of Group and Lexical 
+            Frequency on Dwell Time ",
+            x = "log Predictability",
+            y = "Dwell Time (sec)",
+            fill = "Group"
+          )
+  print(PLOT)
+  dev.off()
+  
+  # do test first fixation duration  ####
   read_mod_ffd <- lmer(
     log(IA_FIRST_FIXATION_DURATION) ~
       group * scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
@@ -529,8 +550,27 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                          "first_fix_dur_model.tex"),
                          sep = "",
                          append = FALSE)
+  
+  # graph it and save it
+  NAME <- file.path(FIG.DIR, "First Fixation Duration") 
+  pdf(NAME)
+  PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
+                 aes(
+                   x = scale(log(OrthoMatchModel), scale = FALSE), 
+                   y = IA_FIRST_FIXATION_DURATION,
+                   fill = group)) +
+    geom_smooth(method = "lm") +
+    labs(
+      title = "The Effect of Group and Lexical 
+            Frequency on First Fixation Duration ",
+      x = "log Predictability",
+      y = "First Fixation Duration (sec)",
+      fill = "Group"
+    )
+  print(PLOT)
+  dev.off()
 
-  # do test
+  # do test first run dwell time (gaze duration) ####
   read_mod_frdt <- lmer(
     log(IA_FIRST_RUN_DWELL_TIME) ~ 
       group * scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
@@ -547,6 +587,25 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
                          "gaze_dur_model.tex"),
         sep = "",
         append = FALSE)
+  
+  # graph it and save it
+  NAME <- file.path(FIG.DIR, "First Fixation Duration") 
+  pdf(NAME)
+  PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
+                 aes(
+                   x = scale(log(OrthoMatchModel), scale = FALSE), 
+                   y = log(IA_FIRST_RUN_DWELL_TIME),
+                   fill = group)) +
+    geom_smooth(method = "lm") +
+    labs(
+      title = "The Effect of Group and Lexical 
+            Frequency on First Run Dwell Time ",
+      x = "log Predictability",
+      y = "First Run Dwell Time (sec)",
+      fill = "Group"
+    )
+  print(PLOT)
+  dev.off()
   
 # make summary statistics for each group for a t-test ####
 
