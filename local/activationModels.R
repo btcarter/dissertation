@@ -27,6 +27,9 @@ ROIS.OM.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
 ROIS.READ.DIR <-file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                           "results", "dissertation", "fMRI", "roiStats", "ns_reading_func_mask")
 
+ROIS.PRED.DIR <-file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data",
+                          "results", "dissertation", "fMRI", "roiStats", "ns_pred_func_mask")
+
 # Load data ####
 
 # roi stats
@@ -59,6 +62,13 @@ ROIS.READ.PRED <- read.delim2(file.path(ROIS.READ.DIR, "ns_func_predictability.t
 )
 
 
+ROIS.PRED.BLOCK <- read.delim2(file.path(ROIS.PRED.DIR, "ns_func_block.txt"),
+                               header = TRUE,
+                               sep = "\t",
+                               fill = TRUE,
+                               stringsAsFactors = FALSE
+)
+
 # roi mask names were manually created after viewing the mask on the template image
 # and with some guidance from the whereami documents
 OM.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
@@ -81,7 +91,7 @@ PT.XL <- PT.XL %>%
   )
 
 # ROI data cleaning ####
-# remove blank columns
+  # useful functions ####
 
 toss_blanks <- function(x){
   x <- x[,-c(2,3)]
@@ -130,6 +140,7 @@ fix_names <- function(DF, COR) {
   return(DF)
 }
 
+  # OM cleaning ####
 ROIS.OM.BLOCK <- toss_blanks(ROIS.OM.BLOCK) %>% 
   remove_header_rows(interval = 2) %>%
   make_mriID_condition()
@@ -138,7 +149,6 @@ ROIS.OM.BLOCK <- ROIS.OM.BLOCK %>% right_join(
   PT.XL,
   by = "mriID"
 )
-
 
 ROIS.OM.PRED <- toss_blanks(ROIS.OM.PRED) %>% 
   remove_header_rows(interval = 4) %>%
@@ -149,7 +159,7 @@ ROIS.OM.PRED <- ROIS.OM.PRED %>% right_join(
   by = "mriID"
 )
 
-
+  # READ cleaning ####
 ROIS.READ.BLOCK <- toss_blanks(ROIS.READ.BLOCK) %>% 
   remove_header_rows(interval = 2) %>%
   make_mriID_condition()
@@ -168,13 +178,25 @@ ROIS.READ.PRED <- ROIS.READ.PRED %>% right_join(
   by = "mriID"
 )
 
-# Regression models ####
+  # PRED cleaning ####
+ROIS.PRED.BLOCK <- toss_blanks(ROIS.PRED.BLOCK) %>% 
+  remove_header_rows(interval = 2) %>%
+  make_mriID_condition()
+
+ROIS.PRED.BLOCK <- ROIS.PRED.BLOCK %>% right_join(
+  PT.XL,
+  by = "mriID"
+)
+
+
+# A priori Regression models ####
+PARAM <- "Max_"
 
 omBlockModels <- list()
 
 for (region in 1:12){
-  val <- paste("Max_", region, sep = "")
-  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  val <- paste(PARAM, region, sep = "")
+  fmla <- paste(val, " ~ ", "group", sep = "")
   model <- lm(fmla, ROIS.OM.BLOCK)
   
   if (summary(model)$coefficients[,4][2] <= 0.05) {
@@ -182,23 +204,23 @@ for (region in 1:12){
   }
 }
 
-omPredModels <- list()
-
-for (region in 1:12){
-  val <- paste("Max_", region, sep = "")
-  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
-  model <- lm(fmla, ROIS.OM.PRED)
-  
-  if (summary(model)$coefficients[,4][2] <= 0.05) {
-    omPredModels[[val]] <- model
-  }
-}
+# omPredModels <- list()
+# 
+# for (region in 1:12){
+#   val <- paste(PARAM, region, sep = "")
+#   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+#   model <- lm(fmla, ROIS.OM.PRED)
+#   
+#   if (summary(model)$coefficients[,4][2] <= 0.05) {
+#     omPredModels[[val]] <- model
+#   }
+# }
 
 readBlockModels <- list()
 
 for (region in 1:12){
-  val <- paste("Max_", region, sep = "")
-  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  val <- paste(PARAM, region, sep = "")
+  fmla <- paste(val, " ~ ", "group", sep = "")
   model <- lm(fmla, ROIS.READ.BLOCK)
   
   if (summary(model)$coefficients[,4][2] <= 0.05) {
@@ -206,17 +228,90 @@ for (region in 1:12){
   }
 }
 
-readPredModels <- list()
+# readPredModels <- list()
+# 
+# for (region in 1:12){
+#   val <- paste(PARAM, region, sep = "")
+#   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+#   model <- lm(fmla, ROIS.READ.PRED)
+#   
+#   if (summary(model)$coefficients[,4][2] <= 0.05) {
+#     readPredModels[[val]] <- model
+#   }
+# }
 
-for (region in 1:12){
-  val <- paste("Max_", region, sep = "")
-  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
-  model <- lm(fmla, ROIS.READ.PRED)
+predBlockModels <- list()
+
+for (region in 1:2){
+  val <- paste(PARAM, region, sep = "")
+  fmla <- paste(val, " ~ ", "group", sep = "")
+  model <- lm(fmla, ROIS.READ.BLOCK)
   
   if (summary(model)$coefficients[,4][2] <= 0.05) {
-    readPredModels[[val]] <- model
+    predBlockModels[[val]] <- model
   }
 }
 
-# output models to tables for reporting
 
+
+# Post-hoc Regression models ####
+
+omBlockModels_2 <- list()
+
+for (region in 1:12){
+  val <- paste(PARAM, region, sep = "")
+  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  model <- lm(fmla, ROIS.OM.BLOCK)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
+    omBlockModels_2[[val]] <- model
+  }
+}
+
+# omPredModels <- list()
+# 
+# for (region in 1:12){
+#   val <- paste(PARAM, region, sep = "")
+#   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+#   model <- lm(fmla, ROIS.OM.PRED)
+#   
+#   if (summary(model)$coefficients[,4][2] <= 0.05) {
+#     omPredModels[[val]] <- model
+#   }
+# }
+
+readBlockModels_2 <- list()
+
+for (region in 1:12){
+  val <- paste(PARAM, region, sep = "")
+  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  model <- lm(fmla, ROIS.READ.BLOCK)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
+    readBlockModels_2[[val]] <- model
+  }
+}
+
+# readPredModels <- list()
+# 
+# for (region in 1:12){
+#   val <- paste(PARAM, region, sep = "")
+#   fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+#   model <- lm(fmla, ROIS.READ.PRED)
+#   
+#   if (summary(model)$coefficients[,4][2] <= 0.05) {
+#     readPredModels[[val]] <- model
+#   }
+# }
+
+predBlockModels_2 <- list()
+
+for (region in 1:2){
+  val <- paste(PARAM, region, sep = "")
+  fmla <- paste(val, " ~ ", "SlowAndWrongCompositeScore", sep = "")
+  model <- lm(fmla, ROIS.READ.BLOCK)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
+    readBlockModels_2[[val]] <- model
+  }
+}
