@@ -20,8 +20,9 @@ FIG.DIR <- file.path(OUT.DIR, "figures")
 
 
 # load data
-WB <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "participants", "master.xlsx")
-df <- read_excel(WB)
+WB <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "participants", "masterdatatrim.csv")
+df <- read.csv(WB,
+               header = TRUE)
 
 # select data for fMRI only
 
