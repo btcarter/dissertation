@@ -596,60 +596,37 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
   
   
   # clean up subject labes
-  REPORT$RECORDING_SESSION_LABEL <- as.character(REPORT$RECORDING_SESSION_LABEL)
-  REPORT$textnumber <- as.numeric(
-    as.character(REPORT$textnumber)
+  TTEST$RECORDING_SESSION_LABEL <- as.character(TTEST$RECORDING_SESSION_LABEL)
+  TTEST$textnumber <- as.numeric(
+    as.character(TTEST$textnumber)
   )
 
   # fix bad recording session labels
   for (booboo in CORS$RECORDING_SESSION_LABEL) {
-    REPORT$RECORDING_SESSION_LABEL[REPORT$RECORDING_SESSION_LABEL == booboo] <-
+    TTEST$RECORDING_SESSION_LABEL[TTEST$RECORDING_SESSION_LABEL == booboo] <-
       CORS$CORRECTION[CORS$RECORDING_SESSION_LABEL == booboo]
   }
   
   # add mriID and run number variables
-  REPORT$mriID <- toupper(REPORT$RECORDING_SESSION_LABEL)
-  REPORT$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
+  TTEST$mriID <- toupper(TTEST$RECORDING_SESSION_LABEL)
+  TTEST$mriID <- gsub("R(\\d)(C|D)(\\d{3})",
                        "Luke_Nih_\\2\\3",
-                       REPORT$mriID)
-  REPORT$run <- gsub("R(\\d)(C|D)(\\d{3})",
+                       TTEST$mriID)
+  TTEST$run <- gsub("R(\\d)(C|D)(\\d{3})",
                      "\\1",
-                     toupper(REPORT$RECORDING_SESSION_LABEL))
+                     toupper(TTEST$RECORDING_SESSION_LABEL))
   
-  # remove all non-study recording session labels
-  REPORT <- REPORT[REPORT$mriID %in% unique(PT.XL$mriID),]
   
-  # merge fixation report with predictabilities
-  TTEST <- ORTHOS[c("Text_ID",
-                 "IA_ID",
-                 "OrthoMatchModel",
-                 "POSMatchModel",
-                 "LSA_Context_Score",
-                 "Word_Length",
-                 "Word_Content_Or_Function")] %>% 
-    filter(is.na(Word_Length) != TRUE,
-           is.na(Word_Content_Or_Function) != TRUE
-    ) %>%
-    group_by(Text_ID, 
-             IA_ID, 
-             OrthoMatchModel,
-             POSMatchModel,
-             LSA_Context_Score,
-             Word_Length, 
-             Word_Content_Or_Function) %>%
-    summarize(
-      mean_OrthoMatchModel = mean(OrthoMatchModel)
-    ) %>%
-    ungroup() %>%
-    right_join(TTEST,
-               by = c("Text_ID" = "textnumber", 
-                      "IA_ID" = "IA_ID")
+  TTEST <- TTEST %>%
+    right_join(
+      PT.XL,
+      by = "mriID"
     )
   
     
 TTEST <- TTEST %>%
     group_by(
-      Group,
+      group,
       mriID
     ) %>%
     summarise(
@@ -672,7 +649,7 @@ TTEST <- TTEST %>%
   tab_t <- data.frame()
   
   for (i in e_var){
-    model <- t.test(TTEST[[i]] ~ TTEST[["Group"]], data=TTEST)
+    model <- t.test(TTEST[[i]] ~ TTEST[["group"]], data=TTEST)
     tab_var <- data.frame(
       "Variable" = i,
       "T-statistic" = as.numeric(model$statistic),
