@@ -520,14 +520,13 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
   PLOT <- ggplot(df_read_mod %>% filter(IA_DWELL_TIME > 0), 
          aes(
            x = scale(log(OrthoMatchModel), scale = FALSE), 
-           y = log(IA_DWELL_TIME),
+           y = IA_DWELL_TIME,
            fill = group)) +
          geom_smooth(method = "lm") +
           labs(
-            title = "The Effect of Group and Lexical 
-            Frequency on Dwell Time ",
+            title = "The Effect of Group and Lexical Predictability on Dwell Time",
             x = "log Predictability",
-            y = "Dwell Time (sec)",
+            y = "Dwell Time (ms)",
             fill = "Group"
           )
   print(PLOT)
