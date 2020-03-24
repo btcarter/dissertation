@@ -71,13 +71,13 @@ ROIS.PRED.BLOCK <- read.delim2(file.path(ROIS.PRED.DIR, "ns_func_block.txt"),
 
 # roi mask names were manually created after viewing the mask on the template image
 # and with some guidance from the whereami documents
-OM.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
-                                 "data","masks","om_mask_names.txt"),
-                       stringsAsFactors = FALSE)
-
-READ.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
-                                 "data","masks","read_mask_names.txt"),
-                         stringsAsFactors = FALSE)
+# OM.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
+#                                  "data","masks","om_mask_names.txt"),
+#                        stringsAsFactors = FALSE)
+# 
+# READ.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
+#                                  "data","masks","read_mask_names.txt"),
+#                          stringsAsFactors = FALSE)
 
 
 # participant master sheet cleaning ####
