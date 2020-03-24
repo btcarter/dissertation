@@ -69,6 +69,13 @@ ROIS.PRED.BLOCK <- read.delim2(file.path(ROIS.PRED.DIR, "ns_func_block.txt"),
                                stringsAsFactors = FALSE
 )
 
+ROIS.PRED.PRED <- read.delim2(file.path(ROIS.PRED.DIR, "ns_func_predictability.txt"),
+                               header = TRUE,
+                               sep = "\t",
+                               fill = TRUE,
+                               stringsAsFactors = FALSE
+)
+
 # roi mask names were manually created after viewing the mask on the template image
 # and with some guidance from the whereami documents
 # OM.ANAT <- read.delim2(file.path("~","Box","LukeLab","NIH Dyslexia Study",
@@ -188,6 +195,15 @@ ROIS.PRED.BLOCK <- ROIS.PRED.BLOCK %>% right_join(
   by = "mriID"
 )
 
+ROIS.PRED.PRED <- toss_blanks(ROIS.PRED.BLOCK) %>% 
+  remove_header_rows(interval = 2) %>%
+  make_mriID_condition()
+
+ROIS.PRED.PRED <- ROIS.PRED.BLOCK %>% right_join(
+  PT.XL,
+  by = "mriID"
+)
+
 
 # A priori Regression models ####
 PARAM <- "Max_"
@@ -252,7 +268,17 @@ for (region in 1:2){
   }
 }
 
+predPredModels <- list()
 
+for (region in 1:2){
+  val <- paste(PARAM, region, sep = "")
+  fmla <- paste(val, " ~ ", "group.x", sep = "")
+  model <- lm(fmla, ROIS.PRED.PRED)
+  
+  if (summary(model)$coefficients[,4][2] <= 0.25) {
+    predBlockModels[[val]] <- model
+  }
+}
 
 # Post-hoc Regression models ####
 
