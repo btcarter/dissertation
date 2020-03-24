@@ -578,7 +578,7 @@ make_blocks(df_block_pic, file.path(HRF.DIR, "block_pictures"))
   # do test first run dwell time (gaze duration) ####
   read_mod_frdt <- lmer(
     log(IA_FIRST_RUN_DWELL_TIME) ~ 
-      group * scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
+      group + scale(log(OrthoMatchModel), scale = FALSE) + (1|mriID),
     df_read_mod
   ) %>%
     summary()
