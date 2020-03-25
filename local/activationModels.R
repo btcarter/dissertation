@@ -263,7 +263,7 @@ for (region in 1:2){
   fmla <- paste(val, " ~ ", "group", sep = "")
   model <- lm(fmla, ROIS.PRED.BLOCK)
   
-  if (summary(model)$coefficients[,4][2] <= 0.25) {
+  if (summary(model)$coefficients[,4][2] <= 0.05) {
     predBlockModels[[val]] <- model
   }
 }
