@@ -159,7 +159,10 @@ ROIS.OM.BLOCK <- ROIS.OM.BLOCK %>% right_join(
 
 ROIS.OM.PRED <- toss_blanks(ROIS.OM.PRED) %>% 
   remove_header_rows(interval = 4) %>%
-  make_mriID_condition()
+  make_mriID_condition() %>%
+  filter(
+    condition == "ORTHO"
+  )
 
 ROIS.OM.PRED <- ROIS.OM.PRED %>% right_join(
   PT.XL,
@@ -178,7 +181,10 @@ ROIS.READ.BLOCK <- ROIS.READ.BLOCK %>% right_join(
 
 ROIS.READ.PRED <- toss_blanks(ROIS.READ.PRED) %>% 
   remove_header_rows(interval = 4) %>%
-  make_mriID_condition()
+  make_mriID_condition() %>%
+  filter(
+    condition == "ORTHO"
+  )
 
 ROIS.READ.PRED <- ROIS.READ.PRED %>% right_join(
   PT.XL,
@@ -197,7 +203,10 @@ ROIS.PRED.BLOCK <- ROIS.PRED.BLOCK %>% right_join(
 
 ROIS.PRED.PRED <- toss_blanks(ROIS.PRED.BLOCK) %>% 
   remove_header_rows(interval = 2) %>%
-  make_mriID_condition()
+  make_mriID_condition() %>%
+  filter(
+    condition == "ORTHO"
+  )
 
 ROIS.PRED.PRED <- ROIS.PRED.BLOCK %>% right_join(
   PT.XL,
