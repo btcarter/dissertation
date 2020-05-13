@@ -1,5 +1,5 @@
 # author: Benjamin Carter
-# dyslexia fMRI classification and logistic oculomotor model
+# dyslexia fMRI classification and logarithmic oculomotor model
 #  aka trying to salvage what's left
 
 # Setting the mood ####
