@@ -14,14 +14,16 @@ if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)    
 lapply(list.of.packages,library,character.only = TRUE)                                                                # load packages
 
 # I/O variables
-OUT.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "results", "dissertation")
+# OUT.DIR <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "results", "dissertation")
+OUT.DIR <- file.path("C:", "Users", "CarteB", "Box", "LukeLab", "NIH Dyslexia Study", "data", "results", "dissertation")
 TAB.DIR <- file.path(OUT.DIR, "tables")
 FIG.DIR <- file.path(OUT.DIR, "figures")
 
 
 # load data
-WB <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "participants", "masterdatatrim.xlsx")
-df <- read_xlsx(WB)
+# WB <- file.path("~", "Box", "LukeLab", "NIH Dyslexia Study", "data", "participants", "masterdatatrim.xlsx")
+WB <- file.path("C:", "Users", "CarteB", "Box", "LukeLab", "NIH Dyslexia Study", "data", "participants", "masterdatatrim.xlsx")
+df.big <- read_xlsx(WB)
 
 # select data for fMRI only
 
@@ -39,7 +41,7 @@ VARS <- c("group",
           "How would you describe your race?"
           )
 
-df <- df %>%
+df <- df.big %>%
   filter(mriEtGood == TRUE,
          structMri == TRUE,
          !is.na(ctoppRapidLetterTime),
@@ -186,4 +188,14 @@ for (i in sort_vars) {
   print(PLOT)
   dev.off()
 }
+
+
+library(compareGroups)
+df.tab <- df.big %>%
+  select(
+    group,
+    wasiVocab,
+    wasiMatrix
+  )
+compareGroups(group ~ wasiVocab + wasiMatrix, df.tab) %>% createTable()
 
