@@ -1,19 +1,10 @@
 # dissertation
 
-This repository contains all the analysis scripts used for my dissertation, part of the NIH Dyslexia Study at BYU in Steven Luke's lab. Most of these scripts are a modification/extension of a previous analysis I completed as part of the [Skilled Reading Project] (https://github.com/btcarter/LinguisticPrediction). Check that out for additional details on the development if answers are not found here.
+This repository contains all the analysis scripts used for my dissertation, part of the NIH Dyslexia Study at BYU in Steven Luke's lab. Most of these scripts are a modification/extension of a previous analysis I completed as part of the [Skilled Reading Project](https://github.com/btcarter/LinguisticPrediction). Check that out for additional details on the development if answers are not found here.
 
 ## Project status
 
-incrementally testing structural scripts to map I/O.
-Step 1 build passed on one subject
-Step 2 build passed on one subject
-Step 3 build passed on three subjects
-Step 4 build testing on one template
-
-
-
-
-
+Finished dissertation analysis. Now working on other branches of the project to make it publishable. Hopefully more data is incoming but who knows with COVID?
 
 ## Organization and Analysis
 
@@ -22,15 +13,16 @@ Scripts are organized into directories based on two criteria: (1) computing envi
 
 Analysis plan and scripts were executed in the order depicted in the table below. Additional explanation is included below as well.
 
-| Step | Script | Output | Local or SLURM |
+| Step | Scripts | Output | Local or SLURM |
 |------|--------|--------|----------------|
-| Template Construction |
-| HRF Construction |
-| fMRI Preprocessing |
-| fMRI Deconvolution |
-| fMRI Group Results |
-| Behavioral Data |
-| Demographic |
+| Template Construction | slurm > structural > step1-5 | legion | SLURM |
+| HRF Construction | /local/hrfET/make_hrfs.r | An event file per participant per event type | Local |
+| fMRI Preprocessing | /slurm/fmri/preproc/preproc_job.sh | epi<1-5>_aligned+orig | SLURM |
+| fMRI Deconvolution | /slurm/fmri/predictability/3dDeconvolve_pred_job.sh | predictability_deconv_blur5+orig | SLURM |
+| fMRI Template alignment | /slurm/fmri/predictability/ants_trans_pred_job.sh | predictability_deconv_blur5_ANTS_resampled+tlrc | SLURM |
+| fMRI Group Results | /slurm/fmri/predictability/3dttest_predMaskWhole_job.sh | Many | SLURM |
+| Behavioral Data | /local/hrfET/make_hrfs.r | Figures and LaTeX formatted tables | Local |
+| Demographic | /local/demographics/table1.R | Figures and LaTeX formatted tables | Local |
 
 ### Template Construction
 
@@ -40,6 +32,8 @@ The following steps were performed to construct a structural template drawn from
 2. NIFTIs were then AC-PC aligned.
 3. AC-PC aligned output was then subjected to N4-Bias correction.
 
+### Functional Analysis
+
 ## Data
 
-Data are stored elsewhere on a cloud service known as Box. I may make sample data available here in the future, but am planning on putting the entire dataset, including output on the [Open Science Framework] (https://osf.io/gjp4e/) (it's not publicly available yet).
+Data are stored elsewhere on a cloud service known as Box. I may make sample data available here in the future, but am planning on putting the entire dataset, including output on the [Open Science Framework](https://osf.io/gjp4e/) (it's not publicly available yet).
