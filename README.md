@@ -31,8 +31,17 @@ The following steps were performed to construct a structural template drawn from
 1. DICOMs were converted to NIFTI format.
 2. NIFTIs were then AC-PC aligned.
 3. AC-PC aligned output was then subjected to N4-Bias correction.
+4. Affine registration of N4BC output.
+5. Images warped into MNI template space.
+6. MNI aligned study template created.
+7. Model is then subjected to segmentation via JLF.
+8. Gray matter mask is then created using JLF output.
 
 ### Functional Analysis
+
+1. Preprocessing
+  - 3dttest_predMaskWhole_job
+  - test
 
 ## Data
 
