@@ -34,6 +34,7 @@ df <- df %>%
         "${FUNC_DIR}/",
         mriID,
         "/rvp/rvp_deconv_blur5_ANTS_resampled+tlrc'[3]'",
+        "' \'",
         sep = ""
       )
     )
@@ -50,4 +51,4 @@ df <- df %>%
 OUT <- file.path("C:", "Users", "CarteB", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                  "participants", "lmerTable.tsv")
 
-write.table(df, file = OUT, sep = "\t")
+write.table(df, file = OUT, sep = "\t", row.names = FALSE)
