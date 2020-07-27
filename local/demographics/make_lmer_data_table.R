@@ -28,13 +28,16 @@ df <- df %>%
         "${FUNC_DIR}/",
         mriID,
         "/rvp/rvp_deconv_blur5_ANTS_resampled+tlrc'[1]'",
+        " ",
+        " \\",
         sep = ""
       ),
       paste(
         "${FUNC_DIR}/",
         mriID,
         "/rvp/rvp_deconv_blur5_ANTS_resampled+tlrc'[3]'",
-        "' \'",
+        " ",
+        " \\",
         sep = ""
       )
     )
