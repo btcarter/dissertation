@@ -18,12 +18,13 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 ###############
 #ENVIRONMENTAL#
 ###############
-
+/fslhome/ben88/compute_dir/NihReadingStudy/hrfs/block_pictures
 
 AFNI_BIN=/fslhome/ben88/abin
-HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+HOME_DIR=/fslhome/ben88/compute_dir/NihReadingStudy
 	subj_DIR=${HOME_DIR}/functional/${1}
 	TIMING=${HOME_DIR}/hrfs
+				TIMING_PICS=$TIMING/block_pictures/${1}.txt
         TIMING_POS=$TIMING/POSMatchModel/${1}.txt
         TIMING_LSA=$TIMING/LSA_Context_Score/${1}.txt
         TIMING_ORTHO=$TIMING/OrthoMatchModel/${1}.txt
@@ -66,23 +67,26 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
 						$subj_DIR/preproc/epi6_volreg+orig \
             -mask $subj_DIR/preproc/struct_mask+orig \
             -polort A \
-            -num_stimts 9 \
+            -num_stimts 10 \
             -stim_file 1 "$subj_DIR/motion/motion.txt[0]" -stim_label 1 "Roll"  -stim_base   1 \
             -stim_file 2 "$subj_DIR/motion/motion.txt[1]" -stim_label 2 "Pitch" -stim_base   2 \
             -stim_file 3 "$subj_DIR/motion/motion.txt[2]" -stim_label 3 "Yaw"   -stim_base   3 \
             -stim_file 4 "$subj_DIR/motion/motion.txt[3]" -stim_label 4 "dS"    -stim_base   4 \
             -stim_file 5 "$subj_DIR/motion/motion.txt[4]" -stim_label 5 "dL"    -stim_base   5 \
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
-            -stim_times_AM2 7 ${TIMING_POS} 'dmBLOCK' -stim_label 7 "POS" \
-            -stim_times_AM2 8 ${TIMING_LSA} 'dmBLOCK' -stim_label 8 "LSA" \
-            -stim_times_AM2 9 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 9 "ORTHO" \
-            -num_glt 3 \
+						-stim_times 7 ${TIMING_PICS} 'BLOCK(12)' -stim_label 7 "PICS" \
+            -stim_times_AM2 8 ${TIMING_POS} 'dmBLOCK' -stim_label 8 "POS" \
+            -stim_times_AM2 9 ${TIMING_LSA} 'dmBLOCK' -stim_label 9 "LSA" \
+            -stim_times_AM2 10 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 10 "ORTHO" \
+            -num_glt 4 \
             -gltsym 'SYM: POS' \
             -glt_label 1 POS \
             -gltsym 'SYM: LSA' \
             -glt_label 2 LSA \
             -gltsym 'SYM: ORTHO' \
             -glt_label 3 ORTHO \
+						-gltsym 'SYM: PICS' \
+						-glt_label 4 PICS \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
             -bucket predictability_deconv \
