@@ -95,7 +95,7 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
             -GOFORIT 12
 fi
 
-
+source $subj_DIR/*.REML_cmd
 
 #blur the output of the regression analysis
 if [ -f predictability_deconv+orig.BRIK ] && \
@@ -103,4 +103,11 @@ if [ -f predictability_deconv+orig.BRIK ] && \
     then
 			echo "I found something to blur"
         ${AFNI_BIN}/3dmerge -prefix predictability_deconv_blur5 -1blur_fwhm 5.0 -doall predictability_deconv+orig
+fi
+
+if [ -f predictability_deconv_REML*.BRIK ] && \
+[ ! -f predictability_deconv_REML*.BRIK ]
+    then
+			echo "I found something to blur"
+        ${AFNI_BIN}/3dmerge -prefix predictability_deconv_blur5_REML -1blur_fwhm 5.0 -doall predictability_deconv_REML
 fi
