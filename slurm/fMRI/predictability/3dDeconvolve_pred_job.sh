@@ -51,8 +51,6 @@ cd predictability
 #REGRESSION ANALYSIS#
 #####################
 
-
-
 if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
     then
 			echo "I decided to run"
@@ -89,27 +87,26 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
 						-glt_label 4 PICS \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
-            -bucket predictability_deconv \
+						-x1D predictability \
+            -x1D_stop \
             -xjpeg predictability_design.jpg \
             -jobs 2 \
             -GOFORIT 12
 fi
 
-source $subj_DIR/*.REML_cmd
-
-sleep 300
+# 3dREML command
+3dREMLfit -matrix predictability.xmat.1D \
+ -input "${FUNC_DIR}/${1}/preproc/epi1_aligned+orig ${FUNC_DIR}/${1}/preproc/epi2_aligned+orig ${FUNC_DIR}/${1}/preproc/epi3_aligned+orig ${FUNC_DIR}/${1}/preproc/epi4_aligned+orig${FUNC_DIR}/${1}/preproc/epi5_aligned+orig ${FUNC_DIR}/${1}/preproc/epi6_volreg+orig" \
+ -mask ${FUNC_DIR}/${1}/preproc/struct_mask+orig \
+ -tout \
+ -Rbuck predictabilty_REML \
+ -Rvar predictability_REMLvar \
+ -verb $*
 
 #blur the output of the regression analysis
-if [ -f predictability_deconv+orig.BRIK ] && \
-[ ! -f predictability_deconv_blur5+orig.BRIK ]
+if [ -f predictability_REML*.BRIK ] && \
+[ ! -f predictability_REML*.BRIK ]
     then
 			echo "I found something to blur"
-        ${AFNI_BIN}/3dmerge -prefix predictability_deconv_blur5 -1blur_fwhm 5.0 -doall predictability_deconv+orig
-fi
-
-if [ -f predictability_deconv_REML*.BRIK ] && \
-[ ! -f predictability_deconv_REML*.BRIK ]
-    then
-			echo "I found something to blur"
-        ${AFNI_BIN}/3dmerge -prefix predictability_deconv_REML_blur5 -1blur_fwhm 5.0 -doall predictability_deconv_REML+orig
+        ${AFNI_BIN}/3dmerge -prefix predictability_REML_blur5 -1blur_fwhm 5.0 -doall predictability_REML+orig
 fi
