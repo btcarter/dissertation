@@ -51,7 +51,7 @@ cd predictability
 #REGRESSION ANALYSIS#
 #####################
 
-if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
+if [ -f $TIMING_POS ] && [ ! -f predictability.xmat.1D ]
     then
 			echo "I decided to run"
         #3dDeconvolve
