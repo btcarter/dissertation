@@ -68,4 +68,6 @@ fi
 #modeltemplate.nii.gz & ANTifyFunctional in the main study directory
 #Also assumes that ANTs is installed on your system.
 
-${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_deconv_blur5+orig
+${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_blur5+orig
+
+${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_REML_blur5+orig
