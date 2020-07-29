@@ -96,7 +96,7 @@ fi
 
 # 3dREML command
 3dREMLfit -matrix predictability.xmat.1D \
- -input "${subj_DIR}/preproc/epi1_aligned+orig ${subj_DIR}/preproc/epi2_aligned+orig ${subj_DIR}/preproc/epi3_aligned+orig ${subj_DIR}/preproc/epi4_aligned+orig${subj_DIR}/preproc/epi5_aligned+orig ${subj_DIR}/preproc/epi6_volreg+orig" \
+ -input "${subj_DIR}/preproc/epi1_aligned+orig ${subj_DIR}/preproc/epi2_aligned+orig ${subj_DIR}/preproc/epi3_aligned+orig ${subj_DIR}/preproc/epi4_aligned+orig ${subj_DIR}/preproc/epi5_aligned+orig ${subj_DIR}/preproc/epi6_volreg+orig" \
  -mask ${subj_DIR}/preproc/struct_mask+orig \
  -tout \
  -Rbuck predictabilty_REML \
@@ -105,7 +105,7 @@ fi
 
 #blur the output of the regression analysis
 if [ -f predictability_REML*.BRIK ] && \
-[ ! -f predictability_REML*.BRIK ]
+[ ! -f predictability_REML_blur5*.BRIK ]
     then
 			echo "I found something to blur"
         ${AFNI_BIN}/3dmerge -prefix predictability_REML_blur5 -1blur_fwhm 5.0 -doall predictability_REML+orig
