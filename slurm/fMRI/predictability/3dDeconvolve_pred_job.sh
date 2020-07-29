@@ -75,9 +75,9 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_deconv+orig.BRIK ]
             -stim_file 5 "$subj_DIR/motion/motion.txt[4]" -stim_label 5 "dL"    -stim_base   5 \
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${TIMING_PICS} 'BLOCK(12)' -stim_label 7 "PICS" \
-            -stim_times_AM2 8 ${TIMING_POS} 'dmBLOCK' -stim_label 8 "POS" \
-            -stim_times_AM2 9 ${TIMING_LSA} 'dmBLOCK' -stim_label 9 "LSA" \
-            -stim_times_AM2 10 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 10 "ORTHO" \
+            -stim_times_AM1 8 ${TIMING_POS} 'dmBLOCK' -stim_label 8 "POS" \
+            -stim_times_AM1 9 ${TIMING_LSA} 'dmBLOCK' -stim_label 9 "LSA" \
+            -stim_times_AM1 10 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 10 "ORTHO" \
             -num_glt 4 \
             -gltsym 'SYM: POS' \
             -glt_label 1 POS \
