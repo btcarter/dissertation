@@ -18,7 +18,6 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 ###############
 #ENVIRONMENTAL#
 ###############
-/fslhome/ben88/compute_dir/NihReadingStudy/hrfs/block_pictures
 
 AFNI_BIN=/fslhome/ben88/abin
 HOME_DIR=/fslhome/ben88/compute_dir/NihReadingStudy
