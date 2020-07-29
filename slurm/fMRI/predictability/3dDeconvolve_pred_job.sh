@@ -86,24 +86,26 @@ if [ -f $TIMING_POS ] && [ ! -f predictability.xmat.1D ]
 						-glt_label 4 PICS \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
-						-x1D predictability \
-            -x1D_stop \
+            -bucket predictability \
             -xjpeg predictability_design.jpg \
             -jobs 2 \
             -GOFORIT 12
 fi
 
 # 3dREML command
-3dREMLfit -matrix predictability.xmat.1D \
- -input "${subj_DIR}/preproc/epi1_aligned+orig ${subj_DIR}/preproc/epi2_aligned+orig ${subj_DIR}/preproc/epi3_aligned+orig ${subj_DIR}/preproc/epi4_aligned+orig ${subj_DIR}/preproc/epi5_aligned+orig ${subj_DIR}/preproc/epi6_volreg+orig" \
- -mask ${subj_DIR}/preproc/struct_mask+orig \
- -tout \
- -Rbuck predictabilty_REML \
- -Rvar predictability_REMLvar \
- -verb $*
+bash predictability.REML_cmd -GOFORIT 12
+
+sleep 400
 
 #blur the output of the regression analysis
-if [ -f predictability_REML*.BRIK ] && \
+if [ -f predictability+orig.BRIK ] && \
+[ ! -f predictability_blur5+orig.BRIK ]
+    then
+			echo "I found something to blur"
+        ${AFNI_BIN}/3dmerge -prefix predictability_blur5 -1blur_fwhm 5.0 -doall predictability+orig
+fi
+
+if [ -f predictability_REML+orig.BRIK ] && \
 [ ! -f predictability_REML_blur5*.BRIK ]
     then
 			echo "I found something to blur"
