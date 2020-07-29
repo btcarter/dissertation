@@ -96,8 +96,8 @@ fi
 
 # 3dREML command
 3dREMLfit -matrix predictability.xmat.1D \
- -input "${FUNC_DIR}/${1}/preproc/epi1_aligned+orig ${FUNC_DIR}/${1}/preproc/epi2_aligned+orig ${FUNC_DIR}/${1}/preproc/epi3_aligned+orig ${FUNC_DIR}/${1}/preproc/epi4_aligned+orig${FUNC_DIR}/${1}/preproc/epi5_aligned+orig ${FUNC_DIR}/${1}/preproc/epi6_volreg+orig" \
- -mask ${FUNC_DIR}/${1}/preproc/struct_mask+orig \
+ -input "${subj_DIR}/preproc/epi1_aligned+orig ${subj_DIR}/preproc/epi2_aligned+orig ${subj_DIR}/preproc/epi3_aligned+orig ${subj_DIR}/preproc/epi4_aligned+orig${subj_DIR}/preproc/epi5_aligned+orig ${subj_DIR}/preproc/epi6_volreg+orig" \
+ -mask ${subj_DIR}/preproc/struct_mask+orig \
  -tout \
  -Rbuck predictabilty_REML \
  -Rvar predictability_REMLvar \
