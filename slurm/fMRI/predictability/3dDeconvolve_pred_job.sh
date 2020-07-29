@@ -95,7 +95,7 @@ fi
 # 3dREML command
 bash predictability.REML_cmd -GOFORIT 12
 
-sleep 400
+sleep 600
 
 #blur the output of the regression analysis
 if [ -f predictability+orig.BRIK ] && \
