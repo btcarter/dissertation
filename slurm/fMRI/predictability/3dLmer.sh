@@ -111,10 +111,6 @@ cd ${RES_DIR}
 	Luke_Nih_C014	control	ortho	${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_C014	control	pictures	${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
 	Luke_Nih_C014	control	pos	${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_C015	control	lsa	${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
-	Luke_Nih_C015	control	ortho	${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
-	Luke_Nih_C015	control	pictures	${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_C015	control	pos	${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C016	control	lsa	${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
 	Luke_Nih_C016	control	ortho	${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_C016	control	pictures	${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
@@ -155,22 +151,10 @@ cd ${RES_DIR}
 	Luke_Nih_D001	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_D001	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
 	Luke_Nih_D001	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D001/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_D002	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D002/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
-	Luke_Nih_D002	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D002/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
-	Luke_Nih_D002	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D002/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_D002	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D002/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_D003	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
 	Luke_Nih_D003	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_D003	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
 	Luke_Nih_D003	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D003/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_D004	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
-	Luke_Nih_D004	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
-	Luke_Nih_D004	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_D004	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D004/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_D005	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
-	Luke_Nih_D005	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
-	Luke_Nih_D005	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_D005	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D005/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_D006	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
 	Luke_Nih_D006	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_D006	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D006/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
@@ -243,10 +227,6 @@ cd ${RES_DIR}
 	Luke_Nih_D023	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D023/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_D023	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D023/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
 	Luke_Nih_D023	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D023/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_D024	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D024/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
-	Luke_Nih_D024	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D024/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
-	Luke_Nih_D024	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D024/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_D024	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D024/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_D025	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D025/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
 	Luke_Nih_D025	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D025/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_D025	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D025/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
@@ -258,12 +238,4 @@ cd ${RES_DIR}
 	Luke_Nih_D027	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
 	Luke_Nih_D027	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
 	Luke_Nih_D027	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_D027	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_D028	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D028/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
-	Luke_Nih_D028	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D028/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
-	Luke_Nih_D028	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D028/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_D028	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D028/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_D029	dyslexia	lsa	${FUNC_DIR}/Luke_Nih_D029/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'  \
-	Luke_Nih_D029	dyslexia	ortho	${FUNC_DIR}/Luke_Nih_D029/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
-	Luke_Nih_D029	dyslexia	pictures	${FUNC_DIR}/Luke_Nih_D029/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'  \
-	Luke_Nih_D029	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D029/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'
+	Luke_Nih_D027	dyslexia	pos	${FUNC_DIR}/Luke_Nih_D027/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'
