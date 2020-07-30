@@ -4,13 +4,13 @@
 #PREPROCESSING BATCH SUBMISSION SCRIPT#
 #######################################
 
-#Written by Ben Carter 07/27/2020
+#Written by Ben Carter 07/29/2017
 
 #############
 #ENVIRONMENT#
 #############
 
-HOME_DIR=/fslhome/ben88/compute_dir/NihReadingStudy
+HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
 SCRIPT_DIR=~/analyses/dissertation/fMRI/predictability
 
 ##########
@@ -23,7 +23,7 @@ mkdir -p ~/logfiles/$var
 
 #Submit the job script
 sbatch \
-    -o ~/logfiles/${var}/output_lmer.txt \
-    -e ~/logfiles/${var}/error_lmer.txt \
-    ${SCRIPT_DIR}/3dlmer_job.sh \
+    -o ~/logfiles/${var}/output.txt \
+    -e ~/logfiles/${var}/error.txt \
+    ${SCRIPT_DIR}/3dLmer.sh \
     sleep 1
