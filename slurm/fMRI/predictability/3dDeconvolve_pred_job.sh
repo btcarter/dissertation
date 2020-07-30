@@ -73,9 +73,13 @@ if [ -f $TIMING_POS ] && [ ! -f predictability.xmat.1D ]
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${TIMING_PICS} 'BLOCK(12)' -stim_label 7 "PICS" \
             -stim_times_AM1 8 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 8 "ORTHO" \
-            -num_glt 1 \
+            -num_glt 3 \
+            -gltsym 'SYM: PICS' \
+            -glt_label 1 PICS \
+            -gltsym 'SYM: ORTHO' \
+            -glt_label 2 ORTHO \
             -gltsym 'SYM: ORTHO -PICS' \
-            -glt_label 1 ORTHO_PICS \
+            -glt_label 3 ORTHO_PICS \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
             -bucket predictability \
