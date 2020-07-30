@@ -14,31 +14,55 @@ df <- read_xlsx(PART_LIST) %>%
 
 
 # expand table with participant file names
-df <- df %>% rbind(df)
+df <- df %>% rbind(df) %>% rbind(df) %>% rbind(df)
 df$condition <- c(
-  rep("reading", 52),
+  rep("pos", 52),
+  rep("lsa", 52),
+  rep("ortho",52),
   rep("pictures", 52)
 )
 
 df <- df %>% 
   mutate(
     InputFile = if_else(
-      condition == "reading",
+      condition == "pos",
       paste(
         "${FUNC_DIR}/",
         mriID,
-        "/rvp/rvp_deconv_blur5_ANTS_resampled+tlrc'[1]'",
+        "/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'",
         " ",
         " \\",
         sep = ""
       ),
-      paste(
-        "${FUNC_DIR}/",
-        mriID,
-        "/rvp/rvp_deconv_blur5_ANTS_resampled+tlrc'[3]'",
-        " ",
-        " \\",
-        sep = ""
+      if_else(
+        condition == "lsa",
+        paste(
+          "${FUNC_DIR}/",
+          mriID,
+          "/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'",
+          " ",
+          " \\",
+          sep = ""
+        ),
+        if_else(
+          condition == "ortho",
+          paste(
+            "${FUNC_DIR}/",
+            mriID,
+            "/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'",
+            " ",
+            " \\",
+            sep = ""
+          ),
+          paste(
+            "${FUNC_DIR}/",
+            mriID,
+            "/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'",
+            " ",
+            " \\",
+            sep = ""
+          )
+        )
       )
     )
   ) %>% 
