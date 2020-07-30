@@ -64,7 +64,7 @@ if [ -f $TIMING_POS ] && [ ! -f predictability.xmat.1D ]
 						$subj_DIR/preproc/epi6_volreg+orig \
             -mask $subj_DIR/preproc/struct_mask+orig \
             -polort A \
-            -num_stimts 10 \
+            -num_stimts 8 \
             -stim_file 1 "$subj_DIR/motion/motion.txt[0]" -stim_label 1 "Roll"  -stim_base   1 \
             -stim_file 2 "$subj_DIR/motion/motion.txt[1]" -stim_label 2 "Pitch" -stim_base   2 \
             -stim_file 3 "$subj_DIR/motion/motion.txt[2]" -stim_label 3 "Yaw"   -stim_base   3 \
@@ -72,18 +72,10 @@ if [ -f $TIMING_POS ] && [ ! -f predictability.xmat.1D ]
             -stim_file 5 "$subj_DIR/motion/motion.txt[4]" -stim_label 5 "dL"    -stim_base   5 \
             -stim_file 6 "$subj_DIR/motion/motion.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${TIMING_PICS} 'BLOCK(12)' -stim_label 7 "PICS" \
-            -stim_times_AM1 8 ${TIMING_POS} 'dmBLOCK' -stim_label 8 "POS" \
-            -stim_times_AM1 9 ${TIMING_LSA} 'dmBLOCK' -stim_label 9 "LSA" \
-            -stim_times_AM1 10 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 10 "ORTHO" \
-            -num_glt 4 \
-            -gltsym 'SYM: POS' \
-            -glt_label 1 POS \
-            -gltsym 'SYM: LSA' \
-            -glt_label 2 LSA \
-            -gltsym 'SYM: ORTHO' \
-            -glt_label 3 ORTHO \
-						-gltsym 'SYM: PICS' \
-						-glt_label 4 PICS \
+            -stim_times_AM1 8 ${TIMING_ORTHO} 'dmBLOCK' -stim_label 8 "ORTHO" \
+            -num_glt 1 \
+            -gltsym 'SYM: ORTHO -PICS' \
+            -glt_label 1 ORTHO_PICS \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
             -bucket predictability \
