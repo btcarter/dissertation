@@ -45,15 +45,16 @@ fi
 
 cd ${RES_DIR}
 
+module load r
+
 3dLMEr \
 	-prefix ${PREFIX} \
 	-jobs ${JOBS} \
 	-mask ${MASK} \
 	-model 'group+(1|Subj)' \
-	-gltCode ortho 'condition : 1*ortho' \
-	-gltCode dys 'group : 1*dys' \
-	-gltCode con 'group : 1*con' \
-	-gltCode con-dys 'group : 1*con -1*dys' \
+	-gltCode dyslexia 'group : 1*dyslexia' \
+	-gltCode control 'group : 1*control' \
+	-gltCode control-dyslexia 'group : 1*control -1*dyslexia' \
 	-dataTable \
 	Subj  group InputFile \
 Luke_Nih_C001	control	${FUNC_DIR}/Luke_Nih_C001/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'  \
