@@ -79,7 +79,7 @@ if [ -f $TIMING_POS ] && [ ! -f predictability.xmat.1D ]
             -gltsym 'SYM: ORTHO' \
             -glt_label 2 ORTHO \
             -gltsym 'SYM: ORTHO -PICS' \
-            -glt_label 3 ORTHO_PICS \
+            -glt_label 3 O-P \
             -censor "$subj_DIR/motion/motion_censor_vector.txt[0]" \
             -nocout -tout \
             -bucket predictability \
