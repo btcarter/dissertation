@@ -85,6 +85,6 @@ df <- df %>%
 #   )
 
 OUT <- file.path("C:", "Users", "CarteB", "Box", "LukeLab", "NIH Dyslexia Study", "data",
-                 "participants", "lmerTable.tsv")
+                 "participants", "lmerTable.txt")
 
-write.table(df, file = OUT, sep = "\t", row.names = FALSE)
+write.table(df, file = OUT, sep = "  ", row.names = FALSE)
