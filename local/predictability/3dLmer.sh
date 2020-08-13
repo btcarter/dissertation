@@ -23,17 +23,16 @@ export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
 ###############
 #ENVIRONMENTAL#
 ###############
-AFNI_BIN=/fslhome/ben88/abin
 
 ###########
 #VARIABLES#
 ###########
 PREFIX=massiveLMER
-HOME_DIR=/fslhome/ben88/compute_dir/NihReadingStudy
+HOME_DIR=/mnt/c/Users/CarteB/Box/Downloads
 FUNC_DIR=${HOME_DIR}/functional
 MASK=${HOME_DIR}/masks/nctosaMask+tlrc
-RES_DIR=${HOME_DIR}/dissertation/${PREFIX}
-JOBS=12
+RES_DIR=${HOME_DIR}/${PREFIX}
+JOBS=1
 
 
 #mkdir Group_Analysis/whatever the analysis is
@@ -43,9 +42,6 @@ if [ ! -d ${RES_DIR} ]
 fi
 
 cd ${RES_DIR}
-
-module load r
-module load gcc/9
 
 3dLMEr \
 	-prefix ${PREFIX} \
