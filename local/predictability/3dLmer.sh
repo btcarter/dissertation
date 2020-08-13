@@ -4,7 +4,7 @@
 #VARIABLES#
 ###########
 PREFIX=massiveLMER
-HOME_DIR=/mnt/c/Users/CarteB/Box/Downloads
+HOME_DIR=/mnt/c/Users/CarteB/Downloads
 FUNC_DIR=${HOME_DIR}/functional
 MASK=${HOME_DIR}/masks/nctosaMask+tlrc
 RES_DIR=${HOME_DIR}/${PREFIX}
