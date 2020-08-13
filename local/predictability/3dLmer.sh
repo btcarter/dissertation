@@ -1,29 +1,5 @@
 #!/bin/bash
 
-#SBATCH --time=06:00:00   # walltime
-#SBATCH --ntasks=1   # number of processor cores (i.e. tasks)
-#SBATCH --nodes=1   # number of nodes
-#SBATCH --mem-per-cpu=16384M  # memory per CPU core
-#SBATCH -J "lmrvp"  # job name
-
-# Compatibility variables for PBS. Delete if not needed.
-export PBS_NODEFILE=`/fslapps/fslutils/generate_pbs_nodefile`
-export PBS_JOBID=$SLURM_JOB_ID
-export PBS_O_WORKDIR="$SLURM_SUBMIT_DIR"
-export PBS_QUEUE=batch
-
-# Set the max number of threads to use for programs using OpenMP.
-export OMP_NUM_THREADS=$SLURM_CPUS_ON_NODE
-
-#############################################
-# OBJECTIVE
-# this script is going to attempt a linear mixed effects model on various predictabilities to examine group differences.
-
-
-###############
-#ENVIRONMENTAL#
-###############
-
 ###########
 #VARIABLES#
 ###########
