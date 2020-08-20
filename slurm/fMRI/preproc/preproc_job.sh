@@ -23,7 +23,7 @@ export ANTSPATH=/fslhome/ben88/apps/ants/bin
 PATH=${ANTSPATH}:${PATH}
 
 AFNI_BIN=/fslhome/ben88/abin
-HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+HOME_DIR=/fslhome/ben88/compute_dir/NihReadingStudy
 LOG=/fslhome/ben88/logfiles
 SCRIPT_DIR=~/analyses/dissertation/fMRI/preproc
 subj_DIR=${HOME_DIR}/functional/${1}
