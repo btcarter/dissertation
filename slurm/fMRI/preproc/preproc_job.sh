@@ -151,16 +151,16 @@ fi
 
 #concatenate the two motion regressor text files into a single motion.txt file
 
-if [ ! -f ${subjDIR}/afni_data/motion.txt ]
+if [ ! -f ${subj_DIR}/afni_data/motion.txt ]
     then
-        mkdir ${subjDIR}/afni_data
+        mkdir ${subj_DIR}/afni_data
         cat ${MOVE}/motion_1 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_2 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_3 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_4 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_5 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_6 >> ${MOVE}/motion.txt
-        mv ${MOVE}/motion.txt ${subjDir}/afni_data/motion.txt
+        mv ${MOVE}/motion.txt ${subj_DIR}/afni_data/motion.txt
 fi
 
 #motion correction between runs
@@ -181,15 +181,15 @@ fi
 #create the censor file. Requires the following file:
 #move_censor.pl
 
-if [ ! -f ${subjDIR}/afni_data/motion_censor_vector.txt ]
+if [ ! -f ${subj_DIR}/afni_data/motion_censor_vector.txt ]
     then
         cd ${MOVE}
         $SCRIPT_DIR/move_censor.pl
-        mv ${MOVE}/motion_censor_vector.txt ${subjDIR}/afni_data/motion_censor_vector.txt
+        mv ${MOVE}/motion_censor_vector.txt ${subj_DIR}/afni_data/motion_censor_vector.txt
         cd ${PPROC}
 fi
 
-if [ ! -f ${subjDIR}/afni_data/motion_censor_vector_1.txt ]
+if [ ! -f ${subj_DIR}/afni_data/motion_censor_vector_1.txt ]
     then
       for number in $(seq 6); do
         cd ${MOVE}
@@ -197,7 +197,7 @@ if [ ! -f ${subjDIR}/afni_data/motion_censor_vector_1.txt ]
         cp motion_${number}.txt ${MOVE}/tmp/motion_${number}.txt
         cd ${MOVE}/tmp
         $SCRIPT_DIR/move_censor.pl
-        mv ${MOVE}/tmp/motion_censor_vector.txt ${subjDIR}/afni_data/motion_censor_vector_${number}.txt
+        mv ${MOVE}/tmp/motion_censor_vector.txt ${subj_DIR}/afni_data/motion_censor_vector_${number}.txt
         cd ${PPROC}
         rm -r ${MOVE}/tmp
         sleep 1
