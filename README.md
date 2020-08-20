@@ -6,6 +6,8 @@ This repository contains all the analysis scripts used for my dissertation, part
 
 Finished dissertation analysis and write up. Now working on other branches of the project to make it publishable. Hopefully more data is incoming but who knows with COVID? I'll be working on those other projects for now. If more data comes in then I may rerun this analysis.
 
+As of right now I am attempting to control for inter-trial variability between each functional run. This is going to be interesting but luckily AFNI has a new command to facilitate this, `3dLMEr`.
+
 # Organization and Analysis
 
 ## Scripts
