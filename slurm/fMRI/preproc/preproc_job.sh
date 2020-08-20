@@ -188,6 +188,20 @@ if [ ! -f ${subjDIR}/afni_data/motion_censor_vector.txt ]
         cd ${PPROC}
 fi
 
+if [ ! -f ${subjDIR}/afni_data/motion_censor_vector_1.txt ]
+    then
+      for number in $(seq 6); do
+        cd ${MOVE}
+        mkdir ${MOVE}/tmp
+        cp motion_${number}.txt ${MOVE}/tmp/motion_${number}.txt
+        cd ${MOVE}/tmp
+        $SCRIPT_DIR/move_censor.pl
+        mv ${MOVE}/tmp/motion_censor_vector.txt ${subjDIR}/afni_data/motion_censor_vector_${number}.txt
+        cd ${PPROC}
+        rm -r ${MOVE}/tmp
+        sleep 1
+      done
+fi
 
 ##########################
 #BRAIN & GM MASK CREATION#
