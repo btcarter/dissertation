@@ -10,7 +10,7 @@
 #ENVIRONMENT#
 #############
 
-HOME_DIR=/fslhome/ben88/compute/NihReadingStudy
+HOME_DIR=/fslhome/ben88/compute_dir/NihReadingStudy
 SCRIPT_DIR=~/analyses/dissertation/fMRI/preproc
 PART_LIST=${HOME_DIR}/dissertation/participants.tsv
 
