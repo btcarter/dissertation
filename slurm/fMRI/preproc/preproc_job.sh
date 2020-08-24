@@ -153,7 +153,7 @@ fi
 
 if [ ! -f ${subj_DIR}/afni_data/motion.txt ]
     then
-        mkdir ${subj_DIR}/afni_data
+        mkdir -p ${subj_DIR}/afni_data
         cat ${MOVE}/motion_1 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_2 >> ${MOVE}/motion.txt
         cat ${MOVE}/motion_3 >> ${MOVE}/motion.txt
