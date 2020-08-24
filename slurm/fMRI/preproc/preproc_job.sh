@@ -192,14 +192,13 @@ fi
 if [ ! -f ${subj_DIR}/motion_censors/motion_censor_vector_1.txt ]
     then
       for number in $(seq 6); do
-        cd ${MOVE}
-        mkdir ${MOVE}/tmp
-        cp motion_${number}.txt ${MOVE}/tmp/motion_${number}.txt
-        cd ${MOVE}/tmp
-        $SCRIPT_DIR/move_censor.pl
-        mv ${MOVE}/tmp/motion_censor_vector.txt ${subj_DIR}/motion_censors/motion_censor_vector_${number}.txt
+        cd ${subj_DIR}/motion_censors
+        let START=${number}-1
+        let START=$START*134
+        let START=$START+1
+        let END=134*${number}
+        sed -n ${START},${END}p ${subj_DIR}/motion_censors/motion_censor_vector.txt > motion_censor_vector_${number}
         cd ${PPROC}
-        rm -r ${MOVE}/tmp
         sleep 1
       done
 fi
