@@ -71,3 +71,10 @@ fi
 ${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_blur5+orig
 
 ${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_REML_blur5+orig
+
+for run in $(seq 6); do
+  if [ ! -d $subj_DIR/predictability/predictability_${run}_REML_blur5+orig ]
+    then
+      ${antifyFunk} ${pproc}/struct_rotated ${TEMPLATE} $subj_DIR/predictability/predictability_${run}_REML_blur5+orig
+  fi
+done
