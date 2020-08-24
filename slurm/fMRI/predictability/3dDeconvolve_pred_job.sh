@@ -44,6 +44,11 @@ if [ ! -d predictability ]
         mkdir predictability
 fi
 
+if [ ! -d $TIMING/block_pictures_by_run ]
+	then
+		mkdir -p $TIMING/block_pictures_by_run $TIMING/OrthoMatchModel_by_run
+fi
+
 cd predictability
 
 #####################
