@@ -109,12 +109,12 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_1.xmat.1D ]
             -mask $subj_DIR/preproc/struct_mask+orig \
             -polort A \
             -num_stimts 8 \
-            -stim_file 1 "$subj_DIR/motion/motion_${run}[0]" -stim_label 1 "Roll"  -stim_base   1 \
-            -stim_file 2 "$subj_DIR/motion/motion_${run}[1]" -stim_label 2 "Pitch" -stim_base   2 \
-            -stim_file 3 "$subj_DIR/motion/motion_${run}[2]" -stim_label 3 "Yaw"   -stim_base   3 \
-            -stim_file 4 "$subj_DIR/motion/motion_${run}[3]" -stim_label 4 "dS"    -stim_base   4 \
-            -stim_file 5 "$subj_DIR/motion/motion_${run}[4]" -stim_label 5 "dL"    -stim_base   5 \
-            -stim_file 6 "$subj_DIR/motion/motion_${run}[5]" -stim_label 6 "dP"    -stim_base   6 \
+            -stim_file 1 "$subj_DIR/motion/motion_${run}.txt[0]" -stim_label 1 "Roll"  -stim_base   1 \
+            -stim_file 2 "$subj_DIR/motion/motion_${run}.txt[1]" -stim_label 2 "Pitch" -stim_base   2 \
+            -stim_file 3 "$subj_DIR/motion/motion_${run}.txt[2]" -stim_label 3 "Yaw"   -stim_base   3 \
+            -stim_file 4 "$subj_DIR/motion/motion_${run}.txt[3]" -stim_label 4 "dS"    -stim_base   4 \
+            -stim_file 5 "$subj_DIR/motion/motion_${run}.txt[4]" -stim_label 5 "dL"    -stim_base   5 \
+            -stim_file 6 "$subj_DIR/motion/motion_${run}.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${PICS}_${run}.txt 'BLOCK(12)' -stim_label 7 "PICS" \
             -stim_times_AM1 8 ${ORTHO}_${run}.txt 'dmBLOCK' -stim_label 8 "ORTHO" \
             -num_glt 3 \
@@ -143,12 +143,12 @@ if [ -f $TIMING_POS ] && [ ! -f predictability_1.xmat.1D ]
 						-mask $subj_DIR/preproc/struct_mask+orig \
 						-polort A \
 						-num_stimts 8 \
-						-stim_file 1 "$subj_DIR/motion/motion_${run}[0]" -stim_label 1 "Roll"  -stim_base   1 \
-						-stim_file 2 "$subj_DIR/motion/motion_${run}[1]" -stim_label 2 "Pitch" -stim_base   2 \
-						-stim_file 3 "$subj_DIR/motion/motion_${run}[2]" -stim_label 3 "Yaw"   -stim_base   3 \
-						-stim_file 4 "$subj_DIR/motion/motion_${run}[3]" -stim_label 4 "dS"    -stim_base   4 \
-						-stim_file 5 "$subj_DIR/motion/motion_${run}[4]" -stim_label 5 "dL"    -stim_base   5 \
-						-stim_file 6 "$subj_DIR/motion/motion_${run}[5]" -stim_label 6 "dP"    -stim_base   6 \
+						-stim_file 1 "$subj_DIR/motion/motion_${run}.txt[0]" -stim_label 1 "Roll"  -stim_base   1 \
+						-stim_file 2 "$subj_DIR/motion/motion_${run}.txt[1]" -stim_label 2 "Pitch" -stim_base   2 \
+						-stim_file 3 "$subj_DIR/motion/motion_${run}.txt[2]" -stim_label 3 "Yaw"   -stim_base   3 \
+						-stim_file 4 "$subj_DIR/motion/motion_${run}.txt[3]" -stim_label 4 "dS"    -stim_base   4 \
+						-stim_file 5 "$subj_DIR/motion/motion_${run}.txt[4]" -stim_label 5 "dL"    -stim_base   5 \
+						-stim_file 6 "$subj_DIR/motion/motion_${run}.txt[5]" -stim_label 6 "dP"    -stim_base   6 \
 						-stim_times 7 ${PICS}_${run}.txt 'BLOCK(12)' -stim_label 7 "PICS" \
 						-stim_times_AM1 8 ${ORTHO}_${run}.txt 'dmBLOCK' -stim_label 8 "ORTHO" \
 						-num_glt 3 \

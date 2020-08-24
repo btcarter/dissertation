@@ -136,17 +136,17 @@ MOVE=${subj_DIR}/motion
 
 if [ ! -f $PPROC/epi1_volreg+orig.BRIK ]
     then
-        ${AFNI_BIN}/3dvolreg -base 'epi1_shift+orig[69]' -prefix epi1_volreg -1Dfile ${MOVE}/motion_1 epi1_shift+orig
+        ${AFNI_BIN}/3dvolreg -base 'epi1_shift+orig[69]' -prefix epi1_volreg -1Dfile ${MOVE}/motion_1.txt epi1_shift+orig
 
-        ${AFNI_BIN}/3dvolreg -base 'epi2_shift+orig[69]' -prefix epi2_volreg -1Dfile ${MOVE}/motion_2 epi2_shift+orig
+        ${AFNI_BIN}/3dvolreg -base 'epi2_shift+orig[69]' -prefix epi2_volreg -1Dfile ${MOVE}/motion_2.txt epi2_shift+orig
 
-        ${AFNI_BIN}/3dvolreg -base 'epi3_shift+orig[69]' -prefix epi3_volreg -1Dfile ${MOVE}/motion_3 epi3_shift+orig
+        ${AFNI_BIN}/3dvolreg -base 'epi3_shift+orig[69]' -prefix epi3_volreg -1Dfile ${MOVE}/motion_3.txt epi3_shift+orig
 
-        ${AFNI_BIN}/3dvolreg -base 'epi4_shift+orig[69]' -prefix epi4_volreg -1Dfile ${MOVE}/motion_4 epi4_shift+orig
+        ${AFNI_BIN}/3dvolreg -base 'epi4_shift+orig[69]' -prefix epi4_volreg -1Dfile ${MOVE}/motion_4.txt epi4_shift+orig
 
-        ${AFNI_BIN}/3dvolreg -base 'epi5_shift+orig[69]' -prefix epi5_volreg -1Dfile ${MOVE}/motion_5 epi5_shift+orig
+        ${AFNI_BIN}/3dvolreg -base 'epi5_shift+orig[69]' -prefix epi5_volreg -1Dfile ${MOVE}/motion_5.txt epi5_shift+orig
 
-        ${AFNI_BIN}/3dvolreg -base 'epi6_shift+orig[69]' -prefix epi6_volreg -1Dfile ${MOVE}/motion_6 epi6_shift+orig
+        ${AFNI_BIN}/3dvolreg -base 'epi6_shift+orig[69]' -prefix epi6_volreg -1Dfile ${MOVE}/motion_6.txt epi6_shift+orig
 fi
 
 #concatenate the two motion regressor text files into a single motion.txt file
@@ -154,12 +154,12 @@ fi
 if [ ! -f ${subj_DIR}/motion_censors/motion.txt ]
     then
         mkdir -p ${subj_DIR}/motion_censors
-        cat ${MOVE}/motion_1 >> ${MOVE}/motion.txt
-        cat ${MOVE}/motion_2 >> ${MOVE}/motion.txt
-        cat ${MOVE}/motion_3 >> ${MOVE}/motion.txt
-        cat ${MOVE}/motion_4 >> ${MOVE}/motion.txt
-        cat ${MOVE}/motion_5 >> ${MOVE}/motion.txt
-        cat ${MOVE}/motion_6 >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_1.txt >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_2.txt >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_3.txt >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_4.txt >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_5.txt >> ${MOVE}/motion.txt
+        cat ${MOVE}/motion_6.txt >> ${MOVE}/motion.txt
         mv ${MOVE}/motion.txt ${subj_DIR}/motion_censors/motion.txt
 fi
 
@@ -197,7 +197,7 @@ if [ ! -f ${subj_DIR}/motion_censors/motion_censor_vector_1.txt ]
         let START=$START*134
         let START=$START+1
         let END=134*${number}
-        sed -n ${START},${END}p ${subj_DIR}/motion_censors/motion_censor_vector.txt > motion_censor_vector_${number}
+        sed -n ${START},${END}p ${subj_DIR}/motion_censors/motion_censor_vector.txt > motion_censor_vector_${number}.txt
         cd ${PPROC}
         sleep 1
       done
