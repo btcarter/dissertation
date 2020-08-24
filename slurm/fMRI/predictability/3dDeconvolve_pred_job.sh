@@ -25,8 +25,8 @@ HOME_DIR=/fslhome/ben88/compute_dir/NihReadingStudy
 	TIMING=${HOME_DIR}/hrfs
 				TIMING_PICS=$TIMING/block_pictures/${1}.txt
         TIMING_ORTHO=$TIMING/OrthoMatchModel/${1}.txt
-				PICS=$TIMING/block_pictures/PICS
-				ORTHO=$TIMING/OrthoMatchModel/ORTHO
+				PICS=$TIMING/block_pictures_by_run/${1}_PICS
+				ORTHO=$TIMING/OrthoMatchModel_by_run/${1}_ORTHO
 LOG=/fslhome/ben88/logfiles
 
 ##########
