@@ -51,7 +51,7 @@ df.expanded <- df.expanded %>%
       mriID,
       "/predictability/predictability_",
       run,
-      "_blur5_ANTS_resampled+tlrc'[3]'",
+      "_REML_blur5_ANTS_resampled+tlrc'[3]'",
       " ",
       " \\",
       sep = ""
