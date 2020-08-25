@@ -12,6 +12,15 @@ df <- read_xlsx(PART_LIST) %>%
     group
   )
 
+exclude <- c("Luke_Nih_D029", "Luke_Nih_D028", "Luke_Nih_D024", 
+             "Luke_Nih_D005", "Luke_Nih_D004", "Luke_Nih_D002",
+             "Luke_Nih_D015")
+
+df <- df %>% 
+  filter(
+    !(mriID %in% exclude)
+  )
+
 
 # expand table with participant file names
 # df <- df %>% rbind(df)
@@ -19,72 +28,39 @@ df <- read_xlsx(PART_LIST) %>%
 #   rep("ortho", 52)
 # )
 
-df <- df %>% 
+df.expanded <- df %>% 
+  mutate(
+    run = 1
+  )
+
+for (a in seq(2,6)){
+  df.expanded <- df %>% 
+    mutate(
+      run = a
+    ) %>% 
+    rbind(df.expanded)
+}
+
+df.expanded <- df.expanded %>% 
+  arrange(
+    run
+  ) %>% 
   mutate(
     InputFile = paste(
       "${FUNC_DIR}/",
       mriID,
-      "/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'",
+      "/predictability/predictability_",
+      run,
+      "_blur5_ANTS_resampled+tlrc'[3]'",
       " ",
       " \\",
       sep = ""
     )
   )
 
-# df <- df %>%
-#   mutate(
-#     InputFile = if_else(
-#       condition == "pos",
-#       paste(
-#         "${FUNC_DIR}/",
-#         mriID,
-#         "/predictability/predictability_blur5_ANTS_resampled+tlrc'[3]'",
-#         " ",
-#         " \\",
-#         sep = ""
-#       ),
-#       if_else(
-#         condition == "lsa",
-#         paste(
-#           "${FUNC_DIR}/",
-#           mriID,
-#           "/predictability/predictability_blur5_ANTS_resampled+tlrc'[5]'",
-#           " ",
-#           " \\",
-#           sep = ""
-#         ),
-#         if_else(
-#           condition == "ortho",
-#           paste(
-#             "${FUNC_DIR}/",
-#             mriID,
-#             "/predictability/predictability_blur5_ANTS_resampled+tlrc'[7]'",
-#             " ",
-#             " \\",
-#             sep = ""
-#           ),
-#           paste(
-#             "${FUNC_DIR}/",
-#             mriID,
-#             "/predictability/predictability_blur5_ANTS_resampled+tlrc'[1]'",
-#             " ",
-#             " \\",
-#             sep = ""
-#           )
-#         )
-#       )
-#     )
-#   ) %>% 
-#   rename(
-#     Subj = mriID
-#   ) %>% 
-#   arrange(
-#     group,
-#     Subj,
-#     condition
-#   )
-
+  
+  
 OUT <- file.path("C:", "Users", "CarteB", "Box", "LukeLab", "NIH Dyslexia Study", "data",
                  "participants", "lmerTable.txt")
 
-write.table(df, file = OUT, sep = "  ", row.names = FALSE, quote = FALSE)
+write.table(df.expanded, file = OUT, sep = "  ", row.names = FALSE, quote = FALSE)
