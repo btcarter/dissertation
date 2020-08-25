@@ -38,7 +38,7 @@ cd ${RES_DIR}
 	-prefix ${PREFIX} \
 	-jobs ${JOBS} \
 	-mask ${MASK} \
-	-model 'group+(1|Subj)+(1|run)' \
+	-model 'group+(1|mriID)+(1|run)' \
 	-gltCode dyslexia 'group : 1*dyslexia' \
 	-gltCode control 'group : 1*control' \
 	-gltCode control-dyslexia 'group : 1*control -1*dyslexia' \
