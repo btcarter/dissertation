@@ -34,6 +34,8 @@ fi
 
 cd ${RES_DIR}
 
+module load r
+
 3dLMEr \
 	-prefix ${PREFIX} \
 	-jobs ${JOBS} \
