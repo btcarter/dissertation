@@ -60,7 +60,6 @@ module load r
 	Luke_Nih_C012  control  1  ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C013  control  1  ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C014  control  1  ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_C015  control  1  ${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C016  control  1  ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C017  control  1  ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C018  control  1  ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
@@ -105,7 +104,6 @@ module load r
 	Luke_Nih_C012  control  2  ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_2_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C013  control  2  ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_2_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C014  control  2  ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_2_REML_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_C015  control  2  ${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_2_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C016  control  2  ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_2_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C017  control  2  ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_2_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C018  control  2  ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_2_REML_blur5_ANTS_resampled+tlrc'[3]'  \
@@ -150,7 +148,6 @@ module load r
 	Luke_Nih_C012  control  3  ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_3_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C013  control  3  ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_3_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C014  control  3  ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_3_REML_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_C015  control  3  ${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_3_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C016  control  3  ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_3_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C017  control  3  ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_3_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C018  control  3  ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_3_REML_blur5_ANTS_resampled+tlrc'[3]'  \
@@ -195,7 +192,6 @@ module load r
 	Luke_Nih_C012  control  4  ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_4_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C013  control  4  ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_4_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C014  control  4  ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_4_REML_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_C015  control  4  ${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_4_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C016  control  4  ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_4_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C017  control  4  ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_4_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C018  control  4  ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_4_REML_blur5_ANTS_resampled+tlrc'[3]'  \
@@ -240,7 +236,6 @@ module load r
 	Luke_Nih_C012  control  5  ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_5_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C013  control  5  ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_5_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C014  control  5  ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_5_REML_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_C015  control  5  ${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_5_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C016  control  5  ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_5_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C017  control  5  ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_5_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C018  control  5  ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_5_REML_blur5_ANTS_resampled+tlrc'[3]'  \
@@ -285,7 +280,6 @@ module load r
 	Luke_Nih_C012  control  6  ${FUNC_DIR}/Luke_Nih_C012/predictability/predictability_6_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C013  control  6  ${FUNC_DIR}/Luke_Nih_C013/predictability/predictability_6_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C014  control  6  ${FUNC_DIR}/Luke_Nih_C014/predictability/predictability_6_REML_blur5_ANTS_resampled+tlrc'[3]'  \
-	Luke_Nih_C015  control  6  ${FUNC_DIR}/Luke_Nih_C015/predictability/predictability_6_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C016  control  6  ${FUNC_DIR}/Luke_Nih_C016/predictability/predictability_6_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C017  control  6  ${FUNC_DIR}/Luke_Nih_C017/predictability/predictability_6_REML_blur5_ANTS_resampled+tlrc'[3]'  \
 	Luke_Nih_C018  control  6  ${FUNC_DIR}/Luke_Nih_C018/predictability/predictability_6_REML_blur5_ANTS_resampled+tlrc'[3]'  \
