@@ -40,16 +40,10 @@ module load r
 	-prefix ${PREFIX} \
 	-jobs ${JOBS} \
 	-mask ${MASK} \
-	-model 'group+run+(1|mriID)' \
+	-model 'group+condition+(1|mriID)+(1|run)' \
 	-gltCode dyslexia 'group : 1*dyslexia' \
 	-gltCode control 'group : 1*control' \
 	-gltCode control-dyslexia 'group : 1*control -1*dyslexia' \
-	-gltCode run1 'run : 1*1' \
-	-gltCode run2 'run : 1*2' \
-	-gltCode run3 'run : 1*3' \
-	-gltCode run4 'run : 1*4' \
-	-gltCode run5 'run : 1*5' \
-	-gltCode run6 'run : 1*6' \
 	-dataTable \
 	mriID  group  run  InputFile \
 	Luke_Nih_C001  control  1  ${FUNC_DIR}/Luke_Nih_C001/predictability/predictability_1_REML_blur5_ANTS_resampled+tlrc'[3]'  \
